@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: SVM Google Sheets Domain Sync - FULLY FIXED
+ * Plugin Name: SVM Google Sheets Domain Sync - MEGA FIXED
  * Plugin URI: https://s.ventures
- * Description: Sync domain listings from Google Sheets - Logos stored as URLs only (no uploads!)
- * Version: 4.0.0
+ * Description: Sync domain listings from Google Sheets - Supports BOTH uploaded logos AND synced logo URLs from /assets folder
+ * Version: 5.0.0
  * Author: S.Ventures
  * Author URI: https://s.ventures
  */
@@ -61,10 +61,11 @@ class SVM_Google_Sheets_Sync_V4 {
         $sync_in_progress = get_option('svm_sync_in_progress');
         ?>
         <div class="wrap">
-            <h1>🚀 Google Sheets Domain Sync - FULLY FIXED</h1>
-            
+            <h1>🚀 Google Sheets Domain Sync - MEGA FIXED</h1>
+
             <div class="notice notice-success">
-                <p><strong>✅ FIXED:</strong> Logos no longer upload to media library! They reference /assets/ folder directly as WebP.</p>
+                <p><strong>✅ MEGA FIXED:</strong> Now supports BOTH uploaded media logos AND synced logo URLs!</p>
+                <p><strong>Logo Priority:</strong> 1) Uploaded media logos (manual uploads take priority), 2) Google Sheets synced URLs, 3) /assets folder fallback</p>
             </div>
             
             <?php if ($sync_in_progress): ?>
@@ -268,14 +269,13 @@ class SVM_Google_Sheets_Sync_V4 {
                     }
                 }
                 
-                // FIXED: Just store the logo URL - DO NOT UPLOAD!
+                // FIXED: Support BOTH uploaded logos AND synced logo URLs
                 $logo_url = $data_row['Logo URL'] ?? '';
                 if (!empty($logo_url)) {
-                    // Only store the URL, no downloading or uploading
+                    // Store the synced logo URL from Google Sheets
                     update_post_meta($post_id, 'svm_logo_url', $logo_url);
-                    // Delete old uploaded logo IDs to clean up
-                    delete_post_meta($post_id, 'svm_logo_id');
-                    delete_post_meta($post_id, 'svm_logo_attachment_url');
+                    // DO NOT delete svm_logo_id - keep uploaded logos intact!
+                    // If user manually uploaded a logo, it will take priority over synced URL
                 }
                 
                 $processed_count++;
