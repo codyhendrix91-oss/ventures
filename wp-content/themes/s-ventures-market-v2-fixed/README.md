@@ -1,0 +1,1 @@
+# S.Ventures Market v2 Fixed\n\nNow includes index.php so it installs correctly in WordPress.
