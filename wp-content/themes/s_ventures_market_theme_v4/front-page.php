@@ -170,9 +170,27 @@ get_header();
 
 .home-domains__grid-redesigned {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 28px;
   margin-bottom: 50px;
+}
+
+@media (max-width: 1200px) {
+  .home-domains__grid-redesigned {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .home-domains__grid-redesigned {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .home-domains__grid-redesigned {
+    grid-template-columns: 1fr;
+  }
 }
 
 .home-domains__cta-redesigned {
@@ -409,14 +427,13 @@ get_header();
   <div class="home-hero__inner-redesigned">
     <div class="home-hero__content-redesigned">
       <h1>
-        The Premier<br>
-        <span class="gradient-text">Domain Marketplace</span>
+        <span class="gradient-text">The All-in-One Startup Launchpad</span>
       </h1>
-      
+
       <div class="home-hero__intro-redesigned">
-        <p>For over 20 years, S Ventures has curated an exceptional portfolio of premium domains—acquired for our own ventures, not bulk speculation. Each name was chosen for its branding power, memorability, and market potential.</p>
-        
-        <p>Now we're opening our vault. Whether you're a startup founder, marketing leader, or investor, discover domains that give your venture an instant competitive edge.</p>
+        <p>The passion project of entrepreneurs who've spent their careers turning domain names into real business opportunities, S Ventures brings together 20 years of startup experience, venture capital insight, and brand strategy under one platform. Our collection represents the same premium digital assets that have launched and scaled more than 100 active ventures across industries today.</p>
+
+        <p>Now, we use that experience to buy, sell, and help startups and investors secure domain names that define their vision—while providing access to the proven strategies, insights, and tools that make it real and continue to power our own success. S Ventures is the crossroads where a domain name ends and a digital brand begins.</p>
       </div>
       
       <!-- Stats -->
@@ -430,7 +447,7 @@ get_header();
           <div class="home-stat-label">Active Brands</div>
         </div>
         <div class="home-stat-redesigned">
-          <div class="home-stat-number">$1M+</div>
+          <div class="home-stat-number">$10M+</div>
           <div class="home-stat-label">Portfolio Value</div>
         </div>
       </div>
