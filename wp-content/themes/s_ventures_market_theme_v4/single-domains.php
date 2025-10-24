@@ -18,10 +18,32 @@ while (have_posts()): the_post();
   $stripe_price_id = get_post_meta($post_id,'svm_stripe_price_id',true);
   $auto_escrow = get_post_meta($post_id,'svm_auto_escrow',true);
   
-  $logo_id = get_post_meta($post_id,'svm_logo_id',true);
+  // MEGA FIXED: Logo priority system - same as domain cards
   $logo_url = '';
-  if (is_numeric($logo_id)) {
-    $logo_url = wp_get_attachment_image_url((int)$logo_id,'large');
+
+  // PRIORITY 1: Check for uploaded media logo
+  $logo_id = get_post_meta($post_id, 'svm_logo_id', true);
+  if (is_numeric($logo_id) && $logo_id > 0) {
+    $uploaded_logo = wp_get_attachment_image_url((int)$logo_id, 'large');
+    if ($uploaded_logo) {
+      $logo_url = $uploaded_logo;
+    }
+  }
+
+  // PRIORITY 2: Check for custom logo URL from Google Sheets
+  if (empty($logo_url)) {
+    $custom_logo = get_post_meta($post_id, 'svm_logo_url', true);
+    if (!empty($custom_logo)) {
+      $logo_url = $custom_logo;
+    }
+  }
+
+  // PRIORITY 3: Fallback to assets folder
+  if (empty($logo_url)) {
+    $domain_parts = str_replace('.', '_', $domain_name);
+    $domain_clean = ucfirst(strtolower($domain_parts));
+    $theme_url = get_stylesheet_directory_uri();
+    $logo_url = $theme_url . '/assets/' . $domain_clean . '_logo.webp';
   }
 
   $verified = false;
@@ -35,20 +57,8 @@ while (have_posts()): the_post();
     $verification_msg = 'Your verification link has expired. Please submit the form again.';
     $verification_type = 'error';
   }
-  
+
   $assets_url = get_stylesheet_directory_uri() . '/assets/';
-  // FIXED: Construct logo path from assets folder
-  // Preserve first letter capitalization (e.g., Snipy_ai_logo.webp)
-  $domain_parts = str_replace('.', '_', $domain_name);
-  $domain_clean = ucfirst(strtolower($domain_parts));
-  $theme_url = get_stylesheet_directory_uri();
-  $logo_url = $theme_url . '/assets/' . $domain_clean . '_logo.webp';
-  
-  // Check for custom logo URL from Google Sheets
-  $custom_logo = get_post_meta($post_id, 'svm_logo_url', true);
-  if (!empty($custom_logo)) {
-    $logo_url = $custom_logo;
-  }
   
 ?>
 

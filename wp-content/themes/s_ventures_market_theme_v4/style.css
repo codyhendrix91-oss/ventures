@@ -357,16 +357,46 @@ body.admin-bar .svm-header{top:32px}
   transform:scaleX(1);
 }
 
+/* MEGA FIXED: Logo wrapper prevents jumping while loading */
+.svm-card__logo-wrapper {
+  width: 100%;
+  max-width: 180px;
+  min-height: 90px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px;
+  position: relative;
+}
+
+/* Loading state - subtle pulse animation */
+.svm-card__logo-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,217,255,0.05) 50%, transparent 100%);
+  animation: svm-logo-pulse 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+@keyframes svm-logo-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
 .svm-card__logo{
-  max-width:240px;
-  max-height:110px;
-  width:100%;
-  margin:0 auto 16px;
-  display:block;
-  object-fit:contain;
-  background:#ffffff;
-  padding:12px;
-  border-radius:8px;
+  max-width: 100%;
+  max-height: 90px;
+  width: auto;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
 }
 
 .svm-card__title{

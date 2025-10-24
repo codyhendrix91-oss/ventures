@@ -308,42 +308,55 @@ function svm_ensure_domains_searchable() {
  * -----------------------------------------------------*/
 
 /**
- * FULLY FIXED: Render domain card - Logos from /assets folder as WebP
- * Constructs logo path: /assets/domainname_logo.webp (e.g. Snipy_ai_logo.webp)
- * Preserves first letter capitalization to match user's file naming
+ * MEGA FIXED: Render domain card with proper logo priority system
+ * Priority 1: Uploaded media logos (svm_logo_id)
+ * Priority 2: Google Sheets synced URL (svm_logo_url)
+ * Priority 3: Assets folder WebP/PNG fallback
  */
 function svm_render_domain_card($id) {
     $title = get_the_title($id);
     $link = get_permalink($id);
-    
-    // FIXED: Construct logo path - preserve first letter case, lowercase the rest
-    $domain_parts = str_replace('.', '_', $title); // example.com -> example_com
-    // Capitalize first letter, lowercase the rest (matches user's Snipy_ai format)
-    $domain_clean = ucfirst(strtolower($domain_parts));
-    $theme_url = get_stylesheet_directory_uri();
-    
-    // Try WebP first, fallback to PNG
-    $logo_webp = $theme_url . '/assets/' . $domain_clean . '_logo.webp';
-    $logo_png = $theme_url . '/assets/' . $domain_clean . '_logo.png';
-    
-    // Check if user provided custom logo URL in meta (from Google Sheets)
-    $custom_logo = get_post_meta($id, 'svm_logo_url', true);
-    
-    if (!empty($custom_logo)) {
-        $logo = $custom_logo;
-    } else {
-        // Default to WebP in assets folder
-        $logo = $logo_webp;
+    $logo = '';
+    $fallback_logo = '';
+
+    // PRIORITY 1: Check for uploaded media logo
+    $logo_id = get_post_meta($id, 'svm_logo_id', true);
+    if (is_numeric($logo_id) && $logo_id > 0) {
+        // User uploaded a logo via WordPress media library - USE THIS FIRST
+        $uploaded_logo = wp_get_attachment_image_url((int)$logo_id, 'medium');
+        if ($uploaded_logo) {
+            $logo = $uploaded_logo;
+        }
+    }
+
+    // PRIORITY 2: Check for custom logo URL from Google Sheets sync
+    if (empty($logo)) {
+        $custom_logo = get_post_meta($id, 'svm_logo_url', true);
+        if (!empty($custom_logo)) {
+            $logo = $custom_logo;
+        }
+    }
+
+    // PRIORITY 3: Fallback to assets folder logo
+    if (empty($logo)) {
+        $domain_parts = str_replace('.', '_', $title);
+        $domain_clean = ucfirst(strtolower($domain_parts));
+        $theme_url = get_stylesheet_directory_uri();
+        $logo = $theme_url . '/assets/' . $domain_clean . '_logo.webp';
+        $fallback_logo = $theme_url . '/assets/' . $domain_clean . '_logo.png';
     }
 
     ob_start();
     ?>
     <article class="svm-card">
         <?php if ($logo): ?>
-            <img class="svm-card__logo" 
-                 src="<?php echo esc_url($logo); ?>" 
-                 onerror="this.src='<?php echo esc_url($logo_png); ?>'"
-                 alt="<?php echo esc_attr($title); ?> logo">
+            <div class="svm-card__logo-wrapper">
+                <img class="svm-card__logo"
+                     src="<?php echo esc_url($logo); ?>"
+                     <?php if ($fallback_logo): ?>onerror="this.src='<?php echo esc_url($fallback_logo); ?>'; this.onerror=null;"<?php endif; ?>
+                     loading="lazy"
+                     alt="<?php echo esc_attr($title); ?> logo">
+            </div>
         <?php endif; ?>
         <h3 class="svm-card__title"><?php echo esc_html($title); ?></h3>
         <a class="svm-card__cta" href="<?php echo esc_url($link); ?>">View Domain</a>
