@@ -1202,36 +1202,50 @@ function svm_newsletter_form($inline = false) {
 }
 
 /**
- * Send email to GoHighLevel via API
+ * Send email to GoHighLevel via Webhook OR PIT Token
+ * Supports both methods - tries PIT token first, then webhook
  */
 function svm_send_to_ghl($email, $debug = false) {
-    $ghl_api_key = get_option('svm_ghl_api_key', '');
+    $ghl_pit_token = get_option('svm_ghl_pit_token', '');
     $ghl_location_id = get_option('svm_ghl_location_id', '');
+    $ghl_webhook_url = get_option('svm_ghl_webhook_url', '');
 
-    // If no API key configured, skip GHL integration
-    if (empty($ghl_api_key) || empty($ghl_location_id)) {
-        if ($debug) {
-            return array(
-                'success' => false,
-                'error' => 'API key or Location ID not configured'
-            );
-        }
-        return false;
+    // Method 1: Try PIT Token + API (if configured)
+    if (!empty($ghl_pit_token) && !empty($ghl_location_id)) {
+        return svm_send_to_ghl_api($email, $ghl_pit_token, $ghl_location_id, $debug);
     }
 
-    // GHL API v2 - Create Contact endpoint
+    // Method 2: Try Webhook (if configured)
+    if (!empty($ghl_webhook_url)) {
+        return svm_send_to_ghl_webhook($email, $ghl_webhook_url, $debug);
+    }
+
+    // No method configured
+    if ($debug) {
+        return array(
+            'success' => false,
+            'error' => 'No integration method configured (need either PIT token + Location ID, or Webhook URL)'
+        );
+    }
+    return false;
+}
+
+/**
+ * Send via PIT Token to GHL API
+ */
+function svm_send_to_ghl_api($email, $pit_token, $location_id, $debug = false) {
     $api_url = 'https://services.leadconnectorhq.com/contacts/';
 
     $body_data = array(
         'email' => $email,
-        'locationId' => $ghl_location_id,
+        'locationId' => $location_id,
         'tags' => array('newsletter'),
         'source' => 'website_newsletter'
     );
 
     $args = array(
         'headers' => array(
-            'Authorization' => 'Bearer ' . $ghl_api_key,
+            'Authorization' => 'Bearer ' . $pit_token,
             'Content-Type' => 'application/json',
             'Version' => '2021-07-28'
         ),
@@ -1242,14 +1256,14 @@ function svm_send_to_ghl($email, $debug = false) {
 
     $response = wp_remote_post($api_url, $args);
 
-    // Check for WordPress HTTP errors
     if (is_wp_error($response)) {
         $error_message = $response->get_error_message();
-        error_log('GHL API WP Error: ' . $error_message);
+        error_log('GHL API (PIT) WP Error: ' . $error_message);
 
         if ($debug) {
             return array(
                 'success' => false,
+                'method' => 'PIT Token API',
                 'error' => 'WordPress HTTP Error: ' . $error_message
             );
         }
@@ -1259,15 +1273,14 @@ function svm_send_to_ghl($email, $debug = false) {
     $response_code = wp_remote_retrieve_response_code($response);
     $response_body = wp_remote_retrieve_body($response);
 
-    // Log for debugging
-    error_log('GHL API Response Code: ' . $response_code);
-    error_log('GHL API Response Body: ' . $response_body);
+    error_log('GHL API (PIT) Response Code: ' . $response_code);
+    error_log('GHL API (PIT) Response Body: ' . $response_body);
 
-    // 200 = success, 201 = created
     if ($response_code === 200 || $response_code === 201) {
         if ($debug) {
             return array(
                 'success' => true,
+                'method' => 'PIT Token API',
                 'response_code' => $response_code,
                 'response_body' => $response_body
             );
@@ -1275,14 +1288,84 @@ function svm_send_to_ghl($email, $debug = false) {
         return true;
     }
 
-    // Return debug info for test mode
     if ($debug) {
         return array(
             'success' => false,
+            'method' => 'PIT Token API',
             'error' => 'API returned error code',
             'response_code' => $response_code,
             'response_body' => $response_body,
             'request_url' => $api_url,
+            'request_body' => $body_data
+        );
+    }
+
+    return false;
+}
+
+/**
+ * Send via Webhook to GHL
+ */
+function svm_send_to_ghl_webhook($email, $webhook_url, $debug = false) {
+    $body_data = array(
+        'email' => $email,
+        'tag' => 'newsletter',
+        'source' => 'website_newsletter',
+        'subscribed_date' => current_time('mysql'),
+        'website' => home_url()
+    );
+
+    $args = array(
+        'headers' => array(
+            'Content-Type' => 'application/json'
+        ),
+        'body' => json_encode($body_data),
+        'timeout' => 15,
+        'method' => 'POST'
+    );
+
+    $response = wp_remote_post($webhook_url, $args);
+
+    if (is_wp_error($response)) {
+        $error_message = $response->get_error_message();
+        error_log('GHL Webhook WP Error: ' . $error_message);
+
+        if ($debug) {
+            return array(
+                'success' => false,
+                'method' => 'Webhook',
+                'error' => 'WordPress HTTP Error: ' . $error_message
+            );
+        }
+        return false;
+    }
+
+    $response_code = wp_remote_retrieve_response_code($response);
+    $response_body = wp_remote_retrieve_body($response);
+
+    error_log('GHL Webhook Response Code: ' . $response_code);
+    error_log('GHL Webhook Response Body: ' . $response_body);
+
+    if ($response_code === 200 || $response_code === 201 || $response_code === 202) {
+        if ($debug) {
+            return array(
+                'success' => true,
+                'method' => 'Webhook',
+                'response_code' => $response_code,
+                'response_body' => $response_body
+            );
+        }
+        return true;
+    }
+
+    if ($debug) {
+        return array(
+            'success' => false,
+            'method' => 'Webhook',
+            'error' => 'Webhook returned error code',
+            'response_code' => $response_code,
+            'response_body' => $response_body,
+            'webhook_url' => $webhook_url,
             'request_body' => $body_data
         );
     }
@@ -1404,8 +1487,9 @@ function svm_newsletter_settings_page() {
     if (isset($_POST['svm_save_ghl_settings'])) {
         check_admin_referer('svm_ghl_settings');
 
-        update_option('svm_ghl_api_key', sanitize_text_field($_POST['svm_ghl_api_key']));
+        update_option('svm_ghl_pit_token', sanitize_text_field($_POST['svm_ghl_pit_token']));
         update_option('svm_ghl_location_id', sanitize_text_field($_POST['svm_ghl_location_id']));
+        update_option('svm_ghl_webhook_url', esc_url_raw($_POST['svm_ghl_webhook_url']));
 
         echo '<div class="notice notice-success"><p>Settings saved! Newsletter signups will now sync to GoHighLevel.</p></div>';
     }
@@ -1419,11 +1503,13 @@ function svm_newsletter_settings_page() {
 
         if (is_array($result) && isset($result['success'])) {
             if ($result['success']) {
-                echo '<div class="notice notice-success"><p>✅ Connection successful! Test contact created in GHL.</p></div>';
+                $method = isset($result['method']) ? $result['method'] : 'Unknown';
+                echo '<div class="notice notice-success"><p>✅ Connection successful using ' . esc_html($method) . '! Test contact created in GHL.</p></div>';
             } else {
                 // Show detailed error
                 echo '<div class="notice notice-error">';
-                echo '<p><strong>❌ Connection failed</strong></p>';
+                $method = isset($result['method']) ? $result['method'] : 'Unknown';
+                echo '<p><strong>❌ Connection failed (' . esc_html($method) . ')</strong></p>';
                 echo '<p><strong>Error:</strong> ' . esc_html($result['error']) . '</p>';
 
                 if (isset($result['response_code'])) {
@@ -1448,36 +1534,46 @@ function svm_newsletter_settings_page() {
         }
     }
 
-    $api_key = get_option('svm_ghl_api_key', '');
+    $pit_token = get_option('svm_ghl_pit_token', '');
     $location_id = get_option('svm_ghl_location_id', '');
+    $webhook_url = get_option('svm_ghl_webhook_url', '');
 
     ?>
     <div class="wrap">
         <h1>Newsletter Settings (GoHighLevel)</h1>
 
+        <div class="card" style="max-width: 800px; padding: 20px; margin: 20px 0; background: #d1f4ff; border-left: 4px solid #0073aa;">
+            <h2 style="margin-top: 0;">✨ Two Integration Methods Available</h2>
+            <p><strong>Choose ONE of these methods:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li><strong>Method 1 (Recommended):</strong> PIT Token - Use your Private Integration Token</li>
+                <li><strong>Method 2 (If webhooks work):</strong> Webhook - Use workflow webhook URL</li>
+            </ul>
+            <p>The system will automatically try PIT token first, then webhook.</p>
+        </div>
+
         <div class="card" style="max-width: 800px; padding: 20px; margin: 20px 0;">
-            <h2>GoHighLevel API Integration</h2>
-            <p>Connect your newsletter signup form to GoHighLevel. When someone subscribes, they'll be automatically added as a contact with the "newsletter" tag.</p>
+            <h2>Integration Configuration</h2>
 
             <form method="post" action="">
                 <?php wp_nonce_field('svm_ghl_settings'); ?>
 
+                <h3 style="border-bottom: 2px solid #0073aa; padding-bottom: 10px;">Method 1: PIT Token (Private Integration)</h3>
                 <table class="form-table">
                     <tr>
                         <th scope="row">
-                            <label for="svm_ghl_api_key">GHL API Key</label>
+                            <label for="svm_ghl_pit_token">PIT Token</label>
                         </th>
                         <td>
-                            <input type="password"
-                                   name="svm_ghl_api_key"
-                                   id="svm_ghl_api_key"
-                                   value="<?php echo esc_attr($api_key); ?>"
-                                   class="regular-text"
-                                   placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
-                            <p class="description">Your GoHighLevel API key (starts with "eyJ")</p>
+                            <input type="text"
+                                   name="svm_ghl_pit_token"
+                                   id="svm_ghl_pit_token"
+                                   value="<?php echo esc_attr($pit_token); ?>"
+                                   class="large-text"
+                                   placeholder="pit-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                            <p class="description">Your Private Integration Token from Settings → Integrations → Private Applications</p>
                         </td>
                     </tr>
-
                     <tr>
                         <th scope="row">
                             <label for="svm_ghl_location_id">Location ID</label>
@@ -1487,9 +1583,27 @@ function svm_newsletter_settings_page() {
                                    name="svm_ghl_location_id"
                                    id="svm_ghl_location_id"
                                    value="<?php echo esc_attr($location_id); ?>"
-                                   class="regular-text"
+                                   class="large-text"
                                    placeholder="E8nPU6ugwWwvvBrTLtN1">
                             <p class="description">Your GHL Location ID</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3 style="border-bottom: 2px solid #0073aa; padding-bottom: 10px; margin-top: 30px;">Method 2: Webhook (Alternative)</h3>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="svm_ghl_webhook_url">Webhook URL</label>
+                        </th>
+                        <td>
+                            <input type="url"
+                                   name="svm_ghl_webhook_url"
+                                   id="svm_ghl_webhook_url"
+                                   value="<?php echo esc_attr($webhook_url); ?>"
+                                   class="large-text"
+                                   placeholder="https://services.leadconnectorhq.com/hooks/...">
+                            <p class="description">Your GoHighLevel workflow webhook URL (if you have one)</p>
                         </td>
                     </tr>
                 </table>
@@ -1502,7 +1616,7 @@ function svm_newsletter_settings_page() {
                 </p>
             </form>
 
-            <?php if (!empty($api_key) && !empty($location_id)): ?>
+            <?php if (!empty($pit_token) || !empty($webhook_url)): ?>
             <hr style="margin: 30px 0;">
             <h3>Test Connection</h3>
             <p>Click below to test if your GHL connection is working properly.</p>
