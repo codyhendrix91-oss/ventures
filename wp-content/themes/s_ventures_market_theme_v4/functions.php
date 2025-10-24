@@ -1202,8 +1202,57 @@ function svm_newsletter_form($inline = false) {
 }
 
 /**
+ * Send email to GoHighLevel via API
+ */
+function svm_send_to_ghl($email) {
+    $ghl_api_key = get_option('svm_ghl_api_key', '');
+    $ghl_location_id = get_option('svm_ghl_location_id', '');
+
+    // If no API key configured, skip GHL integration
+    if (empty($ghl_api_key) || empty($ghl_location_id)) {
+        return false;
+    }
+
+    // GHL API v2 - Create/Update Contact
+    $api_url = 'https://services.leadconnectorhq.com/contacts/';
+
+    $response = wp_remote_post($api_url, array(
+        'headers' => array(
+            'Authorization' => 'Bearer ' . $ghl_api_key,
+            'Content-Type' => 'application/json',
+            'Version' => '2021-07-28'
+        ),
+        'body' => json_encode(array(
+            'email' => $email,
+            'locationId' => $ghl_location_id,
+            'tags' => array('newsletter'),
+            'source' => 'website_newsletter'
+        )),
+        'timeout' => 15
+    ));
+
+    if (is_wp_error($response)) {
+        error_log('GHL API Error: ' . $response->get_error_message());
+        return false;
+    }
+
+    $response_code = wp_remote_retrieve_response_code($response);
+
+    // 200 = success, 201 = created
+    if ($response_code === 200 || $response_code === 201) {
+        return true;
+    }
+
+    // Log error for debugging
+    error_log('GHL API Response Code: ' . $response_code);
+    error_log('GHL API Response: ' . wp_remote_retrieve_body($response));
+
+    return false;
+}
+
+/**
  * AJAX handler for newsletter signups
- * This stores emails in WordPress database and can be connected to GHL via webhook
+ * This stores emails in WordPress database and syncs to GoHighLevel
  */
 add_action('wp_ajax_svm_newsletter_signup', 'svm_handle_newsletter_signup');
 add_action('wp_ajax_nopriv_svm_newsletter_signup', 'svm_handle_newsletter_signup');
@@ -1247,10 +1296,15 @@ function svm_handle_newsletter_signup() {
     );
 
     if ($result) {
-        // TODO: Send webhook to GHL here
-        // You can add GHL webhook integration here
+        // Send to GoHighLevel
+        $ghl_success = svm_send_to_ghl($email);
 
-        wp_send_json_success(array('message' => 'Thanks for subscribing! Check your inbox.'));
+        if ($ghl_success) {
+            wp_send_json_success(array('message' => 'Thanks for subscribing! Check your inbox.'));
+        } else {
+            // Still success in WordPress, but GHL failed (email saved locally)
+            wp_send_json_success(array('message' => 'Thanks for subscribing!'));
+        }
     } else {
         // Check if email already exists
         if ($wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE email = %s", $email)) > 0) {
@@ -1287,6 +1341,141 @@ function svm_auto_newsletter_form() {
     }
 
     echo svm_newsletter_form(false);
+}
+
+/**
+ * Add Settings Page for GHL Integration
+ */
+add_action('admin_menu', 'svm_newsletter_settings_menu');
+
+function svm_newsletter_settings_menu() {
+    add_submenu_page(
+        'options-general.php',
+        'Newsletter Settings',
+        'Newsletter (GHL)',
+        'manage_options',
+        'svm-newsletter-settings',
+        'svm_newsletter_settings_page'
+    );
+}
+
+function svm_newsletter_settings_page() {
+    // Save settings
+    if (isset($_POST['svm_save_ghl_settings'])) {
+        check_admin_referer('svm_ghl_settings');
+
+        update_option('svm_ghl_api_key', sanitize_text_field($_POST['svm_ghl_api_key']));
+        update_option('svm_ghl_location_id', sanitize_text_field($_POST['svm_ghl_location_id']));
+
+        echo '<div class="notice notice-success"><p>Settings saved! Newsletter signups will now sync to GoHighLevel.</p></div>';
+    }
+
+    // Test connection
+    if (isset($_POST['svm_test_ghl'])) {
+        check_admin_referer('svm_test_ghl');
+
+        $test_email = 'test@example.com';
+        $result = svm_send_to_ghl($test_email);
+
+        if ($result) {
+            echo '<div class="notice notice-success"><p>✅ Connection successful! Test contact created in GHL.</p></div>';
+        } else {
+            echo '<div class="notice notice-error"><p>❌ Connection failed. Check your API key and Location ID. See error logs for details.</p></div>';
+        }
+    }
+
+    $api_key = get_option('svm_ghl_api_key', '');
+    $location_id = get_option('svm_ghl_location_id', '');
+
+    ?>
+    <div class="wrap">
+        <h1>Newsletter Settings (GoHighLevel)</h1>
+
+        <div class="card" style="max-width: 800px; padding: 20px; margin: 20px 0;">
+            <h2>GoHighLevel API Integration</h2>
+            <p>Connect your newsletter signup form to GoHighLevel. When someone subscribes, they'll be automatically added as a contact with the "newsletter" tag.</p>
+
+            <form method="post" action="">
+                <?php wp_nonce_field('svm_ghl_settings'); ?>
+
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="svm_ghl_api_key">GHL API Key</label>
+                        </th>
+                        <td>
+                            <input type="password"
+                                   name="svm_ghl_api_key"
+                                   id="svm_ghl_api_key"
+                                   value="<?php echo esc_attr($api_key); ?>"
+                                   class="regular-text"
+                                   placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+                            <p class="description">Your GoHighLevel API key (starts with "eyJ")</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="svm_ghl_location_id">Location ID</label>
+                        </th>
+                        <td>
+                            <input type="text"
+                                   name="svm_ghl_location_id"
+                                   id="svm_ghl_location_id"
+                                   value="<?php echo esc_attr($location_id); ?>"
+                                   class="regular-text"
+                                   placeholder="E8nPU6ugwWwvvBrTLtN1">
+                            <p class="description">Your GHL Location ID</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <p class="submit">
+                    <input type="submit"
+                           name="svm_save_ghl_settings"
+                           class="button button-primary"
+                           value="Save Settings">
+                </p>
+            </form>
+
+            <?php if (!empty($api_key) && !empty($location_id)): ?>
+            <hr style="margin: 30px 0;">
+            <h3>Test Connection</h3>
+            <p>Click below to test if your GHL connection is working properly.</p>
+            <form method="post" action="">
+                <?php wp_nonce_field('svm_test_ghl'); ?>
+                <p class="submit">
+                    <input type="submit"
+                           name="svm_test_ghl"
+                           class="button button-secondary"
+                           value="Test GHL Connection">
+                </p>
+            </form>
+            <?php endif; ?>
+        </div>
+
+        <div class="card" style="max-width: 800px; padding: 20px; margin: 20px 0; background: #f0f6fc; border-left: 4px solid #0073aa;">
+            <h3>📊 Current Subscribers</h3>
+            <?php
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'newsletter_subscribers';
+            $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE status = 'active'");
+            ?>
+            <p><strong><?php echo $count; ?></strong> active subscribers stored in WordPress database.</p>
+        </div>
+
+        <div class="card" style="max-width: 800px; padding: 20px; margin: 20px 0;">
+            <h3>ℹ️ How It Works</h3>
+            <ul style="list-style: disc; margin-left: 20px;">
+                <li>Newsletter form appears on all pages <strong>except single domain pages</strong></li>
+                <li>Shortcode: <code>[newsletter]</code> for blog posts</li>
+                <li>Emails are stored in WordPress database</li>
+                <li>Emails are synced to GHL with "newsletter" tag</li>
+                <li>Duplicate emails are prevented</li>
+            </ul>
+        </div>
+    </div>
+    <?php
 }
 
 /* -------------------------------------------------------
