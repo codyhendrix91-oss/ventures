@@ -1202,50 +1202,46 @@ function svm_newsletter_form($inline = false) {
 }
 
 /**
- * Send email to GoHighLevel via API
+ * Send email to GoHighLevel via Webhook (Simple & No Auth Required)
  */
 function svm_send_to_ghl($email, $debug = false) {
-    $ghl_api_key = get_option('svm_ghl_api_key', '');
-    $ghl_location_id = get_option('svm_ghl_location_id', '');
+    $ghl_webhook_url = get_option('svm_ghl_webhook_url', '');
 
-    // If no API key configured, skip GHL integration
-    if (empty($ghl_api_key) || empty($ghl_location_id)) {
+    // If no webhook URL configured, skip GHL integration
+    if (empty($ghl_webhook_url)) {
         if ($debug) {
             return array(
                 'success' => false,
-                'error' => 'API key or Location ID not configured'
+                'error' => 'Webhook URL not configured'
             );
         }
         return false;
     }
 
-    // GHL API v2 - Create Contact endpoint
-    $api_url = 'https://services.leadconnectorhq.com/contacts/';
-
+    // Prepare data to send to GHL
     $body_data = array(
         'email' => $email,
-        'locationId' => $ghl_location_id,
-        'tags' => array('newsletter'),
-        'source' => 'website_newsletter'
+        'tag' => 'newsletter',
+        'source' => 'website_newsletter',
+        'subscribed_date' => current_time('mysql'),
+        'website' => home_url()
     );
 
     $args = array(
         'headers' => array(
-            'Authorization' => 'Bearer ' . $ghl_api_key,
-            'Content-Type' => 'application/json',
-            'Version' => '2021-07-28'
+            'Content-Type' => 'application/json'
         ),
         'body' => json_encode($body_data),
         'timeout' => 15,
         'method' => 'POST'
     );
 
-    $response = wp_remote_post($api_url, $args);
+    $response = wp_remote_post($ghl_webhook_url, $args);
 
     // Check for WordPress HTTP errors
     if (is_wp_error($response)) {
         $error_message = $response->get_error_message();
-        error_log('GHL API WP Error: ' . $error_message);
+        error_log('GHL Webhook WP Error: ' . $error_message);
 
         if ($debug) {
             return array(
@@ -1260,11 +1256,11 @@ function svm_send_to_ghl($email, $debug = false) {
     $response_body = wp_remote_retrieve_body($response);
 
     // Log for debugging
-    error_log('GHL API Response Code: ' . $response_code);
-    error_log('GHL API Response Body: ' . $response_body);
+    error_log('GHL Webhook Response Code: ' . $response_code);
+    error_log('GHL Webhook Response Body: ' . $response_body);
 
-    // 200 = success, 201 = created
-    if ($response_code === 200 || $response_code === 201) {
+    // Webhooks typically return 200 on success
+    if ($response_code === 200 || $response_code === 201 || $response_code === 202) {
         if ($debug) {
             return array(
                 'success' => true,
@@ -1279,10 +1275,10 @@ function svm_send_to_ghl($email, $debug = false) {
     if ($debug) {
         return array(
             'success' => false,
-            'error' => 'API returned error code',
+            'error' => 'Webhook returned error code',
             'response_code' => $response_code,
             'response_body' => $response_body,
-            'request_url' => $api_url,
+            'webhook_url' => $ghl_webhook_url,
             'request_body' => $body_data
         );
     }
@@ -1404,10 +1400,9 @@ function svm_newsletter_settings_page() {
     if (isset($_POST['svm_save_ghl_settings'])) {
         check_admin_referer('svm_ghl_settings');
 
-        update_option('svm_ghl_api_key', sanitize_text_field($_POST['svm_ghl_api_key']));
-        update_option('svm_ghl_location_id', sanitize_text_field($_POST['svm_ghl_location_id']));
+        update_option('svm_ghl_webhook_url', esc_url_raw($_POST['svm_ghl_webhook_url']));
 
-        echo '<div class="notice notice-success"><p>Settings saved! Newsletter signups will now sync to GoHighLevel.</p></div>';
+        echo '<div class="notice notice-success"><p>Settings saved! Newsletter signups will now sync to GoHighLevel via webhook.</p></div>';
     }
 
     // Test connection
@@ -1448,16 +1443,27 @@ function svm_newsletter_settings_page() {
         }
     }
 
-    $api_key = get_option('svm_ghl_api_key', '');
-    $location_id = get_option('svm_ghl_location_id', '');
+    $webhook_url = get_option('svm_ghl_webhook_url', '');
 
     ?>
     <div class="wrap">
         <h1>Newsletter Settings (GoHighLevel)</h1>
 
+        <div class="card" style="max-width: 800px; padding: 20px; margin: 20px 0; background: #d1f4ff; border-left: 4px solid #0073aa;">
+            <h2 style="margin-top: 0;">✨ Simple Webhook Integration (No API Key Needed!)</h2>
+            <p>We've switched to webhook integration - it's much simpler and works immediately!</p>
+            <ol>
+                <li>In GoHighLevel, go to <strong>Automations</strong> or <strong>Workflows</strong></li>
+                <li>Create a new workflow with <strong>Webhook Trigger</strong></li>
+                <li>Copy the webhook URL</li>
+                <li>Paste it below</li>
+                <li>Done! No API keys or authentication needed.</li>
+            </ol>
+        </div>
+
         <div class="card" style="max-width: 800px; padding: 20px; margin: 20px 0;">
-            <h2>GoHighLevel API Integration</h2>
-            <p>Connect your newsletter signup form to GoHighLevel. When someone subscribes, they'll be automatically added as a contact with the "newsletter" tag.</p>
+            <h2>Webhook Configuration</h2>
+            <p>Connect your newsletter signup form to GoHighLevel via webhook. When someone subscribes, their email will be sent to your GHL workflow.</p>
 
             <form method="post" action="">
                 <?php wp_nonce_field('svm_ghl_settings'); ?>
@@ -1465,31 +1471,16 @@ function svm_newsletter_settings_page() {
                 <table class="form-table">
                     <tr>
                         <th scope="row">
-                            <label for="svm_ghl_api_key">GHL API Key</label>
+                            <label for="svm_ghl_webhook_url">GHL Webhook URL</label>
                         </th>
                         <td>
-                            <input type="password"
-                                   name="svm_ghl_api_key"
-                                   id="svm_ghl_api_key"
-                                   value="<?php echo esc_attr($api_key); ?>"
-                                   class="regular-text"
-                                   placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
-                            <p class="description">Your GoHighLevel API key (starts with "eyJ")</p>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">
-                            <label for="svm_ghl_location_id">Location ID</label>
-                        </th>
-                        <td>
-                            <input type="text"
-                                   name="svm_ghl_location_id"
-                                   id="svm_ghl_location_id"
-                                   value="<?php echo esc_attr($location_id); ?>"
-                                   class="regular-text"
-                                   placeholder="E8nPU6ugwWwvvBrTLtN1">
-                            <p class="description">Your GHL Location ID</p>
+                            <input type="url"
+                                   name="svm_ghl_webhook_url"
+                                   id="svm_ghl_webhook_url"
+                                   value="<?php echo esc_attr($webhook_url); ?>"
+                                   class="large-text"
+                                   placeholder="https://services.leadconnectorhq.com/hooks/...">
+                            <p class="description">Your GoHighLevel workflow webhook URL</p>
                         </td>
                     </tr>
                 </table>
@@ -1498,11 +1489,11 @@ function svm_newsletter_settings_page() {
                     <input type="submit"
                            name="svm_save_ghl_settings"
                            class="button button-primary"
-                           value="Save Settings">
+                           value="Save Webhook URL">
                 </p>
             </form>
 
-            <?php if (!empty($api_key) && !empty($location_id)): ?>
+            <?php if (!empty($webhook_url)): ?>
             <hr style="margin: 30px 0;">
             <h3>Test Connection</h3>
             <p>Click below to test if your GHL connection is working properly.</p>
