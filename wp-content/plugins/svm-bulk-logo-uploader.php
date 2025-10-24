@@ -53,6 +53,62 @@ class SVM_Bulk_Logo_Uploader {
             </div>
             <?php endif; ?>
 
+            <?php if (isset($_GET['cron_disabled'])): ?>
+            <div class="notice notice-success">
+                <p>✅ Disabled Google Sheets auto-sync cron job!</p>
+            </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['files_deleted'])): ?>
+            <div class="notice notice-success">
+                <p>✅ Deleted <?php echo intval($_GET['files_deleted']); ?> broken logo files and <?php echo intval($_GET['attachments_deleted']); ?> attachment records from the database!</p>
+            </div>
+            <?php endif; ?>
+
+            <div style="background: #fff; padding: 20px; margin: 20px 0; border: 1px solid #ccc;">
+                <h2>Step 0: Disable Auto-Sync & Clean Broken Files</h2>
+
+                <?php
+                $cron_active = wp_next_scheduled('svm_auto_sync_domains');
+                $upload_dir = wp_upload_dir();
+                $stats = $this->get_upload_stats();
+                ?>
+
+                <div style="margin-bottom: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h3 style="margin-top: 0;">📊 Current Upload Folder Status</h3>
+                    <ul style="margin: 10px 0;">
+                        <li><strong>Total image files in uploads:</strong> <?php echo $stats['total_files']; ?></li>
+                        <li><strong>Broken attachments (no file):</strong> <?php echo $stats['broken_attachments']; ?></li>
+                        <li><strong>Orphaned files (no DB record):</strong> <?php echo $stats['orphaned_files']; ?></li>
+                        <li><strong>Google Sheets cron job:</strong> <?php echo $cron_active ? '<span style="color: #d63638;">⚠️ ACTIVE (runs every 6 hours)</span>' : '<span style="color: #00a32a;">✅ Disabled</span>'; ?></li>
+                    </ul>
+                </div>
+
+                <?php if ($cron_active): ?>
+                <div style="margin-bottom: 15px;">
+                    <form method="post" action="" style="display: inline;">
+                        <?php wp_nonce_field('svm_disable_cron'); ?>
+                        <input type="hidden" name="action" value="disable_cron">
+                        <button type="submit" class="button button-secondary">⏸️ Disable Google Sheets Auto-Sync</button>
+                    </form>
+                    <p class="description">Stop the 6-hour cron job that may be creating broken logos</p>
+                </div>
+                <?php endif; ?>
+
+                <?php if ($stats['broken_attachments'] > 0 || $stats['orphaned_files'] > 0): ?>
+                <div style="margin-bottom: 15px;">
+                    <form method="post" action="" style="display: inline;">
+                        <?php wp_nonce_field('svm_delete_broken'); ?>
+                        <input type="hidden" name="action" value="delete_broken">
+                        <button type="submit" class="button button-secondary" onclick="return confirm('This will permanently delete <?php echo $stats['broken_attachments'] + $stats['orphaned_files']; ?> broken files. Continue?');">
+                            🗑️ Delete All Broken Logo Files (<?php echo $stats['broken_attachments'] + $stats['orphaned_files']; ?>)
+                        </button>
+                    </form>
+                    <p class="description">Permanently delete logo files that don't exist or have no database records</p>
+                </div>
+                <?php endif; ?>
+            </div>
+
             <div style="background: #fff; padding: 20px; margin: 20px 0; border: 1px solid #ccc;">
                 <h2>Step 1: Clean Up Orphaned Attachments</h2>
                 <p>This will remove all attachment IDs from domain posts where the actual file doesn't exist.</p>
@@ -110,6 +166,22 @@ class SVM_Bulk_Logo_Uploader {
         </div>
         <?php
 
+        // Handle disable cron action
+        if (isset($_POST['action']) && $_POST['action'] === 'disable_cron') {
+            check_admin_referer('svm_disable_cron');
+            wp_clear_scheduled_hook('svm_auto_sync_domains');
+            wp_redirect(admin_url('edit.php?post_type=domains&page=svm-bulk-upload&cron_disabled=1'));
+            exit;
+        }
+
+        // Handle delete broken files action
+        if (isset($_POST['action']) && $_POST['action'] === 'delete_broken') {
+            check_admin_referer('svm_delete_broken');
+            $result = $this->delete_broken_files();
+            wp_redirect(admin_url('edit.php?post_type=domains&page=svm-bulk-upload&files_deleted=' . $result['files_deleted'] . '&attachments_deleted=' . $result['attachments_deleted']));
+            exit;
+        }
+
         // Handle cleanup action
         if (isset($_POST['action']) && $_POST['action'] === 'cleanup_logos') {
             check_admin_referer('svm_cleanup_logos');
@@ -125,6 +197,75 @@ class SVM_Bulk_Logo_Uploader {
             wp_redirect(admin_url('edit.php?post_type=domains&page=svm-bulk-upload&uploaded=' . $result['uploaded'] . '&matched=' . $result['matched']));
             exit;
         }
+    }
+
+    /**
+     * Get statistics about uploads folder
+     */
+    public function get_upload_stats() {
+        $upload_dir = wp_upload_dir();
+        $basedir = $upload_dir['basedir'];
+
+        // Count total image files in uploads
+        $total_files = 0;
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($basedir));
+        foreach ($iterator as $file) {
+            if ($file->isFile() && preg_match('/\.(png|jpg|jpeg|webp)$/i', $file->getFilename())) {
+                $total_files++;
+            }
+        }
+
+        // Count broken attachments (DB record exists but file doesn't)
+        global $wpdb;
+        $broken_attachments = 0;
+        $attachment_ids = $wpdb->get_col("SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%'");
+
+        foreach ($attachment_ids as $id) {
+            $file_path = get_attached_file($id);
+            if (!$file_path || !file_exists($file_path)) {
+                $broken_attachments++;
+            }
+        }
+
+        // Count orphaned files (file exists but no DB record)
+        $orphaned_files = 0;
+        // This is approximate - we count total files minus valid attachments
+        $valid_attachments = count($attachment_ids) - $broken_attachments;
+        $orphaned_files = max(0, $total_files - $valid_attachments);
+
+        return array(
+            'total_files' => $total_files,
+            'broken_attachments' => $broken_attachments,
+            'orphaned_files' => $orphaned_files
+        );
+    }
+
+    /**
+     * Delete broken logo files
+     */
+    public function delete_broken_files() {
+        global $wpdb;
+
+        $files_deleted = 0;
+        $attachments_deleted = 0;
+
+        // Get all attachment IDs
+        $attachment_ids = $wpdb->get_col("SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%'");
+
+        foreach ($attachment_ids as $id) {
+            $file_path = get_attached_file($id);
+
+            if (!$file_path || !file_exists($file_path)) {
+                // Broken attachment - delete the DB record
+                wp_delete_attachment($id, true);
+                $attachments_deleted++;
+            }
+        }
+
+        return array(
+            'files_deleted' => $files_deleted,
+            'attachments_deleted' => $attachments_deleted
+        );
     }
 
     /**
