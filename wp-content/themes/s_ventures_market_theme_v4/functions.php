@@ -1204,48 +1204,88 @@ function svm_newsletter_form($inline = false) {
 /**
  * Send email to GoHighLevel via API
  */
-function svm_send_to_ghl($email) {
+function svm_send_to_ghl($email, $debug = false) {
     $ghl_api_key = get_option('svm_ghl_api_key', '');
     $ghl_location_id = get_option('svm_ghl_location_id', '');
 
     // If no API key configured, skip GHL integration
     if (empty($ghl_api_key) || empty($ghl_location_id)) {
+        if ($debug) {
+            return array(
+                'success' => false,
+                'error' => 'API key or Location ID not configured'
+            );
+        }
         return false;
     }
 
-    // GHL API v2 - Create/Update Contact
+    // GHL API v2 - Create Contact endpoint
     $api_url = 'https://services.leadconnectorhq.com/contacts/';
 
-    $response = wp_remote_post($api_url, array(
+    $body_data = array(
+        'email' => $email,
+        'locationId' => $ghl_location_id,
+        'tags' => array('newsletter'),
+        'source' => 'website_newsletter'
+    );
+
+    $args = array(
         'headers' => array(
             'Authorization' => 'Bearer ' . $ghl_api_key,
             'Content-Type' => 'application/json',
             'Version' => '2021-07-28'
         ),
-        'body' => json_encode(array(
-            'email' => $email,
-            'locationId' => $ghl_location_id,
-            'tags' => array('newsletter'),
-            'source' => 'website_newsletter'
-        )),
-        'timeout' => 15
-    ));
+        'body' => json_encode($body_data),
+        'timeout' => 15,
+        'method' => 'POST'
+    );
 
+    $response = wp_remote_post($api_url, $args);
+
+    // Check for WordPress HTTP errors
     if (is_wp_error($response)) {
-        error_log('GHL API Error: ' . $response->get_error_message());
+        $error_message = $response->get_error_message();
+        error_log('GHL API WP Error: ' . $error_message);
+
+        if ($debug) {
+            return array(
+                'success' => false,
+                'error' => 'WordPress HTTP Error: ' . $error_message
+            );
+        }
         return false;
     }
 
     $response_code = wp_remote_retrieve_response_code($response);
+    $response_body = wp_remote_retrieve_body($response);
+
+    // Log for debugging
+    error_log('GHL API Response Code: ' . $response_code);
+    error_log('GHL API Response Body: ' . $response_body);
 
     // 200 = success, 201 = created
     if ($response_code === 200 || $response_code === 201) {
+        if ($debug) {
+            return array(
+                'success' => true,
+                'response_code' => $response_code,
+                'response_body' => $response_body
+            );
+        }
         return true;
     }
 
-    // Log error for debugging
-    error_log('GHL API Response Code: ' . $response_code);
-    error_log('GHL API Response: ' . wp_remote_retrieve_body($response));
+    // Return debug info for test mode
+    if ($debug) {
+        return array(
+            'success' => false,
+            'error' => 'API returned error code',
+            'response_code' => $response_code,
+            'response_body' => $response_body,
+            'request_url' => $api_url,
+            'request_body' => $body_data
+        );
+    }
 
     return false;
 }
@@ -1375,12 +1415,36 @@ function svm_newsletter_settings_page() {
         check_admin_referer('svm_test_ghl');
 
         $test_email = 'test@example.com';
-        $result = svm_send_to_ghl($test_email);
+        $result = svm_send_to_ghl($test_email, true); // Debug mode
 
-        if ($result) {
-            echo '<div class="notice notice-success"><p>✅ Connection successful! Test contact created in GHL.</p></div>';
-        } else {
-            echo '<div class="notice notice-error"><p>❌ Connection failed. Check your API key and Location ID. See error logs for details.</p></div>';
+        if (is_array($result) && isset($result['success'])) {
+            if ($result['success']) {
+                echo '<div class="notice notice-success"><p>✅ Connection successful! Test contact created in GHL.</p></div>';
+            } else {
+                // Show detailed error
+                echo '<div class="notice notice-error">';
+                echo '<p><strong>❌ Connection failed</strong></p>';
+                echo '<p><strong>Error:</strong> ' . esc_html($result['error']) . '</p>';
+
+                if (isset($result['response_code'])) {
+                    echo '<p><strong>Response Code:</strong> ' . esc_html($result['response_code']) . '</p>';
+                }
+
+                if (isset($result['response_body'])) {
+                    echo '<p><strong>Response Body:</strong></p>';
+                    echo '<pre style="background: #f5f5f5; padding: 10px; overflow-x: auto;">' . esc_html($result['response_body']) . '</pre>';
+                }
+
+                if (isset($result['request_url'])) {
+                    echo '<p><strong>Request URL:</strong> ' . esc_html($result['request_url']) . '</p>';
+                }
+
+                if (isset($result['request_body'])) {
+                    echo '<p><strong>Request Body:</strong></p>';
+                    echo '<pre style="background: #f5f5f5; padding: 10px; overflow-x: auto;">' . esc_html(json_encode($result['request_body'], JSON_PRETTY_PRINT)) . '</pre>';
+                }
+                echo '</div>';
+            }
         }
     }
 
