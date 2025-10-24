@@ -10,9 +10,6 @@ while (have_posts()): the_post();
   $categories = get_the_category();
   $primary_cat = !empty($categories) ? $categories[0] : null;
   $post_id = get_the_ID();
-
-  // Check if Elementor is being used for this post
-  $elementor_mode = class_exists('\Elementor\Plugin') && \Elementor\Plugin::$instance->documents->get($post_id)->is_built_with_elementor();
 ?>
 
 <article class="blog-single">
@@ -71,12 +68,9 @@ while (have_posts()): the_post();
       <!-- Main Content -->
       <div class="post-body">
         <?php
-        // Render Elementor content if using Elementor, otherwise standard content
-        if ($elementor_mode) {
-          echo \Elementor\Plugin::$instance->frontend->get_builder_content($post_id);
-        } else {
-          the_content();
-        }
+        // Elementor will automatically handle its content when present
+        // MUST call the_content() directly for Elementor editor to work
+        the_content();
         ?>
       </div>
 
