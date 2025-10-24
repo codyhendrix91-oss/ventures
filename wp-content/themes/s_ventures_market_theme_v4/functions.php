@@ -886,6 +886,33 @@ set_post_thumbnail_size(1200, 630, true);
 add_image_size('blog-featured', 1200, 630, true);
 add_image_size('blog-card', 800, 500, true);
 
+// Elementor support for blog posts and pages
+add_action('after_setup_theme', function() {
+    add_theme_support('elementor');
+
+    // Enable Elementor for specific post types
+    add_post_type_support('post', 'elementor');
+    add_post_type_support('page', 'elementor');
+    add_post_type_support('domains', 'elementor');
+});
+
+// Fix Elementor canvas template (removes header/footer when using Elementor full-width)
+add_filter('template_include', function($template) {
+    if (class_exists('\Elementor\Plugin')) {
+        $document = \Elementor\Plugin::$instance->documents->get(get_the_ID());
+        if ($document && $document->is_built_with_elementor()) {
+            $page_template = get_post_meta(get_the_ID(), '_wp_page_template', true);
+            if ('elementor_canvas' === $page_template) {
+                return ELEMENTOR_PATH . '/modules/page-templates/templates/canvas.php';
+            }
+            if ('elementor_header_footer' === $page_template) {
+                return ELEMENTOR_PATH . '/modules/page-templates/templates/header-footer.php';
+            }
+        }
+    }
+    return $template;
+});
+
 function svm_custom_excerpt_length($length) {
     if (is_home() || is_archive()) {
         return 25;
