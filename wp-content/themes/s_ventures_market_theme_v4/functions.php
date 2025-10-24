@@ -927,6 +927,369 @@ function svm_excerpt_more($more) {
 add_filter('excerpt_more', 'svm_excerpt_more');
 
 /* -------------------------------------------------------
+ * Newsletter Signup Form - Re.Ventures
+ * -----------------------------------------------------*/
+
+/**
+ * Render newsletter signup form
+ * Integrates with GoHighLevel (GHL)
+ */
+function svm_newsletter_form($inline = false) {
+    // Get GHL form action URL from WordPress options (can be set in Settings)
+    $ghl_form_action = get_option('svm_ghl_form_action', '');
+
+    $wrapper_class = $inline ? 'svm-newsletter--inline' : 'svm-newsletter--footer';
+
+    ob_start();
+    ?>
+    <div class="svm-newsletter <?php echo esc_attr($wrapper_class); ?>">
+        <div class="svm-newsletter__inner">
+            <div class="svm-newsletter__content">
+                <p class="svm-newsletter__text">
+                    Subscribe to <strong>Re.Ventures</strong> — because you deserve better than recycled LinkedIn advice, made up X stories and founders patting themselves on the back.
+                </p>
+            </div>
+
+            <div class="svm-newsletter__form-wrapper">
+                <form class="svm-newsletter__form"
+                      action="<?php echo esc_url($ghl_form_action); ?>"
+                      method="POST"
+                      data-ghl-form="newsletter">
+
+                    <div class="svm-newsletter__input-group">
+                        <input type="email"
+                               name="email"
+                               class="svm-newsletter__input"
+                               placeholder="Enter your email address"
+                               required
+                               aria-label="Email address">
+
+                        <button type="submit" class="svm-newsletter__button">
+                            <span class="button-text">Subscribe</span>
+                            <span class="button-icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 8h14M9 2l6 6-6 6"/>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Success/Error Messages -->
+                    <div class="svm-newsletter__message" style="display: none;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    /* Newsletter Form Styles */
+    .svm-newsletter {
+        background: #ffffff;
+        border-top: 1px solid #e8e9ea;
+        border-bottom: 1px solid #e8e9ea;
+    }
+
+    .svm-newsletter--footer {
+        margin: 0;
+        padding: 50px 20px;
+    }
+
+    .svm-newsletter--inline {
+        margin: 60px 0;
+        padding: 40px 20px;
+        border-radius: 8px;
+        border: 1px solid #e8e9ea;
+    }
+
+    .svm-newsletter__inner {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .svm-newsletter__content {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .svm-newsletter__text {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #374151;
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .svm-newsletter__text strong {
+        color: #7c3aed;
+        font-weight: 700;
+    }
+
+    .svm-newsletter__form-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .svm-newsletter__input-group {
+        display: flex;
+        gap: 12px;
+        align-items: stretch;
+        border: 2px solid #e8e9ea;
+        border-radius: 8px;
+        padding: 6px;
+        background: #f8f9fa;
+        transition: border-color 0.3s ease;
+    }
+
+    .svm-newsletter__input-group:focus-within {
+        border-color: #7c3aed;
+        background: #ffffff;
+    }
+
+    .svm-newsletter__input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 14px 16px;
+        font-size: 16px;
+        color: #1a1d35;
+        outline: none;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .svm-newsletter__input::placeholder {
+        color: #9ca3af;
+    }
+
+    .svm-newsletter__button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        padding: 14px 28px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        font-family: 'Colour Brown', sans-serif;
+        white-space: nowrap;
+    }
+
+    .svm-newsletter__button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+    }
+
+    .svm-newsletter__button:active {
+        transform: translateY(0);
+    }
+
+    .button-icon {
+        display: inline-flex;
+        transition: transform 0.3s ease;
+    }
+
+    .svm-newsletter__button:hover .button-icon {
+        transform: translateX(3px);
+    }
+
+    .svm-newsletter__message {
+        margin-top: 16px;
+        padding: 12px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .svm-newsletter__message--success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #10b981;
+    }
+
+    .svm-newsletter__message--error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #ef4444;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .svm-newsletter--footer {
+            padding: 40px 20px;
+        }
+
+        .svm-newsletter--inline {
+            margin: 40px 0;
+            padding: 30px 16px;
+        }
+
+        .svm-newsletter__text {
+            font-size: 16px;
+        }
+
+        .svm-newsletter__input-group {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .svm-newsletter__button {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    </style>
+
+    <script>
+    // Basic form handling - can be enhanced with GHL webhook
+    document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('[data-ghl-form="newsletter"]');
+
+        forms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                // If no GHL action URL is set, handle with AJAX
+                const actionUrl = this.getAttribute('action');
+
+                if (!actionUrl || actionUrl === '') {
+                    e.preventDefault();
+
+                    const email = this.querySelector('input[name="email"]').value;
+                    const messageEl = this.querySelector('.svm-newsletter__message');
+
+                    // Send to WordPress AJAX endpoint (you can connect this to GHL via webhook)
+                    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            action: 'svm_newsletter_signup',
+                            email: email,
+                            nonce: '<?php echo wp_create_nonce('svm_newsletter_nonce'); ?>'
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        messageEl.style.display = 'block';
+                        if (data.success) {
+                            messageEl.className = 'svm-newsletter__message svm-newsletter__message--success';
+                            messageEl.textContent = data.data.message || 'Thanks for subscribing!';
+                            form.reset();
+                        } else {
+                            messageEl.className = 'svm-newsletter__message svm-newsletter__message--error';
+                            messageEl.textContent = data.data.message || 'Something went wrong. Please try again.';
+                        }
+
+                        setTimeout(() => {
+                            messageEl.style.display = 'none';
+                        }, 5000);
+                    })
+                    .catch(error => {
+                        messageEl.style.display = 'block';
+                        messageEl.className = 'svm-newsletter__message svm-newsletter__message--error';
+                        messageEl.textContent = 'Something went wrong. Please try again.';
+                    });
+                }
+                // If GHL action URL is set, form will submit normally to GHL
+            });
+        });
+    });
+    </script>
+    <?php
+    return ob_get_clean();
+}
+
+/**
+ * AJAX handler for newsletter signups
+ * This stores emails in WordPress database and can be connected to GHL via webhook
+ */
+add_action('wp_ajax_svm_newsletter_signup', 'svm_handle_newsletter_signup');
+add_action('wp_ajax_nopriv_svm_newsletter_signup', 'svm_handle_newsletter_signup');
+
+function svm_handle_newsletter_signup() {
+    check_ajax_referer('svm_newsletter_nonce', 'nonce');
+
+    $email = sanitize_email($_POST['email']);
+
+    if (!is_email($email)) {
+        wp_send_json_error(array('message' => 'Please enter a valid email address.'));
+    }
+
+    // Store in WordPress database
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'newsletter_subscribers';
+
+    // Create table if doesn't exist
+    $charset_collate = $wpdb->get_charset_collate();
+    $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        email varchar(100) NOT NULL,
+        subscribed_date datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        status varchar(20) DEFAULT 'active' NOT NULL,
+        PRIMARY KEY  (id),
+        UNIQUE KEY email (email)
+    ) $charset_collate;";
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+
+    // Insert email
+    $result = $wpdb->insert(
+        $table_name,
+        array(
+            'email' => $email,
+            'subscribed_date' => current_time('mysql'),
+            'status' => 'active'
+        ),
+        array('%s', '%s', '%s')
+    );
+
+    if ($result) {
+        // TODO: Send webhook to GHL here
+        // You can add GHL webhook integration here
+
+        wp_send_json_success(array('message' => 'Thanks for subscribing! Check your inbox.'));
+    } else {
+        // Check if email already exists
+        if ($wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE email = %s", $email)) > 0) {
+            wp_send_json_error(array('message' => 'This email is already subscribed.'));
+        }
+        wp_send_json_error(array('message' => 'Something went wrong. Please try again.'));
+    }
+}
+
+/**
+ * Shortcode for inline newsletter form (for blog posts)
+ */
+add_shortcode('newsletter', 'svm_newsletter_shortcode');
+add_shortcode('newsletter_signup', 'svm_newsletter_shortcode');
+
+function svm_newsletter_shortcode($atts) {
+    return svm_newsletter_form(true);
+}
+
+/**
+ * Auto-display newsletter form above footer (except on single domain pages)
+ */
+add_action('wp_footer', 'svm_auto_newsletter_form', 1);
+
+function svm_auto_newsletter_form() {
+    // Don't show on single domain pages
+    if (is_singular('domains')) {
+        return;
+    }
+
+    // Don't show if it's an Elementor canvas template (no header/footer)
+    if (function_exists('elementor_location_exits') && elementor_location_exits('footer', true)) {
+        return;
+    }
+
+    echo svm_newsletter_form(false);
+}
+
+/* -------------------------------------------------------
  * Domain View Tracking + Analytics Dashboard
  * -----------------------------------------------------*/
 add_action('wp_footer', 'svm_track_domain_view', 98);
