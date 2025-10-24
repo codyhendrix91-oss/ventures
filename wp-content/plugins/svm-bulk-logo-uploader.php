@@ -35,7 +35,7 @@ class SVM_Bulk_Logo_Uploader {
                 <ol>
                     <li>First, <strong>disable the cron job and clean up broken files</strong> using Step 0 below</li>
                     <li>Upload all 312 PNG logos to: <code>/home/u753897407/domains/s.ventures/public_html/wp-content/uploads/bulk-logos/</code></li>
-                    <li>Name files as: <code>domainsld_tld_logo.png</code> (e.g., <code>acrobatfinance_com_logo.png</code>)</li>
+                    <li>Name files as: <code>domainsld_tld_logo-Photoroom.png</code> (e.g., <code>acrobatfinance_com_logo-Photoroom.png</code>)</li>
                     <li>WordPress will automatically convert PNG to WebP with white backgrounds</li>
                     <li>Click "Process Bulk Upload" to import all logos and match them to domain posts</li>
                 </ol>
@@ -125,12 +125,12 @@ class SVM_Bulk_Logo_Uploader {
                 <code style="display: block; padding: 10px; background: #f0f0f0; margin: 10px 0;">
                     /home/u753897407/domains/s.ventures/public_html/wp-content/uploads/bulk-logos/
                 </code>
-                <p><strong>File naming format:</strong> Use the format <code>domainsld_tld_logo.png</code></p>
+                <p><strong>File naming format:</strong> Automatically strips Photoroom suffix and matches to domains</p>
                 <ul>
-                    <li>✅ <code>acrobatfinance_com_logo.png</code></li>
-                    <li>✅ <code>digibuy_com_logo.png</code></li>
-                    <li>✅ <code>loyaltyhub_com_logo.png</code></li>
-                    <li>✅ Also supports: <code>acrobatfinance.com.png</code> or <code>digibuy_com.png</code></li>
+                    <li>✅ <code>acrobatfinance_com_logo-Photoroom.png</code> → matches <code>acrobatfinance.com</code></li>
+                    <li>✅ <code>digibuy_com_logo-Photoroom.png</code> → matches <code>digibuy.com</code></li>
+                    <li>✅ <code>BlueprintMKTG_com_logo-Photoroom.png</code> → matches <code>blueprintmktg.com</code></li>
+                    <li>✅ Also supports files without -Photoroom: <code>boozt_ai_logo.png</code></li>
                 </ul>
             </div>
 
@@ -319,8 +319,9 @@ class SVM_Bulk_Logo_Uploader {
             $filename = basename($file_path);
 
             // Extract domain name from filename
-            // Supports: acrobatfinance_com_logo.png, acrobatfinance.com.png, or acrobatfinance_com.png
+            // Supports: BlueprintMKTG_com_logo-Photoroom.png, acrobatfinance_com_logo.png, etc.
             $domain_name = preg_replace('/\.(png|jpg|jpeg)$/i', '', $filename); // Remove file extension
+            $domain_name = preg_replace('/-Photoroom$/i', '', $domain_name); // Remove -Photoroom suffix if present
             $domain_name = preg_replace('/_logo$/i', '', $domain_name); // Remove _logo suffix if present
             $domain_name = str_replace('_', '.', $domain_name); // Convert underscores to dots
 
