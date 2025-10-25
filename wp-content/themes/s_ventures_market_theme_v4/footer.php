@@ -165,16 +165,16 @@
 }
 
 .svm-newsletter-section .svm-newsletter__button {
-  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
   border: none;
   color: rgba(255, 255, 255, 1.0);
   font-weight: 700;
-  box-shadow: 0 4px 16px rgba(43, 35, 74, 0.3);
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
 }
 
 .svm-newsletter-section .svm-newsletter__button:hover {
-  background: linear-gradient(135deg, #3d3158 0%, #2B234A 100%);
-  box-shadow: 0 6px 24px rgba(43, 35, 74, 0.4);
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4);
   transform: translateY(-2px);
 }
 
