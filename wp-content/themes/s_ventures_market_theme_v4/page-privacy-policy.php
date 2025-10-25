@@ -258,14 +258,17 @@ get_header();
           </svg>
         </div>
         <div>
-          <h2>Introduction</h2>
+          <h2>Our Commitment to Privacy</h2>
         </div>
       </div>
       <p>
-        Welcome to S.Ventures ("we," "our," or "us"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our domain marketplace services. By accessing or using our services, you agree to this Privacy Policy.
+        At S.Ventures ("Company," "we," "us," or "our"), we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our premium domain marketplace services.
       </p>
       <p>
-        S.Ventures is committed to protecting your privacy and ensuring you have a positive experience on our website and in using our domain acquisition and leasing services.
+        S.Ventures operates as a premium domain name marketplace and investment platform. We specialize in high-value domain acquisitions, lease-to-own arrangements, equity partnerships, and revenue-sharing agreements. By accessing or using our services, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy.
+      </p>
+      <p>
+        Your privacy is of paramount importance to us. We are dedicated to maintaining the confidentiality and security of your personal information throughout your engagement with our platform.
       </p>
     </div>
 
@@ -392,6 +395,38 @@ get_header();
       </p>
     </div>
 
+    <!-- Analytics and Tracking -->
+    <div class="privacy-policy__section">
+      <div class="privacy-policy__section-header">
+        <div class="privacy-policy__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h2>Analytics and Tracking</h2>
+        </div>
+      </div>
+      <p>
+        To better understand our website traffic, improve user experience, and enhance our services, we utilize the following analytics platforms:
+      </p>
+
+      <h3>Google Analytics</h3>
+      <p>
+        We use Google Analytics to track website performance, user behavior, and traffic sources. Google Analytics uses cookies to collect anonymous information about visitor interactions.
+      </p>
+
+      <h3>Cloudflare Web Analytics</h3>
+      <p>
+        We utilize Cloudflare Web Analytics to monitor website performance, security threats, and page views. Cloudflare provides privacy-respecting analytics without tracking individual users across websites.
+      </p>
+
+      <h3>Server Logs and Performance Monitoring</h3>
+      <p>
+        Our hosting infrastructure automatically collects server logs containing IP addresses, timestamps, requested URLs, and HTTP response codes for security and performance optimization purposes.
+      </p>
+    </div>
+
     <!-- Cookies -->
     <div class="privacy-policy__section">
       <div class="privacy-policy__section-header">
@@ -409,17 +444,61 @@ get_header();
         </div>
       </div>
       <p>
-        We use cookies and similar tracking technologies to enhance your browsing experience and analyze website usage. Cookies are small text files stored on your device that help us:
+        We use cookies and similar tracking technologies to enhance your browsing experience and analyze website usage. Cookies are small text files stored on your device that help us provide better services.
+      </p>
+
+      <h3>Types of Cookies We Use</h3>
+      <ul>
+        <li><strong>Essential Cookies:</strong> Required for website functionality, security, and navigation</li>
+        <li><strong>Analytics Cookies:</strong> Help us understand visitor interactions and improve our services</li>
+        <li><strong>Preference Cookies:</strong> Remember your settings and preferences (such as theme preferences)</li>
+        <li><strong>Performance Cookies:</strong> Monitor website speed, loading times, and technical performance</li>
+        <li><strong>Security Cookies:</strong> Prevent spam, bot activity, and fraudulent transactions</li>
+      </ul>
+
+      <h3>Cookie Management</h3>
+      <p>
+        You can control cookie preferences through your browser settings. Most browsers allow you to:
       </p>
       <ul>
-        <li>Remember your preferences and settings</li>
-        <li>Understand how you navigate our website</li>
-        <li>Improve website performance and functionality</li>
-        <li>Deliver relevant content and advertisements</li>
-        <li>Prevent spam and fraudulent activity</li>
+        <li>View and delete existing cookies</li>
+        <li>Block third-party cookies</li>
+        <li>Block cookies from specific sites</li>
+        <li>Delete all cookies when closing your browser</li>
       </ul>
       <p>
-        You can control cookie preferences through your browser settings. Note that disabling cookies may affect certain website features and functionality.
+        Please note that disabling certain cookies may affect website functionality and limit your ability to access certain features of our platform.
+      </p>
+    </div>
+
+    <!-- Data Retention -->
+    <div class="privacy-policy__section">
+      <div class="privacy-policy__section-header">
+        <div class="privacy-policy__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <path d="M9 3v18M15 3v18"/>
+          </svg>
+        </div>
+        <div>
+          <h2>Data Retention</h2>
+        </div>
+      </div>
+      <p>
+        We retain personal information only for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.
+      </p>
+
+      <h3>Retention Periods</h3>
+      <ul>
+        <li><strong>Contact Form Submissions:</strong> Retained for 3 years or until you request deletion</li>
+        <li><strong>Newsletter Subscriptions:</strong> Retained until you unsubscribe</li>
+        <li><strong>Domain Transaction Records:</strong> Retained for 7 years for legal and tax compliance</li>
+        <li><strong>Analytics Data:</strong> Aggregated and anonymized after 26 months</li>
+        <li><strong>Security Logs:</strong> Retained for 90 days for fraud prevention and security purposes</li>
+      </ul>
+
+      <p>
+        When personal information is no longer needed, we securely delete or anonymize it to prevent unauthorized access or use.
       </p>
     </div>
 

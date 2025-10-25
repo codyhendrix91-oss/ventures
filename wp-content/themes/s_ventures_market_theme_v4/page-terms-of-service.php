@@ -264,10 +264,75 @@ get_header();
         </div>
       </div>
       <p>
-        Welcome to S.Ventures. By accessing or using our website and services, you agree to be bound by these Terms of Service ("Terms"). If you disagree with any part of these terms, you may not access our services.
+        These Terms of Service ("Terms") constitute a legally binding agreement between you and S.Ventures ("Company," "we," "us," or "our") regarding your use of our website and services. By accessing or using our platform, you agree to be bound by these Terms. If you disagree with any part of these Terms, you may not access or use our services.
       </p>
       <p>
-        S.Ventures operates a premium domain marketplace offering domain names for sale, lease-to-own arrangements, equity partnerships, and revenue-sharing agreements. These Terms apply to all visitors, users, and others who access or use our services.
+        S.Ventures operates as a premium domain name marketplace and investment platform offering high-value domain acquisitions, portfolio management, strategic advisory services, brokerage services for domain transactions, lease-to-own arrangements, equity partnerships, and revenue-sharing agreements. These Terms apply to all visitors, users, investors, and others who access or use our services.
+      </p>
+      <p>
+        Please read these Terms carefully before using our platform. Your continued use of our services constitutes acceptance of these Terms and any future modifications.
+      </p>
+    </div>
+
+    <!-- Service Description -->
+    <div class="terms-of-service__section">
+      <div class="terms-of-service__section-header">
+        <div class="terms-of-service__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M2 12h20"/>
+            <circle cx="12" cy="12" r="9"/>
+          </svg>
+        </div>
+        <div>
+          <h2>Service Description</h2>
+        </div>
+      </div>
+      <p>
+        S.Ventures specializes in premium domain name investments and strategic partnerships. Our comprehensive services include:
+      </p>
+      <ul>
+        <li><strong>Domain Name Sales:</strong> Outright purchase of premium domain names from our curated portfolio</li>
+        <li><strong>Lease-to-Own Arrangements:</strong> Flexible payment structures allowing gradual ownership acquisition</li>
+        <li><strong>Equity Partnerships:</strong> Domain acquisition in exchange for equity stakes in promising ventures</li>
+        <li><strong>Revenue Sharing:</strong> Domain provision in return for ongoing revenue participation</li>
+        <li><strong>Portfolio Management:</strong> Strategic domain portfolio consultation and optimization</li>
+        <li><strong>Market Intelligence:</strong> Industry insights, valuation services, and market analysis</li>
+        <li><strong>Brokerage Services:</strong> Professional facilitation of domain transactions and transfers</li>
+        <li><strong>Strategic Advisory:</strong> Expert guidance on domain acquisitions and branding strategy</li>
+      </ul>
+    </div>
+
+    <!-- Investment Disclaimers -->
+    <div class="terms-of-service__section">
+      <div class="terms-of-service__section-header">
+        <div class="terms-of-service__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div>
+          <h2>Investment Disclaimers</h2>
+        </div>
+      </div>
+      <p>
+        <strong>IMPORTANT:</strong> Domain name investments involve substantial risk and may not be suitable for all investors. You should carefully consider your investment objectives, level of experience, risk appetite, and financial circumstances before engaging in any domain transaction.
+      </p>
+
+      <h3>Risk Factors</h3>
+      <ul>
+        <li><strong>Market Volatility:</strong> Domain values can fluctuate significantly based on market conditions, technology trends, and industry developments</li>
+        <li><strong>No Guaranteed Returns:</strong> Past performance, comparable sales, or market valuations do not guarantee future results or appreciation</li>
+        <li><strong>Liquidity Risk:</strong> Domain names may not be readily marketable or easily converted to cash</li>
+        <li><strong>Technology Risk:</strong> Changes in internet technology, search algorithms, or user behavior may affect domain value</li>
+        <li><strong>Regulatory Risk:</strong> Changes in laws, regulations, or trademark policies may impact domain ownership or value</li>
+        <li><strong>Loss of Investment:</strong> You may lose some or all of your investment in domain acquisitions</li>
+      </ul>
+
+      <h3>No Investment Advice</h3>
+      <p>
+        S.Ventures does not provide financial, investment, legal, or tax advice. All information provided on our platform is for informational purposes only and should not be construed as investment recommendations. You are solely responsible for conducting your own due diligence and consulting with qualified professionals before making any investment decisions.
       </p>
     </div>
 
@@ -329,21 +394,46 @@ get_header();
       <h3>Transaction Structures</h3>
       <p>S.Ventures offers flexible domain acquisition options:</p>
       <ul>
-        <li><strong>Outright Purchase:</strong> Full payment and immediate domain transfer</li>
-        <li><strong>Lease-to-Own (LTO):</strong> Structured payment plans with eventual ownership transfer</li>
-        <li><strong>Equity Partnerships:</strong> Domain exchange for equity stake in your venture</li>
-        <li><strong>Revenue Sharing:</strong> Domain provided in exchange for ongoing revenue percentage</li>
+        <li><strong>Outright Purchase:</strong> Full payment and immediate domain transfer upon clearance</li>
+        <li><strong>Lease-to-Own (LTO):</strong> Structured payment plans with eventual ownership transfer upon completion</li>
+        <li><strong>Equity Partnerships:</strong> Domain exchange for equity stake in your venture (subject to due diligence)</li>
+        <li><strong>Revenue Sharing:</strong> Domain provided in exchange for ongoing revenue percentage (requires formal agreement)</li>
+        <li><strong>Installment Plans:</strong> Custom payment schedules for high-value domain acquisitions</li>
       </ul>
       <p>
-        All non-standard transaction structures require formal written agreements and are subject to approval by both parties.
+        All non-standard transaction structures require formal written agreements, legal documentation, and are subject to approval by both parties. Lease-to-own and revenue sharing arrangements may include specific performance milestones and conditions.
       </p>
+
+      <h3>Escrow and Secure Transactions</h3>
+      <p>
+        For your protection and ours, all domain transactions must be conducted through approved escrow services:
+      </p>
+      <ul>
+        <li>All transactions over $5,000 require escrow services (Escrow.com, Dan.com, or mutually agreed provider)</li>
+        <li>Escrow fees are typically split between buyer and seller unless otherwise agreed</li>
+        <li>Domain transfer is initiated only after full payment verification and escrow clearance</li>
+        <li>Escrow services provide buyer protection and ensure secure fund transfer</li>
+      </ul>
+
+      <h3>Brokerage Fees</h3>
+      <p>
+        When S.Ventures facilitates a domain transaction as a broker or intermediary:
+      </p>
+      <ul>
+        <li>Brokerage fees range from 10-20% depending on transaction value and complexity</li>
+        <li>Fees are clearly disclosed before transaction initiation</li>
+        <li>No hidden fees or surprise charges</li>
+        <li>Consultation services may be provided at hourly rates or retainer agreements</li>
+      </ul>
 
       <h3>Pricing and Fees</h3>
       <ul>
         <li>All prices are quoted in USD unless otherwise specified</li>
-        <li>Prices do not include applicable taxes, transfer fees, or registrar fees</li>
-        <li>Payment processing fees may apply depending on payment method</li>
+        <li>Listed prices are subject to change without notice until formal offer acceptance</li>
+        <li>Prices do not include applicable sales tax, VAT, transfer fees, or registrar fees</li>
+        <li>Payment processing fees may apply (typically 2.9% + $0.30 for credit card payments)</li>
         <li>Domain transfer fees charged by registrars are the buyer's responsibility</li>
+        <li>Annual domain renewal fees are buyer's responsibility after transfer</li>
       </ul>
     </div>
 
@@ -493,13 +583,39 @@ get_header();
         </div>
       </div>
       <p>
-        The S.Ventures website, including all content, features, functionality, designs, logos, and trademarks, is owned by S.Ventures and protected by intellectual property laws.
+        All content on our website, including but not limited to text, graphics, logos, button icons, images, audio clips, video content, digital downloads, data compilations, and software, is the property of S.Ventures or its content suppliers and is protected by United States and international copyright, trademark, patent, trade secret, and other intellectual property laws.
       </p>
+
+      <h3>Proprietary Information</h3>
       <p>
-        Upon completion of a domain purchase and transfer, you receive full ownership rights to the domain name itself. However, this does not include any S.Ventures branding, website content, or intellectual property.
+        The following constitute trade secrets and proprietary information of S.Ventures:
       </p>
+      <ul>
+        <li>Domain valuation methodologies and algorithms</li>
+        <li>Market analysis techniques and pricing strategies</li>
+        <li>Business processes and operational procedures</li>
+        <li>Domain portfolio composition and acquisition strategies</li>
+        <li>Client lists, transaction histories, and business relationships</li>
+        <li>Proprietary research, market intelligence, and industry insights</li>
+      </ul>
+
+      <h3>Domain Ownership Transfer</h3>
       <p>
-        You may not use S.Ventures trademarks, logos, or branding without explicit written permission.
+        Upon completion of a domain purchase and successful transfer, you receive full ownership rights to the domain name itself, including:
+      </p>
+      <ul>
+        <li>Complete ownership and registration rights</li>
+        <li>Full control over DNS settings and configuration</li>
+        <li>Right to use, develop, or resell the domain</li>
+        <li>All future renewal rights and privileges</li>
+      </ul>
+      <p>
+        However, domain ownership transfer does not include any S.Ventures branding, website content, trademarks, proprietary methodologies, or intellectual property. You may not use S.Ventures trademarks, logos, or branding without explicit written permission.
+      </p>
+
+      <h3>Trademark Considerations</h3>
+      <p>
+        While we verify ownership of all domains in our portfolio, we do not guarantee that domain names are free from trademark conflicts or third-party intellectual property claims. Buyers are responsible for conducting their own trademark searches and due diligence before purchase.
       </p>
     </div>
 
