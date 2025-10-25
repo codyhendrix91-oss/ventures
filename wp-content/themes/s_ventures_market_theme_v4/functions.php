@@ -1012,6 +1012,17 @@ function svm_newsletter_form($inline = false) {
                       data-ghl-form="newsletter">
 
                     <div class="svm-newsletter__input-group">
+                        <!-- Honeypot field (hidden from users, bots will fill it) -->
+                        <input type="text"
+                               name="website"
+                               style="position:absolute;left:-9999px;width:1px;height:1px;"
+                               tabindex="-1"
+                               autocomplete="off"
+                               aria-hidden="true">
+
+                        <!-- Timestamp to prevent too-fast submissions -->
+                        <input type="hidden" name="form_timestamp" value="<?php echo time(); ?>">
+
                         <input type="email"
                                name="email"
                                class="svm-newsletter__input"
@@ -1438,11 +1449,61 @@ add_action('wp_ajax_nopriv_svm_newsletter_signup', 'svm_handle_newsletter_signup
 function svm_handle_newsletter_signup() {
     check_ajax_referer('svm_newsletter_nonce', 'nonce');
 
+    // SPAM PROTECTION 1: Honeypot field check
+    if (!empty($_POST['website'])) {
+        // Bot filled the honeypot field - reject silently
+        wp_send_json_success(array('message' => 'Thanks for subscribing!'));
+        exit;
+    }
+
+    // SPAM PROTECTION 2: Time-based check (form must be open at least 3 seconds)
+    if (isset($_POST['form_timestamp'])) {
+        $form_time = intval($_POST['form_timestamp']);
+        $current_time = time();
+        $time_diff = $current_time - $form_time;
+
+        if ($time_diff < 3) {
+            // Form submitted too fast - likely a bot
+            wp_send_json_success(array('message' => 'Thanks for subscribing!'));
+            exit;
+        }
+    }
+
     $email = sanitize_email($_POST['email']);
 
     if (!is_email($email)) {
         wp_send_json_error(array('message' => 'Please enter a valid email address.'));
     }
+
+    // SPAM PROTECTION 3: Block suspicious email patterns
+    $email_parts = explode('@', $email);
+
+    // Check for suspicious patterns in email username
+    if (preg_match('/\d{3,}/', $email_parts[0])) {
+        // Email has 3+ consecutive numbers in username - likely spam
+        wp_send_json_success(array('message' => 'Thanks for subscribing!'));
+        exit;
+    }
+
+    // Check for random character patterns (common in spam)
+    if (preg_match('/[a-z]{2}\d+[a-z]{2}\d+/i', $email_parts[0])) {
+        // Pattern like "ab123cd456" - likely spam
+        wp_send_json_success(array('message' => 'Thanks for subscribing!'));
+        exit;
+    }
+
+    // SPAM PROTECTION 4: Rate limiting by IP
+    $user_ip = $_SERVER['REMOTE_ADDR'];
+    $transient_key = 'newsletter_ip_' . md5($user_ip);
+    $recent_submissions = get_transient($transient_key);
+
+    if ($recent_submissions && $recent_submissions >= 3) {
+        wp_send_json_error(array('message' => 'Too many requests. Please try again later.'));
+        exit;
+    }
+
+    // Increment submission count (expires in 1 hour)
+    set_transient($transient_key, ($recent_submissions ? $recent_submissions + 1 : 1), HOUR_IN_SECONDS);
 
     // Store in WordPress database
     global $wpdb;
