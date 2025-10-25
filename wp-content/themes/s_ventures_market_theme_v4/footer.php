@@ -165,18 +165,17 @@
 }
 
 .svm-newsletter-section .svm-newsletter__button {
-  background: rgba(255, 255, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
+  border: none;
   color: rgba(255, 255, 255, 1.0);
   font-weight: 700;
-  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(43, 35, 74, 0.3);
 }
 
 .svm-newsletter-section .svm-newsletter__button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #3d3158 0%, #2B234A 100%);
+  box-shadow: 0 6px 24px rgba(43, 35, 74, 0.4);
+  transform: translateY(-2px);
 }
 
 /* Footer Styles - Purple Gradient */
@@ -305,17 +304,15 @@ body.single-domains .svm-footer {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
-  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
 }
 
 .svm-footer__contact-btn:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Footer Bottom */
