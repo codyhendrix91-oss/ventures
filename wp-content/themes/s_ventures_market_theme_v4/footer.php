@@ -116,7 +116,7 @@
 
 /* Footer Styles - Dark Purple Gradient */
 .svm-footer {
-  background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #9333ea 100%);
+  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
   border-top: none;
   padding: 80px 20px 0;
   position: relative;
@@ -159,17 +159,19 @@ body.single-domains .svm-footer {
 .svm-footer__column {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .svm-footer__title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 24px;
+  margin: 0 0 28px;
   font-family: 'Colour Brown', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .svm-footer__menu {
@@ -178,7 +180,8 @@ body.single-domains .svm-footer {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  align-items: center;
 }
 
 .svm-footer__menu li {
@@ -187,19 +190,19 @@ body.single-domains .svm-footer {
 }
 
 .svm-footer__menu a {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 .svm-footer__menu a:hover {
   color: #ffffff;
-  transform: translateX(6px);
-  font-weight: 600;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
 }
 
 /* Footer Contact Section - White Background */
