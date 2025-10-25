@@ -114,9 +114,9 @@
   margin: 0;
 }
 
-/* Footer Styles - Light Purple Gradient */
+/* Footer Styles - Dark Purple Gradient */
 .svm-footer {
-  background: linear-gradient(135deg, #e9d5ff 0%, #f3e8ff 50%, #fae8ff 100%);
+  background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #9333ea 100%);
   border-top: none;
   padding: 80px 20px 0;
   position: relative;
@@ -129,8 +129,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -153,7 +153,7 @@ body.single-domains .svm-footer {
   gap: 80px;
   margin-bottom: 60px;
   padding-bottom: 60px;
-  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .svm-footer__column {
@@ -164,11 +164,12 @@ body.single-domains .svm-footer {
 .svm-footer__title {
   font-size: 18px;
   font-weight: 700;
-  color: #6b21a8;
+  color: #ffffff;
   margin: 0 0 24px;
   font-family: 'Colour Brown', sans-serif;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .svm-footer__menu {
@@ -186,7 +187,7 @@ body.single-domains .svm-footer {
 }
 
 .svm-footer__menu a {
-  color: #7c3aed;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;
@@ -195,9 +196,10 @@ body.single-domains .svm-footer {
 }
 
 .svm-footer__menu a:hover {
-  color: #6b21a8;
+  color: #ffffff;
   transform: translateX(6px);
   font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Footer Contact Section - White Background */
