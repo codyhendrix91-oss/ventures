@@ -117,9 +117,9 @@
   text-rendering: optimizeLegibility;
 }
 
-/* Newsletter Section - Purple Gradient */
+/* Newsletter Section - White Background */
 .svm-newsletter-section {
-  background: linear-gradient(to right, rgb(15, 23, 61), rgb(138, 38, 250));
+  background: #ffffff;
   padding: 50px 20px;
   margin: 0;
   box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
@@ -127,7 +127,7 @@
   z-index: 2;
 }
 
-/* Override newsletter form styles for dark background */
+/* Override newsletter form styles for white background */
 .svm-newsletter-section .svm-newsletter {
   background: transparent;
   border: none;
@@ -135,33 +135,36 @@
 }
 
 .svm-newsletter-section .svm-newsletter__text {
-  color: rgba(255, 255, 255, 1.0);
+  color: #1a1d35;
   font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 18px;
   line-height: 1.6180339888;
 }
 
 .svm-newsletter-section .svm-newsletter__text strong {
-  color: #ddd6fe;
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-weight: 700;
 }
 
 .svm-newsletter-section .svm-newsletter__input {
-  background: rgba(255, 255, 255, 0.95);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
   color: #1a1d35;
   font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .svm-newsletter-section .svm-newsletter__input:focus {
-  background: rgba(255, 255, 255, 1.0);
-  border-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
 }
 
 .svm-newsletter-section .svm-newsletter__input::placeholder {
-  color: rgba(26, 29, 53, 0.6);
+  color: rgba(26, 29, 53, 0.5);
 }
 
 .svm-newsletter-section .svm-newsletter__button {
