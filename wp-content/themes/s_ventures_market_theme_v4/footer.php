@@ -107,20 +107,87 @@
 </footer>
 
 <style>
-/* Newsletter Section Styles */
-.svm-newsletter-section {
-  background: #ffffff;
-  padding: 0;
-  margin: 0;
+/* Global Footer Styling - Digital Shelf Institute Inspired */
+.svm-newsletter-section,
+.svm-footer,
+.svm-footer__contact,
+.svm-footer__bottom {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Footer Styles - Dark Purple Gradient */
+/* Newsletter Section - Purple Gradient */
+.svm-newsletter-section {
+  background: linear-gradient(to right, rgb(15, 23, 61), rgb(138, 38, 250));
+  padding: 50px 20px;
+  margin: 0;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+/* Override newsletter form styles for dark background */
+.svm-newsletter-section .svm-newsletter {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.svm-newsletter-section .svm-newsletter__text {
+  color: rgba(255, 255, 255, 1.0);
+  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 18px;
+  line-height: 1.6180339888;
+}
+
+.svm-newsletter-section .svm-newsletter__text strong {
+  color: rgba(255, 255, 255, 1.0);
+  font-weight: 700;
+}
+
+.svm-newsletter-section .svm-newsletter__input {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #1a1d35;
+  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.15);
+}
+
+.svm-newsletter-section .svm-newsletter__input:focus {
+  background: rgba(255, 255, 255, 1.0);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
+}
+
+.svm-newsletter-section .svm-newsletter__input::placeholder {
+  color: rgba(26, 29, 53, 0.6);
+}
+
+.svm-newsletter-section .svm-newsletter__button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 1.0);
+  font-weight: 700;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.svm-newsletter-section .svm-newsletter__button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Footer Styles - Purple Gradient */
 .svm-footer {
-  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
+  background: linear-gradient(to right, rgb(15, 23, 61), rgb(138, 38, 250));
   border-top: none;
   padding: 80px 20px 0;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+  z-index: 2;
 }
 
 /* Subtle overlay pattern */
@@ -166,9 +233,9 @@ body.single-domains .svm-footer {
 .svm-footer__title {
   font-size: 20px;
   font-weight: 700;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 1.0);
   margin: 0 0 28px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: "proxima-nova", 'Colour Brown', sans-serif;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -190,36 +257,37 @@ body.single-domains .svm-footer {
 }
 
 .svm-footer__menu a {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 16px;
   font-weight: 400;
   text-decoration: none;
   transition: all 0.3s ease;
   display: block;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6180339888;
 }
 
 .svm-footer__menu a:hover {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 1.0);
   transform: translateY(-2px);
   text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
 }
 
-/* Footer Contact Section - White Background */
+/* Footer Contact Section - Purple Gradient Background */
 .svm-footer__contact {
   text-align: center;
-  margin: 0 -20px;
+  margin: 0;
   padding: 50px 20px;
-  background: #ffffff;
-  box-shadow: 0 -4px 20px rgba(139, 92, 246, 0.08);
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .svm-footer__contact-label {
-  color: #1f2937;
+  color: rgba(255, 255, 255, 1.0);
   font-size: 20px;
   font-weight: 600;
   margin: 0 0 28px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: "proxima-nova", 'Colour Brown', sans-serif;
 }
 
 .svm-footer__contact-icons {
@@ -237,31 +305,33 @@ body.single-domains .svm-footer {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   text-decoration: none;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  background: #f9fafb;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
 }
 
 .svm-footer__contact-btn:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 28px rgba(139, 92, 246, 0.2);
-  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* Footer Bottom */
 .svm-footer__bottom {
   text-align: center;
-  background: #ffffff;
+  background: transparent;
   padding: 30px 20px;
-  margin: 0 -20px;
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .svm-footer__bottom p {
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Responsive */
