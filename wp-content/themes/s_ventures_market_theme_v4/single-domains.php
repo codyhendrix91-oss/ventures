@@ -335,33 +335,42 @@ while (have_posts()): the_post();
   <!-- CONTENT SECTION - FIXED: Now with styled description -->
   <section class="svm-content-section-v6">
     <div class="svm-content-inner-v6">
-      <?php 
+      <?php
       // Get custom description from meta field (synced from Google Sheets)
       $custom_description = get_post_meta($post_id, 'svm_description', true);
-      
-      if (!empty($custom_description)): ?>
-        <div class="svm-description-section">
-          <h2 class="svm-description-title">About <?php echo esc_html($domain_name); ?></h2>
+
+      // Get standard WordPress post content as fallback
+      $post_content = get_the_content();
+
+      // Determine what content to show
+      $description_content = '';
+      if (!empty($custom_description)) {
+        $description_content = wpautop(wp_kses_post($custom_description));
+      } elseif (!empty($post_content)) {
+        $description_content = apply_filters('the_content', $post_content);
+      }
+
+      // ALWAYS show the "About [DomainName]" section for every domain
+      ?>
+      <div class="svm-description-section">
+        <h2 class="svm-description-title">About <?php echo esc_html($domain_name); ?></h2>
+        <?php if (!empty($description_content)): ?>
           <div class="svm-description-content">
-            <?php echo wpautop(wp_kses_post($custom_description)); ?>
+            <?php echo $description_content; ?>
           </div>
-        </div>
-      <?php endif;
-      
+        <?php else: ?>
+          <div class="svm-description-content">
+            <p>This premium domain name represents a valuable digital asset perfect for building your brand online. Contact us to discuss acquisition options including outright purchase, lease-to-own arrangements, equity partnerships, or revenue-sharing agreements.</p>
+          </div>
+        <?php endif; ?>
+      </div>
+
+      <?php
       // Then show Elementor content if it exists
       if (class_exists('\Elementor\Plugin')) {
         $elementor_content = \Elementor\Plugin::instance()->frontend->get_builder_content($post_id);
         if (!empty($elementor_content)) {
           echo '<div class="svm-elementor-content">' . $elementor_content . '</div>';
-        }
-      }
-      
-      // Finally show standard post content if no Elementor and no custom description
-      if (!class_exists('\Elementor\Plugin') || !\Elementor\Plugin::instance()->frontend->get_builder_content($post_id)) {
-        if (empty($custom_description) && get_the_content()) {
-          echo '<div class="svm-standard-content">';
-          the_content();
-          echo '</div>';
         }
       }
       ?>
