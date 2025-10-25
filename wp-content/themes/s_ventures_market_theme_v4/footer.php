@@ -142,7 +142,7 @@
 }
 
 .svm-newsletter-section .svm-newsletter__text strong {
-  color: rgba(255, 255, 255, 1.0);
+  color: #ddd6fe;
   font-weight: 700;
 }
 
