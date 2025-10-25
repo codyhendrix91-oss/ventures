@@ -179,6 +179,13 @@ $paged = max(1, get_query_var('paged'));
   </section>
 
   <!-- Purple About Section -->
+  <section class="svm-purple-about">
+    <div class="svm-purple-about-inner">
+      <p>At S Ventures, we've spent the past two decades quietly acquiring premium digital real estate – the kind of domain names that define industries and ignite ideas. Our portfolio was born from our own ventures, spanning cutting-edge software and AI platforms to e-commerce brands, home services, finance, and beyond. Along the way, we learned a truth every founder faces: not every idea takes off. Sometimes even the perfect brand name ends up on the shelf while the project behind it never quite gets wheels.</p>
+      
+      <p>Rather than let these powerful names collect dust, we're opening them up to the world. S Ventures offers our curated domain portfolio for sale or lease – even for equity or revenue-sharing partnerships with the right startups. In other words, we're giving other visionaries the chance to turn our unused brands into the next big thing. Why let a brilliant name sit idle when it could become someone's game-changing identity? If we're not using a domain for our own project, we'd love to see it bring your venture to life.</p>
+    </div>
+  </section>
 </main>
 
 <style>

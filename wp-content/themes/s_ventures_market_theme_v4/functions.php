@@ -1448,23 +1448,9 @@ function svm_newsletter_shortcode($atts) {
 }
 
 /**
- * Auto-display newsletter form above footer (except on single domain pages)
+ * Newsletter form now displays directly in footer.php before footer section
+ * No need for wp_footer hook
  */
-add_action('wp_footer', 'svm_auto_newsletter_form', 1);
-
-function svm_auto_newsletter_form() {
-    // Don't show on single domain pages
-    if (is_singular('domains')) {
-        return;
-    }
-
-    // Don't show if it's an Elementor canvas template (no header/footer)
-    if (function_exists('elementor_location_exits') && elementor_location_exits('footer', true)) {
-        return;
-    }
-
-    echo svm_newsletter_form(false);
-}
 
 /**
  * Add Settings Page for GHL Integration
