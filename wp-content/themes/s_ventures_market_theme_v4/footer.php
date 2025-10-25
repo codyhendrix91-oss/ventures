@@ -1,9 +1,9 @@
-<?php
-// Display newsletter form before footer (except on single domain pages)
-if (!is_singular('domains') && function_exists('svm_newsletter_form')) {
-    echo svm_newsletter_form(false);
-}
-?>
+<!-- Newsletter Section - Above Footer -->
+<?php if (!is_singular('domains') && function_exists('svm_newsletter_form')): ?>
+<section class="svm-newsletter-section">
+    <?php echo svm_newsletter_form(false); ?>
+</section>
+<?php endif; ?>
 
 <footer class="svm-footer">
   <div class="svm-footer__inner">
@@ -107,11 +107,18 @@ if (!is_singular('domains') && function_exists('svm_newsletter_form')) {
 </footer>
 
 <style>
-/* Footer Styles - Beautiful Purple Gradient */
+/* Newsletter Section Styles */
+.svm-newsletter-section {
+  background: #ffffff;
+  padding: 0;
+  margin: 0;
+}
+
+/* Footer Styles - Light Purple Gradient */
 .svm-footer {
-  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #c4b5fd 100%);
+  background: linear-gradient(135deg, #e9d5ff 0%, #f3e8ff 50%, #fae8ff 100%);
   border-top: none;
-  padding: 80px 20px 40px;
+  padding: 80px 20px 0;
   position: relative;
   overflow: hidden;
 }
@@ -122,14 +129,14 @@ if (!is_singular('domains') && function_exists('svm_newsletter_form')) {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
   pointer-events: none;
 }
 
 /* On single domain pages, reduce top padding since there's no menu grid */
 body.single-domains .svm-footer {
-  padding: 50px 20px 40px;
+  padding: 50px 20px 0;
 }
 
 .svm-footer__inner {
@@ -143,10 +150,10 @@ body.single-domains .svm-footer {
 .svm-footer__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 60px;
+  gap: 80px;
   margin-bottom: 60px;
   padding-bottom: 60px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
 }
 
 .svm-footer__column {
@@ -155,14 +162,13 @@ body.single-domains .svm-footer {
 }
 
 .svm-footer__title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 20px;
+  color: #6b21a8;
+  margin: 0 0 24px;
   font-family: 'Colour Brown', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;
 }
 
 .svm-footer__menu {
@@ -171,7 +177,7 @@ body.single-domains .svm-footer {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .svm-footer__menu li {
@@ -180,41 +186,41 @@ body.single-domains .svm-footer {
 }
 
 .svm-footer__menu a {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 15px;
-  font-weight: 400;
+  color: #7c3aed;
+  font-size: 16px;
+  font-weight: 500;
   text-decoration: none;
   transition: all 0.2s ease;
   display: block;
 }
 
 .svm-footer__menu a:hover {
-  color: #ffffff;
-  transform: translateX(4px);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: #6b21a8;
+  transform: translateX(6px);
+  font-weight: 600;
 }
 
-/* Footer Contact Section */
+/* Footer Contact Section - White Background */
 .svm-footer__contact {
   text-align: center;
-  margin-bottom: 50px;
-  padding-bottom: 50px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 0 -20px;
+  padding: 50px 20px;
+  background: #ffffff;
+  box-shadow: 0 -4px 20px rgba(139, 92, 246, 0.08);
 }
 
 .svm-footer__contact-label {
-  color: #ffffff;
-  font-size: 18px;
+  color: #1f2937;
+  font-size: 20px;
   font-weight: 600;
-  margin: 0 0 24px;
+  margin: 0 0 28px;
   font-family: 'Colour Brown', sans-serif;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .svm-footer__contact-icons {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 18px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -223,70 +229,75 @@ body.single-domains .svm-footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: #f9fafb;
   backdrop-filter: blur(10px);
 }
 
 .svm-footer__contact-btn:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 28px rgba(139, 92, 246, 0.2);
   background: #ffffff;
 }
 
 /* Footer Bottom */
 .svm-footer__bottom {
   text-align: center;
+  background: #ffffff;
+  padding: 30px 20px;
+  margin: 0 -20px;
 }
 
 .svm-footer__bottom p {
   margin: 0;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  color: #6b7280;
 }
 
 /* Responsive */
 @media (max-width: 1024px) {
   .svm-footer__grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
+    gap: 50px;
   }
 }
 
 @media (max-width: 768px) {
   .svm-footer {
-    padding: 60px 20px 30px;
+    padding: 60px 20px 0;
   }
-  
+
   body.single-domains .svm-footer {
-    padding: 40px 20px 30px;
+    padding: 40px 20px 0;
   }
-  
+
   .svm-footer__grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 40px;
     margin-bottom: 50px;
     padding-bottom: 50px;
   }
-  
+
   .svm-footer__contact {
-    margin-bottom: 40px;
-    padding-bottom: 40px;
+    padding: 40px 20px;
   }
-  
+
   .svm-footer__contact-icons {
-    gap: 12px;
+    gap: 14px;
   }
-  
+
   .svm-footer__contact-btn {
-    width: 50px;
-    height: 50px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .svm-footer__bottom {
+    padding: 25px 20px;
   }
 }
 </style>

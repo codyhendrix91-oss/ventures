@@ -43,51 +43,62 @@ while (have_posts()): the_post();
     $domain_parts = str_replace('.', '_', $domain_name);
     $theme_url = get_stylesheet_directory_uri();
     $theme_path = get_stylesheet_directory();
+    $assets_dir = $theme_path . '/assets/';
 
-    // Try to find the logo file case-insensitively
+    // Build comprehensive list of possible filenames
     $possible_names = array(
-      $domain_parts . '_logo',  // Exact match
-      ucfirst(strtolower($domain_parts)) . '_logo',  // Ucfirst lowercase
-      ucwords(strtolower(str_replace('_', ' ', $domain_parts))) // Title case
+      $domain_parts,  // Exact as entered
+      ucfirst(strtolower($domain_parts)),  // Ucfirst lowercase
+      strtolower($domain_parts),  // All lowercase
+      ucwords(str_replace('_', ' ', $domain_parts))  // Title case with spaces
     );
 
-    // Remove spaces and convert back to underscores for title case option
-    $possible_names[2] = str_replace(' ', '_', $possible_names[2]) . '_logo';
+    // Add title case version with underscores
+    $possible_names[] = str_replace(' ', '_', $possible_names[3]);
 
-    // Try each possible filename
     $found_logo = false;
+
+    // Try each possible filename with both extensions
     foreach ($possible_names as $base_name) {
-      // Try webp first
-      $webp_path = $theme_path . '/assets/' . $base_name . '.webp';
-      if (file_exists($webp_path)) {
-        $logo_url = $theme_url . '/assets/' . $base_name . '.webp';
+      $base_name = str_replace(' ', '_', $base_name); // Ensure underscores
+
+      // Try webp
+      if (file_exists($assets_dir . $base_name . '_logo.webp')) {
+        $logo_url = $theme_url . '/assets/' . $base_name . '_logo.webp';
         $found_logo = true;
         break;
       }
+
       // Try png
-      $png_path = $theme_path . '/assets/' . $base_name . '.png';
-      if (file_exists($png_path)) {
-        $logo_url = $theme_url . '/assets/' . $base_name . '.png';
+      if (file_exists($assets_dir . $base_name . '_logo.png')) {
+        $logo_url = $theme_url . '/assets/' . $base_name . '_logo.png';
         $found_logo = true;
         break;
       }
     }
 
-    // If still not found, do a case-insensitive search
-    if (!$found_logo) {
-      $assets_dir = $theme_path . '/assets/';
-      if (is_dir($assets_dir)) {
-        $files = glob($assets_dir . '*_logo.{webp,png}', GLOB_BRACE);
-        $search_pattern = strtolower($domain_parts . '_logo');
+    // Last resort: case-insensitive glob search
+    if (!$found_logo && is_dir($assets_dir)) {
+      $search_base = strtolower(str_replace('.', '_', $domain_name));
+      $all_logos = glob($assets_dir . '*_logo.{webp,png}', GLOB_BRACE);
 
-        foreach ($files as $file) {
-          $filename = basename($file);
-          if (strtolower(pathinfo($filename, PATHINFO_FILENAME)) === $search_pattern) {
+      if ($all_logos) {
+        foreach ($all_logos as $logo_path) {
+          $filename = basename($logo_path);
+          $file_base = strtolower(pathinfo($filename, PATHINFO_FILENAME));
+
+          if ($file_base === $search_base . '_logo') {
             $logo_url = $theme_url . '/assets/' . $filename;
+            $found_logo = true;
             break;
           }
         }
       }
+    }
+
+    // If still no logo, use a placeholder
+    if (!$found_logo) {
+      $logo_url = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200"%3E%3Crect fill="%23f3f4f6" width="400" height="200"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="system-ui" font-size="20" fill="%239ca3af"%3E' . esc_attr($domain_name) . '%3C/text%3E%3C/svg%3E';
     }
   }
 
