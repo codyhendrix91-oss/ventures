@@ -340,10 +340,62 @@ function svm_render_domain_card($id) {
     // PRIORITY 3: Fallback to assets folder logo
     if (empty($logo)) {
         $domain_parts = str_replace('.', '_', $title);
-        $domain_clean = ucfirst(strtolower($domain_parts));
         $theme_url = get_stylesheet_directory_uri();
-        $logo = $theme_url . '/assets/' . $domain_clean . '_logo.webp';
-        $fallback_logo = $theme_url . '/assets/' . $domain_clean . '_logo.png';
+        $theme_path = get_stylesheet_directory();
+
+        // Try to find the logo file case-insensitively
+        $possible_names = array(
+            $domain_parts . '_logo',  // Exact match
+            ucfirst(strtolower($domain_parts)) . '_logo',  // Ucfirst lowercase
+            ucwords(strtolower(str_replace('_', ' ', $domain_parts))) // Title case
+        );
+
+        // Remove spaces and convert back to underscores for title case option
+        $possible_names[2] = str_replace(' ', '_', $possible_names[2]) . '_logo';
+
+        // Try each possible filename
+        $found_logo = false;
+        foreach ($possible_names as $base_name) {
+            // Try webp first
+            $webp_path = $theme_path . '/assets/' . $base_name . '.webp';
+            if (file_exists($webp_path)) {
+                $logo = $theme_url . '/assets/' . $base_name . '.webp';
+                $fallback_logo = $theme_url . '/assets/' . $base_name . '.png';
+                $found_logo = true;
+                break;
+            }
+            // Try png
+            $png_path = $theme_path . '/assets/' . $base_name . '.png';
+            if (file_exists($png_path)) {
+                $logo = $theme_url . '/assets/' . $base_name . '.png';
+                $found_logo = true;
+                break;
+            }
+        }
+
+        // If still not found, do a case-insensitive search
+        if (!$found_logo) {
+            $assets_dir = $theme_path . '/assets/';
+            if (is_dir($assets_dir)) {
+                $files = glob($assets_dir . '*_logo.{webp,png}', GLOB_BRACE);
+                $search_pattern = strtolower($domain_parts . '_logo');
+
+                foreach ($files as $file) {
+                    $filename = basename($file);
+                    if (strtolower(pathinfo($filename, PATHINFO_FILENAME)) === $search_pattern) {
+                        $logo = $theme_url . '/assets/' . $filename;
+                        // Set fallback to opposite extension
+                        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                        $fallback_ext = ($ext === 'webp') ? 'png' : 'webp';
+                        $fallback_name = pathinfo($filename, PATHINFO_FILENAME) . '.' . $fallback_ext;
+                        if (file_exists($assets_dir . $fallback_name)) {
+                            $fallback_logo = $theme_url . '/assets/' . $fallback_name;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     ob_start();
