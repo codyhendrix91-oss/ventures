@@ -59,19 +59,21 @@ get_header();
   position: relative;
 }
 
-/* Timeline vertical line removed - now using segmented approach */
 .buying-process__timeline {
   position: relative;
 }
 
-/* Timeline segment between steps */
-.timeline-segment {
+.buying-process__timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
   width: 4px;
-  margin: 8px auto;
-  height: 48px;
   background: linear-gradient(180deg, #00d9ff 0%, #2efc86 100%);
-  border-radius: 999px;
-  opacity: .9;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  z-index: 0;
 }
 
 /* Timeline steps */
@@ -136,6 +138,7 @@ get_header();
   position: relative;
   border: 4px solid #f3f4f6;
   transition: all 0.3s ease;
+  z-index: 2;
 }
 
 .process-step:hover .process-step__icon {
@@ -290,8 +293,8 @@ get_header();
     padding: 80px 20px;
   }
 
-  .timeline-segment {
-    height: 32px;
+  .buying-process__timeline::before {
+    left: 20px;
   }
 
   .process-step {
@@ -388,8 +391,6 @@ get_header();
         <div class="process-step__spacer"></div>
       </div>
 
-      <div class="timeline-segment" aria-hidden="true"></div>
-
       <!-- Step 2: Make Offer or Buy Now -->
       <div class="process-step">
         <div class="process-step__spacer"></div>
@@ -413,8 +414,6 @@ get_header();
         </div>
       </div>
 
-      <div class="timeline-segment" aria-hidden="true"></div>
-
       <!-- Step 3: Secure Escrow -->
       <div class="process-step">
         <div class="process-step__content">
@@ -435,8 +434,6 @@ get_header();
         </div>
         <div class="process-step__spacer"></div>
       </div>
-
-      <div class="timeline-segment" aria-hidden="true"></div>
 
       <!-- Step 4: Seller Initiates Transfer -->
       <div class="process-step">
@@ -460,8 +457,6 @@ get_header();
         </div>
       </div>
 
-      <div class="timeline-segment" aria-hidden="true"></div>
-
       <!-- Step 5: Authorization & Verification -->
       <div class="process-step">
         <div class="process-step__content">
@@ -483,8 +478,6 @@ get_header();
         </div>
         <div class="process-step__spacer"></div>
       </div>
-
-      <div class="timeline-segment" aria-hidden="true"></div>
 
       <!-- Step 6: Registrar Transfer Begins -->
       <div class="process-step">
@@ -510,8 +503,6 @@ get_header();
           <p class="process-step__description">You initiate the transfer at your new registrar (GoDaddy, Namecheap, Cloudflare, etc.) using the authorization code. The transfer process typically takes <strong>5-7 business days</strong> due to ICANN regulations.</p>
         </div>
       </div>
-
-      <div class="timeline-segment" aria-hidden="true"></div>
 
       <!-- Step 7: Transfer Complete -->
       <div class="process-step">
@@ -540,8 +531,6 @@ get_header();
         <div class="process-step__spacer"></div>
       </div>
 
-      <div class="timeline-segment" aria-hidden="true"></div>
-
       <!-- Step 8: DNS Setup -->
       <div class="process-step">
         <div class="process-step__spacer"></div>
@@ -567,8 +556,6 @@ get_header();
         </div>
       </div>
 
-      <div class="timeline-segment" aria-hidden="true"></div>
-
       <!-- Step 9: Transaction Closed -->
       <div class="process-step">
         <div class="process-step__content">
@@ -578,8 +565,8 @@ get_header();
         <div class="process-step__icon-wrapper">
           <div class="process-step__icon">
             <span class="process-step__number">9</span>
-<svg class="sv-icon-handshake" viewBox="0 0 100 100" aria-hidden="true" role="img">
-              <path fill="currentColor" d="M20,45 L20,30 L35,30 L50,45 L65,30 L80,30 L80,45 L75,50 L72,47 L70,49 L67,46 L65,48 L62,45 L60,47 L57,44 L55,46 L52,43 L48,47 L45,44 L43,46 L40,43 L38,45 L35,42 L33,44 L30,41 L28,43 L25,40 Z M20,55 L25,60 L28,57 L30,59 L33,56 L35,58 L38,55 L40,57 L43,54 L45,56 L48,53 L52,57 L55,54 L57,56 L60,53 L62,55 L65,52 L67,54 L70,51 L72,53 L75,50 L80,55 L80,70 L65,70 L50,55 L35,70 L20,70 Z"/>
+<svg class="sv-icon-handshake" viewBox="0 0 512 512" aria-hidden="true" role="img">
+              <path fill="currentColor" d="M488.8 159.5l-64-64c-13.3-13.3-34.8-13.3-48.2 0l-64 64c-13.3 13.3-13.3 34.8 0 48.2l64 64c13.3 13.3 34.8 13.3 48.2 0l64-64c13.2-13.3 13.2-34.9 0-48.2zM304 208h-8v-64.4c0-18.9-15.3-34.3-34.3-34.3h-49.2c-6.3 0-12.4 1.8-17.6 5.1l-56.9 35.6c-6.6 4.2-15 2.9-20.2-3L64 88.9l-48.2 30.1c-6.2 3.9-8.1 12-4.2 18.2l8.5 13.6c3.9 6.2 12 8.1 18.2 4.2l16-10 33 52.8c6.3 10.1 19.5 13.2 29.6 6.9l56.9-35.6 49.2-.1c.8 0 1.5.7 1.5 1.5V272c0 26.5 21.5 48 48 48h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H192c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h48v32h-48c-26.5 0-48-21.5-48-48v-16H64c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16h16V176c0-8.8 7.2-16 16-16h96c8.8 0 16 7.2 16 16v96c0 8.8-7.2 16-16 16h-16v32h80v-48c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48v48h80v-32h-16c-8.8 0-16-7.2-16-16v-64c0-26.5-21.5-48-48-48z"/>
             </svg>
           </div>
         </div>

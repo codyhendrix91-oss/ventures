@@ -361,8 +361,8 @@ get_header();
 
 /* Button gradients for better contrast */
 .btn-grad-cyan { background: linear-gradient(135deg, #00d9ff 0%, #2efc86 100%); color:#0b122b; }
-.btn-grad-azure { background: linear-gradient(135deg, #00b8d9 0%, #7ce7ff 100%); color:#0b122b; }
-.btn-grad-mint  { background: linear-gradient(135deg, #84f1a2 0%, #2efc86 100%); color:#0b122b; }
+.btn-grad-azure { background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%); color:#fff; }
+.btn-grad-mint  { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color:#fff; }
 .btn-grad-azure:hover, .btn-grad-mint:hover { filter: brightness(1.05); }
 
 /* Highlight matching text in search */

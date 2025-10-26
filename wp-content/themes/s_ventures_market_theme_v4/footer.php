@@ -238,7 +238,7 @@ body.single-domains .svm-footer {
   font-size: 20px;
   font-weight: 700;
   color: rgba(255, 255, 255, 1.0);
-  margin: 0 0 .35rem;
+  margin: 0 0 28px;
   font-family: 'Colour Brown', sans-serif;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   line-height: 1.2;
@@ -251,7 +251,7 @@ body.single-domains .svm-footer {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
   align-items: center;
 }
 
