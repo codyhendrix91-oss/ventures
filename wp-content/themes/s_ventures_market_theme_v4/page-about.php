@@ -237,6 +237,9 @@ get_header();
   border-color: rgba(255, 255, 255, 0.5);
 }
 
+.btn-grad-azure { background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%); color:#fff; }
+.btn-grad-azure:hover { filter: brightness(1.05); }
+
 @media (max-width: 1024px) {
   .two-column { gap: 40px; }
   .features-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -332,7 +335,7 @@ get_header();
     <p>Whether you're here to buy a killer domain, sell one, or just browse and learn, we welcome you to S Ventures. Let's find the perfect name for your next big idea.</p>
     <div class="cta-buttons">
       <a href="<?php echo get_post_type_archive_link('domains'); ?>" class="cta-btn">Browse Premium Domains</a>
-      <a href="mailto:info@s.ventures?subject=General Inquiry" class="cta-btn cta-btn--secondary">Get in Touch</a>
+      <a href="mailto:info@s.ventures?subject=General Inquiry" class="cta-btn btn-grad-azure">Get in Touch</a>
     </div>
   </div>
 </section>
