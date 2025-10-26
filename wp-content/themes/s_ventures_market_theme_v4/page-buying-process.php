@@ -578,18 +578,8 @@ get_header();
         <div class="process-step__icon-wrapper">
           <div class="process-step__icon">
             <span class="process-step__number">9</span>
-            <svg class="sv-icon-handshake" viewBox="0 0 64 64" aria-hidden="true" role="img">
-              <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22l10 10c2 2 5 2 7 0l6-6"/>
-                <path d="M52 22l-9 9"/>
-                <path d="M24 32l-3 3c-2 2-2 5 0 7l1 1c2 2 5 2 7 0l3-3"/>
-                <path d="M30 40l3 3c2 2 5 2 7 0l2-2c2-2 2-5 0-7l-2-2"/>
-                <path d="M10 20l6-6c3-3 8-3 11 0l2 2"/>
-                <path d="M54 20l-6-6c-3-3-8-3-11 0l-2 2"/>
-                <path d="M18 52l6-6"/>
-                <path d="M26 52l6-6"/>
-                <path d="M34 52l6-6"/>
-              </g>
+<svg class="sv-icon-handshake" viewBox="0 0 100 100" aria-hidden="true" role="img">
+              <path fill="currentColor" d="M20,45 L20,30 L35,30 L50,45 L65,30 L80,30 L80,45 L75,50 L72,47 L70,49 L67,46 L65,48 L62,45 L60,47 L57,44 L55,46 L52,43 L48,47 L45,44 L43,46 L40,43 L38,45 L35,42 L33,44 L30,41 L28,43 L25,40 Z M20,55 L25,60 L28,57 L30,59 L33,56 L35,58 L38,55 L40,57 L43,54 L45,56 L48,53 L52,57 L55,54 L57,56 L60,53 L62,55 L65,52 L67,54 L70,51 L72,53 L75,50 L80,55 L80,70 L65,70 L50,55 L35,70 L20,70 Z"/>
             </svg>
           </div>
         </div>
