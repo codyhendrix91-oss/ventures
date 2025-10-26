@@ -41,65 +41,9 @@ while (have_posts()): the_post();
   // PRIORITY 3: Fallback to assets folder
   if (empty($logo_url)) {
     $domain_parts = str_replace('.', '_', $domain_name);
+    $domain_clean = ucfirst(strtolower($domain_parts));
     $theme_url = get_stylesheet_directory_uri();
-    $theme_path = get_stylesheet_directory();
-    $assets_dir = $theme_path . '/assets/';
-
-    // Build comprehensive list of possible filenames
-    $possible_names = array(
-      $domain_parts,  // Exact as entered
-      ucfirst(strtolower($domain_parts)),  // Ucfirst lowercase
-      strtolower($domain_parts),  // All lowercase
-      ucwords(str_replace('_', ' ', $domain_parts))  // Title case with spaces
-    );
-
-    // Add title case version with underscores
-    $possible_names[] = str_replace(' ', '_', $possible_names[3]);
-
-    $found_logo = false;
-
-    // Try each possible filename with both extensions
-    foreach ($possible_names as $base_name) {
-      $base_name = str_replace(' ', '_', $base_name); // Ensure underscores
-
-      // Try webp
-      if (file_exists($assets_dir . $base_name . '_logo.webp')) {
-        $logo_url = $theme_url . '/assets/' . $base_name . '_logo.webp';
-        $found_logo = true;
-        break;
-      }
-
-      // Try png
-      if (file_exists($assets_dir . $base_name . '_logo.png')) {
-        $logo_url = $theme_url . '/assets/' . $base_name . '_logo.png';
-        $found_logo = true;
-        break;
-      }
-    }
-
-    // Last resort: case-insensitive glob search
-    if (!$found_logo && is_dir($assets_dir)) {
-      $search_base = strtolower(str_replace('.', '_', $domain_name));
-      $all_logos = glob($assets_dir . '*_logo.{webp,png}', GLOB_BRACE);
-
-      if ($all_logos) {
-        foreach ($all_logos as $logo_path) {
-          $filename = basename($logo_path);
-          $file_base = strtolower(pathinfo($filename, PATHINFO_FILENAME));
-
-          if ($file_base === $search_base . '_logo') {
-            $logo_url = $theme_url . '/assets/' . $filename;
-            $found_logo = true;
-            break;
-          }
-        }
-      }
-    }
-
-    // If still no logo, use a placeholder
-    if (!$found_logo) {
-      $logo_url = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200"%3E%3Crect fill="%23f3f4f6" width="400" height="200"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="system-ui" font-size="20" fill="%239ca3af"%3E' . esc_attr($domain_name) . '%3C/text%3E%3C/svg%3E';
-    }
+    $logo_url = $theme_url . '/assets/' . $domain_clean . '_logo.webp';
   }
 
   $verified = false;
@@ -335,42 +279,33 @@ while (have_posts()): the_post();
   <!-- CONTENT SECTION - FIXED: Now with styled description -->
   <section class="svm-content-section-v6">
     <div class="svm-content-inner-v6">
-      <?php
+      <?php 
       // Get custom description from meta field (synced from Google Sheets)
       $custom_description = get_post_meta($post_id, 'svm_description', true);
-
-      // Get standard WordPress post content as fallback
-      $post_content = get_the_content();
-
-      // Determine what content to show
-      $description_content = '';
-      if (!empty($custom_description)) {
-        $description_content = wpautop(wp_kses_post($custom_description));
-      } elseif (!empty($post_content)) {
-        $description_content = apply_filters('the_content', $post_content);
-      }
-
-      // ALWAYS show the "About [DomainName]" section for every domain
-      ?>
-      <div class="svm-description-section">
-        <h2 class="svm-description-title">About <?php echo esc_html($domain_name); ?></h2>
-        <?php if (!empty($description_content)): ?>
+      
+      if (!empty($custom_description)): ?>
+        <div class="svm-description-section">
+          <h2 class="svm-description-title">About <?php echo esc_html($domain_name); ?></h2>
           <div class="svm-description-content">
-            <?php echo $description_content; ?>
+            <?php echo wpautop(wp_kses_post($custom_description)); ?>
           </div>
-        <?php else: ?>
-          <div class="svm-description-content">
-            <p>This premium domain name represents a valuable digital asset perfect for building your brand online. Contact us to discuss acquisition options including outright purchase, lease-to-own arrangements, equity partnerships, or revenue-sharing agreements.</p>
-          </div>
-        <?php endif; ?>
-      </div>
-
-      <?php
+        </div>
+      <?php endif;
+      
       // Then show Elementor content if it exists
       if (class_exists('\Elementor\Plugin')) {
         $elementor_content = \Elementor\Plugin::instance()->frontend->get_builder_content($post_id);
         if (!empty($elementor_content)) {
           echo '<div class="svm-elementor-content">' . $elementor_content . '</div>';
+        }
+      }
+      
+      // Finally show standard post content if no Elementor and no custom description
+      if (!class_exists('\Elementor\Plugin') || !\Elementor\Plugin::instance()->frontend->get_builder_content($post_id)) {
+        if (empty($custom_description) && get_the_content()) {
+          echo '<div class="svm-standard-content">';
+          the_content();
+          echo '</div>';
         }
       }
       ?>
@@ -421,6 +356,12 @@ while (have_posts()): the_post();
   </section>
 
   <!-- PURPLE ABOUT -->
+  <section class="svm-purple-about">
+    <div class="svm-purple-about-inner">
+      <p>At S Ventures, we've spent the past two decades quietly acquiring premium digital real estate — the kind of domain names that define industries and ignite ideas. Our portfolio was born from our own ventures, spanning cutting-edge software and AI platforms to e-commerce brands, home services, finance, and beyond.</p>
+      <p>Rather than let these powerful names collect dust, we're opening them up to the world. S Ventures offers our curated domain portfolio for sale or lease — even for equity or revenue-sharing partnerships with the right startups.</p>
+    </div>
+  </section>
 </main>
 
 <script>

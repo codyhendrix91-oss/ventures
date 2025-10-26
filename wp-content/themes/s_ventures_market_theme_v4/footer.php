@@ -1,3 +1,10 @@
+<!-- Newsletter Section - Above Footer -->
+<?php if (!is_singular('domains') && function_exists('svm_newsletter_form')): ?>
+<section class="svm-newsletter-section">
+    <?php echo svm_newsletter_form(false); ?>
+</section>
+<?php endif; ?>
+
 <footer class="svm-footer">
   <div class="svm-footer__inner">
     
@@ -100,46 +107,138 @@
 </footer>
 
 <style>
-/* Footer Styles - MediaOptions Inspired */
+/* Global Footer Styling - Digital Shelf Institute Inspired */
+.svm-newsletter-section,
+.svm-footer,
+.svm-footer__contact,
+.svm-footer__bottom {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Newsletter Section - White Background */
+.svm-newsletter-section {
+  background: #ffffff;
+  padding: 50px 20px;
+  margin: 0;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+/* Override newsletter form styles for white background */
+.svm-newsletter-section .svm-newsletter {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.svm-newsletter-section .svm-newsletter__text {
+  color: #1a1d35;
+  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 18px;
+  line-height: 1.6180339888;
+}
+
+.svm-newsletter-section .svm-newsletter__text strong {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.svm-newsletter-section .svm-newsletter__input {
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  color: #1a1d35;
+  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.svm-newsletter-section .svm-newsletter__input:focus {
+  background: #ffffff;
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+.svm-newsletter-section .svm-newsletter__input::placeholder {
+  color: rgba(26, 29, 53, 0.5);
+}
+
+.svm-newsletter-section .svm-newsletter__button {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  border: none;
+  color: rgba(255, 255, 255, 1.0);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+}
+
+.svm-newsletter-section .svm-newsletter__button:hover {
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Footer Styles - Purple Gradient */
 .svm-footer {
-  background: #f8f9fa;
-  border-top: 1px solid #e8e9ea;
-  padding: 80px 20px 40px;
+  background: linear-gradient(to right, rgb(15, 23, 61), rgb(138, 38, 250));
+  border-top: none;
+  padding: 80px 20px 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+/* Subtle overlay pattern */
+.svm-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 /* On single domain pages, reduce top padding since there's no menu grid */
 body.single-domains .svm-footer {
-  padding: 50px 20px 40px;
+  padding: 50px 20px 0;
 }
 
 .svm-footer__inner {
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* Footer Grid - 3 Columns */
 .svm-footer__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 60px;
+  gap: 80px;
   margin-bottom: 60px;
   padding-bottom: 60px;
-  border-bottom: 1px solid #e8e9ea;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .svm-footer__column {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .svm-footer__title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
-  color: #1a1d35;
-  margin: 0 0 20px;
+  color: rgba(255, 255, 255, 1.0);
+  margin: 0 0 28px;
   font-family: 'Colour Brown', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .svm-footer__menu {
@@ -148,7 +247,8 @@ body.single-domains .svm-footer {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+  align-items: center;
 }
 
 .svm-footer__menu li {
@@ -157,38 +257,43 @@ body.single-domains .svm-footer {
 }
 
 .svm-footer__menu a {
-  color: #4b5563;
-  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
   font-weight: 400;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.3s ease;
   display: block;
+  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6180339888;
 }
 
 .svm-footer__menu a:hover {
-  color: #00d9ff;
+  color: rgba(255, 255, 255, 1.0);
+  transform: translateY(-2px);
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
 }
 
-/* Footer Contact Section */
+/* Footer Contact Section - Purple Gradient Background */
 .svm-footer__contact {
   text-align: center;
-  margin-bottom: 50px;
-  padding-bottom: 50px;
-  border-bottom: 1px solid #e8e9ea;
+  margin: 0;
+  padding: 50px 20px;
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .svm-footer__contact-label {
-  color: #1a1d35;
-  font-size: 18px;
+  color: rgba(255, 255, 255, 1.0);
+  font-size: 20px;
   font-weight: 600;
-  margin: 0 0 24px;
-  font-family: 'Colour Brown', sans-serif;
+  margin: 0 0 28px;
+  font-family: "proxima-nova", 'Colour Brown', sans-serif;
 }
 
 .svm-footer__contact-icons {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 18px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -197,67 +302,75 @@ body.single-domains .svm-footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
 }
 
 .svm-footer__contact-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Footer Bottom */
 .svm-footer__bottom {
   text-align: center;
+  background: transparent;
+  padding: 30px 20px;
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .svm-footer__bottom p {
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Responsive */
 @media (max-width: 1024px) {
   .svm-footer__grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
+    gap: 50px;
   }
 }
 
 @media (max-width: 768px) {
   .svm-footer {
-    padding: 60px 20px 30px;
+    padding: 60px 20px 0;
   }
-  
+
   body.single-domains .svm-footer {
-    padding: 40px 20px 30px;
+    padding: 40px 20px 0;
   }
-  
+
   .svm-footer__grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 40px;
     margin-bottom: 50px;
     padding-bottom: 50px;
   }
-  
+
   .svm-footer__contact {
-    margin-bottom: 40px;
-    padding-bottom: 40px;
+    padding: 40px 20px;
   }
-  
+
   .svm-footer__contact-icons {
-    gap: 12px;
+    gap: 14px;
   }
-  
+
   .svm-footer__contact-btn {
-    width: 50px;
-    height: 50px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .svm-footer__bottom {
+    padding: 25px 20px;
   }
 }
 </style>

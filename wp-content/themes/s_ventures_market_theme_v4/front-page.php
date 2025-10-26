@@ -594,12 +594,4 @@ get_header();
   </div>
 </section>
 
-<!-- Purple About Section (appears once before footer) -->
-<section class="svm-purple-about">
-  <div class="svm-purple-about-inner">
-    <p>At S Ventures, we've spent the past two decades quietly acquiring premium digital real estate — the kind of domain names that define industries and ignite ideas. Our portfolio was born from our own ventures, spanning cutting-edge software and AI platforms to e-commerce brands, home services, finance, and beyond.</p>
-    <p>Rather than let these powerful names collect dust, we're opening them up to the world. S Ventures offers our curated domain portfolio for sale or lease — even for equity or revenue-sharing partnerships with the right startups.</p>
-  </div>
-</section>
-
 <?php get_footer(); ?>

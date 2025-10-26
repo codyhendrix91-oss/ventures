@@ -6,6 +6,16 @@
 if ( ! defined('ABSPATH') ) { exit; }
 
 /* -------------------------------------------------------
+ * Fix FluentForm Translation Loading Error
+ * -----------------------------------------------------*/
+add_filter('doing_it_wrong_trigger_error', function($trigger, $function) {
+    if ($function === '_load_textdomain_just_in_time' && strpos($function, 'fluentform') !== false) {
+        return false;
+    }
+    return $trigger;
+}, 10, 2);
+
+/* -------------------------------------------------------
  * SEO - Product Schema for Domains
  * -----------------------------------------------------*/
 add_action('wp_head', function() {
@@ -340,10 +350,65 @@ function svm_render_domain_card($id) {
     // PRIORITY 3: Fallback to assets folder logo
     if (empty($logo)) {
         $domain_parts = str_replace('.', '_', $title);
-        $domain_clean = ucfirst(strtolower($domain_parts));
         $theme_url = get_stylesheet_directory_uri();
-        $logo = $theme_url . '/assets/' . $domain_clean . '_logo.webp';
-        $fallback_logo = $theme_url . '/assets/' . $domain_clean . '_logo.png';
+        $theme_path = get_stylesheet_directory();
+        $assets_dir = $theme_path . '/assets/';
+
+        // Build comprehensive list of possible filenames
+        $possible_names = array(
+            $domain_parts,  // Exact as entered
+            ucfirst(strtolower($domain_parts)),  // Ucfirst lowercase
+            strtolower($domain_parts),  // All lowercase
+            ucwords(str_replace('_', ' ', $domain_parts))  // Title case with spaces
+        );
+
+        // Add title case version with underscores
+        $possible_names[] = str_replace(' ', '_', $possible_names[3]);
+
+        $found_logo = false;
+
+        // Try each possible filename with both extensions
+        foreach ($possible_names as $base_name) {
+            $base_name = str_replace(' ', '_', $base_name); // Ensure underscores
+
+            // Try webp
+            if (file_exists($assets_dir . $base_name . '_logo.webp')) {
+                $logo = $theme_url . '/assets/' . $base_name . '_logo.webp';
+                $found_logo = true;
+                break;
+            }
+
+            // Try png
+            if (file_exists($assets_dir . $base_name . '_logo.png')) {
+                $logo = $theme_url . '/assets/' . $base_name . '_logo.png';
+                $found_logo = true;
+                break;
+            }
+        }
+
+        // Last resort: case-insensitive glob search
+        if (!$found_logo && is_dir($assets_dir)) {
+            $search_base = strtolower(str_replace('.', '_', $title));
+            $all_logos = glob($assets_dir . '*_logo.{webp,png}', GLOB_BRACE);
+
+            if ($all_logos) {
+                foreach ($all_logos as $logo_path) {
+                    $filename = basename($logo_path);
+                    $file_base = strtolower(pathinfo($filename, PATHINFO_FILENAME));
+
+                    if ($file_base === $search_base . '_logo') {
+                        $logo = $theme_url . '/assets/' . $filename;
+                        $found_logo = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // If still no logo, use a placeholder
+        if (!$found_logo) {
+            $logo = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200"%3E%3Crect fill="%23f3f4f6" width="400" height="200"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="system-ui" font-size="20" fill="%239ca3af"%3E' . esc_attr($title) . '%3C/text%3E%3C/svg%3E';
+        }
     }
 
     ob_start();
@@ -957,6 +1022,17 @@ function svm_newsletter_form($inline = false) {
                       data-ghl-form="newsletter">
 
                     <div class="svm-newsletter__input-group">
+                        <!-- Honeypot field (hidden from users, bots will fill it) -->
+                        <input type="text"
+                               name="website"
+                               style="position:absolute;left:-9999px;width:1px;height:1px;"
+                               tabindex="-1"
+                               autocomplete="off"
+                               aria-hidden="true">
+
+                        <!-- Timestamp to prevent too-fast submissions -->
+                        <input type="hidden" name="form_timestamp" value="<?php echo time(); ?>">
+
                         <input type="email"
                                name="email"
                                class="svm-newsletter__input"
@@ -1383,11 +1459,61 @@ add_action('wp_ajax_nopriv_svm_newsletter_signup', 'svm_handle_newsletter_signup
 function svm_handle_newsletter_signup() {
     check_ajax_referer('svm_newsletter_nonce', 'nonce');
 
+    // SPAM PROTECTION 1: Honeypot field check
+    if (!empty($_POST['website'])) {
+        // Bot filled the honeypot field - reject silently
+        wp_send_json_success(array('message' => 'Thanks for subscribing!'));
+        exit;
+    }
+
+    // SPAM PROTECTION 2: Time-based check (form must be open at least 3 seconds)
+    if (isset($_POST['form_timestamp'])) {
+        $form_time = intval($_POST['form_timestamp']);
+        $current_time = time();
+        $time_diff = $current_time - $form_time;
+
+        if ($time_diff < 3) {
+            // Form submitted too fast - likely a bot
+            wp_send_json_success(array('message' => 'Thanks for subscribing!'));
+            exit;
+        }
+    }
+
     $email = sanitize_email($_POST['email']);
 
     if (!is_email($email)) {
         wp_send_json_error(array('message' => 'Please enter a valid email address.'));
     }
+
+    // SPAM PROTECTION 3: Block suspicious email patterns
+    $email_parts = explode('@', $email);
+
+    // Check for suspicious patterns in email username
+    if (preg_match('/\d{3,}/', $email_parts[0])) {
+        // Email has 3+ consecutive numbers in username - likely spam
+        wp_send_json_success(array('message' => 'Thanks for subscribing!'));
+        exit;
+    }
+
+    // Check for random character patterns (common in spam)
+    if (preg_match('/[a-z]{2}\d+[a-z]{2}\d+/i', $email_parts[0])) {
+        // Pattern like "ab123cd456" - likely spam
+        wp_send_json_success(array('message' => 'Thanks for subscribing!'));
+        exit;
+    }
+
+    // SPAM PROTECTION 4: Rate limiting by IP
+    $user_ip = $_SERVER['REMOTE_ADDR'];
+    $transient_key = 'newsletter_ip_' . md5($user_ip);
+    $recent_submissions = get_transient($transient_key);
+
+    if ($recent_submissions && $recent_submissions >= 3) {
+        wp_send_json_error(array('message' => 'Too many requests. Please try again later.'));
+        exit;
+    }
+
+    // Increment submission count (expires in 1 hour)
+    set_transient($transient_key, ($recent_submissions ? $recent_submissions + 1 : 1), HOUR_IN_SECONDS);
 
     // Store in WordPress database
     global $wpdb;
@@ -1448,23 +1574,9 @@ function svm_newsletter_shortcode($atts) {
 }
 
 /**
- * Auto-display newsletter form above footer (except on single domain pages)
+ * Newsletter form now displays directly in footer.php before footer section
+ * No need for wp_footer hook
  */
-add_action('wp_footer', 'svm_auto_newsletter_form', 1);
-
-function svm_auto_newsletter_form() {
-    // Don't show on single domain pages
-    if (is_singular('domains')) {
-        return;
-    }
-
-    // Don't show if it's an Elementor canvas template (no header/footer)
-    if (function_exists('elementor_location_exits') && elementor_location_exits('footer', true)) {
-        return;
-    }
-
-    echo svm_newsletter_form(false);
-}
 
 /**
  * Add Settings Page for GHL Integration
