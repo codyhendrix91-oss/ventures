@@ -14,7 +14,7 @@ get_header();
 }
 
 .terms-of-service__hero {
-  background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
+  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
   padding: calc(70px + 90px) 40px 90px;
   text-align: center;
   position: relative;
@@ -25,7 +25,7 @@ get_header();
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(138, 38, 250, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -60,7 +60,7 @@ get_header();
 
 .terms-of-service__last-updated {
   background: linear-gradient(135deg, rgba(43, 35, 74, 0.08) 0%, rgba(43, 35, 74, 0.04) 100%);
-  border-left: 4px solid #7c3aed;
+  border-left: 4px solid #00d9ff;
   padding: 20px 24px;
   margin-bottom: 60px;
   border-radius: 8px;
@@ -93,7 +93,7 @@ get_header();
   flex-shrink: 0;
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  background: linear-gradient(135deg, #00d9ff 0%, #2efc86 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -175,21 +175,20 @@ get_header();
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #00d9ff 0%, #2efc86 100%);
+  color: #1a1d35;
   padding: 16px 32px;
   border-radius: 12px;
   text-decoration: none;
   font-weight: 600;
   font-size: 16px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.3);
 }
 
 .terms-of-service__contact-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4);
-  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  box-shadow: 0 6px 24px rgba(0, 217, 255, 0.4);
 }
 
 .terms-of-service__contact-btn svg {

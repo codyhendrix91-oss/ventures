@@ -14,7 +14,7 @@ get_header();
 }
 
 .buying-process__hero {
-  background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
+  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
   padding: calc(70px + 90px) 40px 90px;
   text-align: center;
   position: relative;
@@ -25,7 +25,7 @@ get_header();
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(138, 38, 250, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -59,22 +59,9 @@ get_header();
   position: relative;
 }
 
-/* Timeline vertical line */
+/* Timeline vertical line - segments between icons */
 .buying-process__timeline {
   position: relative;
-}
-
-.buying-process__timeline::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #00d9ff 0%, #2efc86 100%);
-  transform: translateX(-50%);
-  border-radius: 2px;
-  z-index: 0;
 }
 
 /* Timeline steps */
@@ -89,6 +76,21 @@ get_header();
 
 .process-step:last-child {
   margin-bottom: 0;
+}
+
+/* Line segment between steps - stops at icons, not through them */
+.process-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 60px);
+  /* Height = margin-bottom (120px) - icon radius (60px) - next icon radius (60px) */
+  height: 60px;
+  width: 4px;
+  background: linear-gradient(180deg, #00d9ff 0%, #2efc86 100%);
+  transform: translateX(-50%);
+  border-radius: 2px;
+  z-index: 0;
 }
 
 /* Alternating layout */
@@ -285,14 +287,17 @@ get_header();
     padding: 80px 20px;
   }
 
-  .buying-process__timeline::before {
-    left: 20px;
-  }
-
   .process-step {
     grid-template-columns: 80px 1fr;
     gap: 24px;
     margin-bottom: 80px;
+  }
+
+  /* Mobile timeline segments - positioned from left */
+  .process-step:not(:last-child)::after {
+    left: 40px;
+    top: calc(50% + 40px);
+    height: 40px;
   }
 
   .process-step:nth-child(odd) .process-step__icon-wrapper,
