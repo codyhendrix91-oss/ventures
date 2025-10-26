@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php wp_head(); ?>
   <style>
+/* Builder.io Header Styling */
 .header--builder {
-  background: #0f173d;
+  background: rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   -webkit-font-smoothing: antialiased;
 }
 .header--builder .svm-menu {
@@ -15,39 +18,48 @@
   padding: 0;
   display: flex;
   flex-direction: row;
+  height: 100%;
+  align-items: stretch;
 }
 .header--builder .svm-menu > li {
   display: flex;
   align-items: center;
   height: 100%;
   position: relative;
-  padding: 0 20px 0 15px;
+  padding: 0 20px;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  transition: background-color 0.3s cubic-bezier(0.37, 0.01, 0, 0.98);
+  border-bottom: 3px solid transparent;
 }
-.header--builder .svm-menu > li:hover,
+.header--builder .svm-menu > li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom-color: #AC7EF4;
+}
 .header--builder .svm-menu > li.current-menu-item {
-  border-bottom-color: white;
+  border-bottom-color: #AC7EF4;
 }
 .header--builder .svm-menu > li > a {
-  font-family: Poppins, sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 14px;
-  color: white;
+  color: #fff;
   text-decoration: none;
   outline: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 .header--builder .svm-menu .menu-item-has-children > a .caret {
   display: inline-block;
   width: 0;
   height: 0;
-  margin-left: 6px;
+  margin-left: 4px;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 4px solid white;
-  transition: transform .2s ease;
+  border-top: 4px solid #fff;
+  transition: transform 0.2s ease;
 }
 .header--builder .svm-menu .menu-item-has-children.open > a .caret {
   transform: rotate(180deg);

@@ -41,7 +41,7 @@ get_header();
   font-weight: 700;
   color: #fff;
   margin: 0 0 20px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.1;
 }
 
@@ -63,19 +63,6 @@ get_header();
   position: relative;
 }
 
-.buying-process__timeline::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #00d9ff 0%, #2efc86 100%);
-  transform: translateX(-50%);
-  border-radius: 2px;
-  z-index: 0;
-}
-
 /* Timeline steps */
 .process-step {
   position: relative;
@@ -84,6 +71,20 @@ get_header();
   grid-template-columns: 1fr 140px 1fr;
   gap: 40px;
   align-items: center;
+}
+
+/* Connecting lines between steps - stops at circle borders */
+.process-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 120px;
+  width: 4px;
+  height: 120px;
+  background: linear-gradient(180deg, #00d9ff 0%, #2efc86 100%);
+  transform: translateX(-50%);
+  border-radius: 2px;
+  z-index: 0;
 }
 
 .process-step:last-child {
@@ -162,14 +163,6 @@ get_header();
   height: 64px;
 }
 
-.process-step:nth-child(odd) .sv-icon-handshake {
-  color: #00d9ff;
-}
-
-.process-step:nth-child(even) .sv-icon-handshake {
-  color: #2efc86;
-}
-
 /* Step number badge */
 .process-step__number {
   position: absolute;
@@ -182,7 +175,7 @@ get_header();
   color: #fff;
   font-size: 14px;
   font-weight: 700;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -199,7 +192,7 @@ get_header();
   font-weight: 700;
   color: #1a1d35;
   margin: 0 0 12px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.2;
 }
 
@@ -246,7 +239,7 @@ get_header();
   font-size: 36px;
   font-weight: 700;
   margin: 0 0 16px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #fff;
 }
 
@@ -270,7 +263,7 @@ get_header();
   font-size: 16px;
   transition: all 0.3s ease;
   box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .buying-process__cta-btn:hover {
@@ -293,14 +286,17 @@ get_header();
     padding: 80px 20px;
   }
 
-  .buying-process__timeline::before {
-    left: 20px;
-  }
-
   .process-step {
     grid-template-columns: 80px 1fr;
     gap: 24px;
     margin-bottom: 80px;
+  }
+
+  /* Mobile connecting lines - stops at circle borders */
+  .process-step:not(:last-child)::after {
+    left: 40px;
+    top: 80px;
+    height: 80px;
   }
 
   .process-step:nth-child(odd) .process-step__icon-wrapper,
@@ -565,8 +561,46 @@ get_header();
         <div class="process-step__icon-wrapper">
           <div class="process-step__icon">
             <span class="process-step__number">9</span>
-<svg class="sv-icon-handshake" viewBox="0 0 512 512" aria-hidden="true" role="img">
-              <path fill="currentColor" d="M488.8 159.5l-64-64c-13.3-13.3-34.8-13.3-48.2 0l-64 64c-13.3 13.3-13.3 34.8 0 48.2l64 64c13.3 13.3 34.8 13.3 48.2 0l64-64c13.2-13.3 13.2-34.9 0-48.2zM304 208h-8v-64.4c0-18.9-15.3-34.3-34.3-34.3h-49.2c-6.3 0-12.4 1.8-17.6 5.1l-56.9 35.6c-6.6 4.2-15 2.9-20.2-3L64 88.9l-48.2 30.1c-6.2 3.9-8.1 12-4.2 18.2l8.5 13.6c3.9 6.2 12 8.1 18.2 4.2l16-10 33 52.8c6.3 10.1 19.5 13.2 29.6 6.9l56.9-35.6 49.2-.1c.8 0 1.5.7 1.5 1.5V272c0 26.5 21.5 48 48 48h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H192c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h48v32h-48c-26.5 0-48-21.5-48-48v-16H64c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16h16V176c0-8.8 7.2-16 16-16h96c8.8 0 16 7.2 16 16v96c0 8.8-7.2 16-16 16h-16v32h80v-48c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48v48h80v-32h-16c-8.8 0-16-7.2-16-16v-64c0-26.5-21.5-48-48-48z"/>
+            <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Left hand (palm) -->
+              <rect x="60" y="130" width="30" height="80" rx="4" fill="#00d9ff" opacity="0.3"/>
+              <rect x="60" y="130" width="30" height="50" rx="4" stroke="#00d9ff" stroke-width="6" fill="none"/>
+
+              <!-- Right hand (palm) -->
+              <rect x="210" y="130" width="30" height="80" rx="4" fill="#2efc86" opacity="0.3"/>
+              <rect x="210" y="130" width="30" height="50" rx="4" stroke="#2efc86" stroke-width="6" fill="none"/>
+
+              <!-- Fingers - left hand -->
+              <circle cx="75" cy="120" r="8" fill="#00d9ff"/>
+              <circle cx="75" cy="105" r="8" fill="#00d9ff"/>
+
+              <!-- Fingers - right hand -->
+              <circle cx="225" cy="120" r="8" fill="#2efc86"/>
+              <circle cx="225" cy="105" r="8" fill="#2efc86"/>
+
+              <!-- Handshake connection/grip -->
+              <path d="M90 150 L130 150 L150 165 L170 150 L210 150"
+                    stroke="#00d9ff"
+                    stroke-width="8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    fill="none"/>
+
+              <path d="M90 165 L130 165 L150 150 L170 165 L210 165"
+                    stroke="#2efc86"
+                    stroke-width="8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    fill="none"/>
+
+              <!-- Agreement checkmark -->
+              <circle cx="150" cy="140" r="25" fill="#fff" stroke="#00d9ff" stroke-width="4"/>
+              <path d="M140 140 L147 147 L162 132"
+                    stroke="#00d9ff"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    fill="none"/>
             </svg>
           </div>
         </div>

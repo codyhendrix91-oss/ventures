@@ -138,7 +138,7 @@
 
 .svm-newsletter-section .svm-newsletter__text {
   color: #1a1d35;
-  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 18px;
   line-height: 1.6180339888;
 }
@@ -155,7 +155,7 @@
   background: #ffffff;
   border: 2px solid #e5e7eb;
   color: #1a1d35;
-  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -239,7 +239,7 @@ body.single-domains .svm-footer {
   font-weight: 700;
   color: rgba(255, 255, 255, 1.0);
   margin: 0 0 28px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   line-height: 1.2;
   text-align: center;
@@ -267,7 +267,7 @@ body.single-domains .svm-footer {
   text-decoration: none;
   transition: all 0.3s ease;
   display: inline-block;
-  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.35;
 }
 
@@ -284,7 +284,6 @@ body.single-domains .svm-footer {
   margin: 0;
   padding: 50px 20px;
   background: transparent;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .svm-footer__contact-label {
@@ -292,7 +291,7 @@ body.single-domains .svm-footer {
   font-size: 20px;
   font-weight: 600;
   margin: 0 0 28px;
-  font-family: "proxima-nova", 'Colour Brown', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .svm-footer__contact-icons {
@@ -334,7 +333,7 @@ body.single-domains .svm-footer {
   margin: 0;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.8);
-  font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Responsive */

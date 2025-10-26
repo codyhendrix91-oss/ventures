@@ -37,7 +37,7 @@ get_header();
   margin: 0 0 24px;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .about-hero__subtitle {
@@ -67,7 +67,7 @@ get_header();
   color: #1a1d35;
   margin: 0 0 32px;
   line-height: 1.2;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .about-section h3 {
@@ -76,7 +76,7 @@ get_header();
   color: #1a1d35;
   margin: 48px 0 20px;
   line-height: 1.3;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .about-section h3:first-child {
@@ -190,7 +190,7 @@ get_header();
   font-size: clamp(32px, 5vw, 42px);
   color: #fff;
   margin: 0 0 24px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .cta-section p {
@@ -209,20 +209,20 @@ get_header();
 .cta-btn {
   display: inline-block;
   padding: 16px 40px;
-  background: linear-gradient(135deg, #00d9ff 0%, #00b8d9 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
   color: #fff;
   border-radius: 50px;
   font-size: 17px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.3);
-  font-family: 'Colour Brown', sans-serif;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+  font-family: 'Poppins', sans-serif;
 }
 
 .cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0, 217, 255, 0.45);
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.45);
 }
 
 .cta-btn--secondary {
@@ -236,9 +236,6 @@ get_header();
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.5);
 }
-
-.btn-grad-azure { background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%); color:#fff; }
-.btn-grad-azure:hover { filter: brightness(1.05); }
 
 @media (max-width: 1024px) {
   .two-column { gap: 40px; }
@@ -335,7 +332,7 @@ get_header();
     <p>Whether you're here to buy a killer domain, sell one, or just browse and learn, we welcome you to S Ventures. Let's find the perfect name for your next big idea.</p>
     <div class="cta-buttons">
       <a href="<?php echo get_post_type_archive_link('domains'); ?>" class="cta-btn">Browse Premium Domains</a>
-      <a href="mailto:info@s.ventures?subject=General Inquiry" class="cta-btn btn-grad-azure">Get in Touch</a>
+      <a href="mailto:info@s.ventures?subject=General Inquiry" class="cta-btn">Get in Touch</a>
     </div>
   </div>
 </section>
