@@ -25,7 +25,7 @@ get_header();
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(138, 38, 250, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 

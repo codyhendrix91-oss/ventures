@@ -333,6 +333,12 @@ get_header();
   border-color: rgba(255, 255, 255, 0.5);
 }
 
+/* Button gradients for better contrast */
+.btn-grad-cyan { background: linear-gradient(135deg, #00d9ff 0%, #2efc86 100%); color:#0b122b; }
+.btn-grad-azure { background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%); color:#fff; }
+.btn-grad-mint  { background: linear-gradient(135deg, #84f1a2 0%, #2efc86 100%); color:#0b122b; }
+.btn-grad-azure:hover, .btn-grad-mint:hover { filter: brightness(1.05); }
+
 @media (max-width: 1024px) {
   .contact-methods { grid-template-columns: 1fr; gap: 24px; }
   .trust-badges { grid-template-columns: repeat(2, 1fr); gap: 24px; }
@@ -493,7 +499,7 @@ get_header();
         </svg>
         Send Email
       </a>
-      <a href="<?php echo get_post_type_archive_link('domains'); ?>" class="cta-btn cta-btn--secondary">
+      <a href="<?php echo get_post_type_archive_link('domains'); ?>" class="cta-btn btn-grad-azure">
         Browse Domains
       </a>
     </div>

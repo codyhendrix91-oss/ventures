@@ -25,7 +25,7 @@ get_header();
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(138, 38, 250, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -59,7 +59,6 @@ get_header();
   position: relative;
 }
 
-/* Timeline vertical line */
 .buying-process__timeline {
   position: relative;
 }
@@ -139,6 +138,7 @@ get_header();
   position: relative;
   border: 4px solid #f3f4f6;
   transition: all 0.3s ease;
+  z-index: 2;
 }
 
 .process-step:hover .process-step__icon {
@@ -160,6 +160,14 @@ get_header();
 .process-step__icon svg {
   width: 64px;
   height: 64px;
+}
+
+.process-step:nth-child(odd) .sv-icon-handshake {
+  color: #00d9ff;
+}
+
+.process-step:nth-child(even) .sv-icon-handshake {
+  color: #2efc86;
 }
 
 /* Step number badge */
@@ -557,18 +565,8 @@ get_header();
         <div class="process-step__icon-wrapper">
           <div class="process-step__icon">
             <span class="process-step__number">9</span>
-            <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="handGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#00d9ff" />
-                  <stop offset="100%" style="stop-color:#2efc86" />
-                </linearGradient>
-              </defs>
-              <circle cx="150" cy="150" r="90" fill="rgba(0, 217, 255, 0.1)" stroke="url(#handGrad)" stroke-width="8"/>
-              <path d="M110 160 L110 140 L120 130 L130 140 L130 120 L140 110 L150 120 L150 130 L160 120 L170 130 L170 160 L160 180 L140 180 Z" fill="url(#handGrad)"/>
-              <path d="M130 160 L130 140 L140 130 L150 140 L150 130 L160 120 L170 130 L170 150 L180 140 L190 150 L190 170 L180 190 L160 190 Z" fill="url(#handGrad)" transform="scale(-1, 1) translate(-300, 0)"/>
-              <circle cx="190" cy="110" r="6" fill="#FFD700"/>
-              <path d="M190 104 L192 108 L196 108 L193 111 L194 115 L190 113 L186 115 L187 111 L184 108 L188 108 Z" fill="#FFD700"/>
+<svg class="sv-icon-handshake" viewBox="0 0 512 512" aria-hidden="true" role="img">
+              <path fill="currentColor" d="M488.8 159.5l-64-64c-13.3-13.3-34.8-13.3-48.2 0l-64 64c-13.3 13.3-13.3 34.8 0 48.2l64 64c13.3 13.3 34.8 13.3 48.2 0l64-64c13.2-13.3 13.2-34.9 0-48.2zM304 208h-8v-64.4c0-18.9-15.3-34.3-34.3-34.3h-49.2c-6.3 0-12.4 1.8-17.6 5.1l-56.9 35.6c-6.6 4.2-15 2.9-20.2-3L64 88.9l-48.2 30.1c-6.2 3.9-8.1 12-4.2 18.2l8.5 13.6c3.9 6.2 12 8.1 18.2 4.2l16-10 33 52.8c6.3 10.1 19.5 13.2 29.6 6.9l56.9-35.6 49.2-.1c.8 0 1.5.7 1.5 1.5V272c0 26.5 21.5 48 48 48h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H192c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h48v32h-48c-26.5 0-48-21.5-48-48v-16H64c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16h16V176c0-8.8 7.2-16 16-16h96c8.8 0 16 7.2 16 16v96c0 8.8-7.2 16-16 16h-16v32h80v-48c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48v48h80v-32h-16c-8.8 0-16-7.2-16-16v-64c0-26.5-21.5-48-48-48z"/>
             </svg>
           </div>
         </div>
