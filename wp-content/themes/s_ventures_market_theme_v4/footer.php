@@ -11,10 +11,10 @@
     <?php if (!is_singular('domains')): ?>
     <!-- Footer Menu Grid - Hidden on single domain pages -->
     <div class="svm-footer__grid">
-      
-      <!-- Column 1: Company -->
+
+      <!-- Column 1: Domains -->
       <div class="svm-footer__column">
-        <h3 class="svm-footer__title">Company</h3>
+        <h3 class="svm-footer__title">Domains</h3>
         <?php
         wp_nav_menu(array(
           'theme_location' => 'footer_company',
@@ -22,15 +22,15 @@
           'menu_class' => 'svm-footer__menu',
           'fallback_cb' => function() {
             echo '<ul class="svm-footer__menu">';
-            echo '<li><a href="' . home_url('/about') . '">About Us</a></li>';
-            echo '<li><a href="' . home_url('/contact') . '">Contact</a></li>';
             echo '<li><a href="' . get_post_type_archive_link('domains') . '">Browse Domains</a></li>';
+            echo '<li><a href="' . home_url('/domain-buying-process') . '">Buying Process</a></li>';
+            echo '<li><a href="' . home_url('/faq') . '">FAQ</a></li>';
             echo '</ul>';
           }
         ));
         ?>
       </div>
-      
+
       <!-- Column 2: Resources -->
       <div class="svm-footer__column">
         <h3 class="svm-footer__title">Resources</h3>
@@ -48,10 +48,10 @@
         ));
         ?>
       </div>
-      
-      <!-- Column 3: Legal -->
+
+      <!-- Column 3: Company -->
       <div class="svm-footer__column">
-        <h3 class="svm-footer__title">Legal</h3>
+        <h3 class="svm-footer__title">Company</h3>
         <?php
         wp_nav_menu(array(
           'theme_location' => 'footer_legal',
@@ -59,6 +59,8 @@
           'menu_class' => 'svm-footer__menu',
           'fallback_cb' => function() {
             echo '<ul class="svm-footer__menu">';
+            echo '<li><a href="' . home_url('/about') . '">About Us</a></li>';
+            echo '<li><a href="' . home_url('/contact') . '">Contact</a></li>';
             echo '<li><a href="' . home_url('/privacy-policy') . '">Privacy Policy</a></li>';
             echo '<li><a href="' . home_url('/terms-of-service') . '">Terms of Service</a></li>';
             echo '</ul>';
@@ -66,7 +68,7 @@
         ));
         ?>
       </div>
-      
+
     </div>
     <?php endif; ?>
     
@@ -236,9 +238,11 @@ body.single-domains .svm-footer {
   font-size: 20px;
   font-weight: 700;
   color: rgba(255, 255, 255, 1.0);
-  margin: 0 0 28px;
+  margin: 0 0 .35rem;
   font-family: 'Colour Brown', sans-serif;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+  text-align: center;
 }
 
 .svm-footer__menu {
@@ -262,15 +266,16 @@ body.single-domains .svm-footer {
   font-weight: 400;
   text-decoration: none;
   transition: all 0.3s ease;
-  display: block;
+  display: inline-block;
   font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.6180339888;
+  line-height: 1.35;
 }
 
 .svm-footer__menu a:hover {
   color: rgba(255, 255, 255, 1.0);
-  transform: translateY(-2px);
-  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+  text-decoration: underline;
+  text-decoration-color: #fff;
+  text-underline-offset: 3px;
 }
 
 /* Footer Contact Section - Purple Gradient Background */

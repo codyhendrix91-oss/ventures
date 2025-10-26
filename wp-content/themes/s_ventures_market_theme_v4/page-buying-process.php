@@ -25,7 +25,7 @@ get_header();
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(138, 38, 250, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -59,22 +59,19 @@ get_header();
   position: relative;
 }
 
-/* Timeline vertical line */
+/* Timeline vertical line removed - now using segmented approach */
 .buying-process__timeline {
   position: relative;
 }
 
-.buying-process__timeline::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
+/* Timeline segment between steps */
+.timeline-segment {
   width: 4px;
+  margin: 8px auto;
+  height: 48px;
   background: linear-gradient(180deg, #00d9ff 0%, #2efc86 100%);
-  transform: translateX(-50%);
-  border-radius: 2px;
-  z-index: 0;
+  border-radius: 999px;
+  opacity: .9;
 }
 
 /* Timeline steps */
@@ -160,6 +157,14 @@ get_header();
 .process-step__icon svg {
   width: 64px;
   height: 64px;
+}
+
+.process-step:nth-child(odd) .sv-icon-handshake {
+  color: #00d9ff;
+}
+
+.process-step:nth-child(even) .sv-icon-handshake {
+  color: #2efc86;
 }
 
 /* Step number badge */
@@ -285,8 +290,8 @@ get_header();
     padding: 80px 20px;
   }
 
-  .buying-process__timeline::before {
-    left: 20px;
+  .timeline-segment {
+    height: 32px;
   }
 
   .process-step {
@@ -383,6 +388,8 @@ get_header();
         <div class="process-step__spacer"></div>
       </div>
 
+      <div class="timeline-segment" aria-hidden="true"></div>
+
       <!-- Step 2: Make Offer or Buy Now -->
       <div class="process-step">
         <div class="process-step__spacer"></div>
@@ -406,6 +413,8 @@ get_header();
         </div>
       </div>
 
+      <div class="timeline-segment" aria-hidden="true"></div>
+
       <!-- Step 3: Secure Escrow -->
       <div class="process-step">
         <div class="process-step__content">
@@ -426,6 +435,8 @@ get_header();
         </div>
         <div class="process-step__spacer"></div>
       </div>
+
+      <div class="timeline-segment" aria-hidden="true"></div>
 
       <!-- Step 4: Seller Initiates Transfer -->
       <div class="process-step">
@@ -449,6 +460,8 @@ get_header();
         </div>
       </div>
 
+      <div class="timeline-segment" aria-hidden="true"></div>
+
       <!-- Step 5: Authorization & Verification -->
       <div class="process-step">
         <div class="process-step__content">
@@ -470,6 +483,8 @@ get_header();
         </div>
         <div class="process-step__spacer"></div>
       </div>
+
+      <div class="timeline-segment" aria-hidden="true"></div>
 
       <!-- Step 6: Registrar Transfer Begins -->
       <div class="process-step">
@@ -495,6 +510,8 @@ get_header();
           <p class="process-step__description">You initiate the transfer at your new registrar (GoDaddy, Namecheap, Cloudflare, etc.) using the authorization code. The transfer process typically takes <strong>5-7 business days</strong> due to ICANN regulations.</p>
         </div>
       </div>
+
+      <div class="timeline-segment" aria-hidden="true"></div>
 
       <!-- Step 7: Transfer Complete -->
       <div class="process-step">
@@ -523,6 +540,8 @@ get_header();
         <div class="process-step__spacer"></div>
       </div>
 
+      <div class="timeline-segment" aria-hidden="true"></div>
+
       <!-- Step 8: DNS Setup -->
       <div class="process-step">
         <div class="process-step__spacer"></div>
@@ -548,6 +567,8 @@ get_header();
         </div>
       </div>
 
+      <div class="timeline-segment" aria-hidden="true"></div>
+
       <!-- Step 9: Transaction Closed -->
       <div class="process-step">
         <div class="process-step__content">
@@ -557,18 +578,18 @@ get_header();
         <div class="process-step__icon-wrapper">
           <div class="process-step__icon">
             <span class="process-step__number">9</span>
-            <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="handGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#00d9ff" />
-                  <stop offset="100%" style="stop-color:#2efc86" />
-                </linearGradient>
-              </defs>
-              <circle cx="150" cy="150" r="90" fill="rgba(0, 217, 255, 0.1)" stroke="url(#handGrad)" stroke-width="8"/>
-              <path d="M110 160 L110 140 L120 130 L130 140 L130 120 L140 110 L150 120 L150 130 L160 120 L170 130 L170 160 L160 180 L140 180 Z" fill="url(#handGrad)"/>
-              <path d="M130 160 L130 140 L140 130 L150 140 L150 130 L160 120 L170 130 L170 150 L180 140 L190 150 L190 170 L180 190 L160 190 Z" fill="url(#handGrad)" transform="scale(-1, 1) translate(-300, 0)"/>
-              <circle cx="190" cy="110" r="6" fill="#FFD700"/>
-              <path d="M190 104 L192 108 L196 108 L193 111 L194 115 L190 113 L186 115 L187 111 L184 108 L188 108 Z" fill="#FFD700"/>
+            <svg class="sv-icon-handshake" viewBox="0 0 64 64" aria-hidden="true" role="img">
+              <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22l10 10c2 2 5 2 7 0l6-6"/>
+                <path d="M52 22l-9 9"/>
+                <path d="M24 32l-3 3c-2 2-2 5 0 7l1 1c2 2 5 2 7 0l3-3"/>
+                <path d="M30 40l3 3c2 2 5 2 7 0l2-2c2-2 2-5 0-7l-2-2"/>
+                <path d="M10 20l6-6c3-3 8-3 11 0l2 2"/>
+                <path d="M54 20l-6-6c-3-3-8-3-11 0l-2 2"/>
+                <path d="M18 52l6-6"/>
+                <path d="M26 52l6-6"/>
+                <path d="M34 52l6-6"/>
+              </g>
             </svg>
           </div>
         </div>
