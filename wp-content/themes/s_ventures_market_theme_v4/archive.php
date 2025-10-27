@@ -34,7 +34,7 @@ if (is_category()) {
 }
 
 .blog-archive__hero {
-  background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
+  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
   padding: calc(70px + 90px) 40px 90px;
   text-align: center;
   position: relative;
@@ -45,7 +45,7 @@ if (is_category()) {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(138, 38, 250, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
   pointer-events: none;
 }
 
