@@ -275,9 +275,12 @@ get_header();
 
 .home-blog-card__image-redesigned {
   width: 100%;
-  height: 220px;
-  object-fit: cover;
-  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
+  height: auto;
+  min-height: 220px;
+  aspect-ratio: 16/9;
+  object-fit: contain;
+  background: #f9fafb;
+  display: block;
 }
 
 .home-blog-card__content-redesigned {
