@@ -1,0 +1,41 @@
+<svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left hand (palm) -->
+  <rect x="60" y="130" width="30" height="80" rx="4" fill="#00d9ff" opacity="0.3"/>
+  <rect x="60" y="130" width="30" height="50" rx="4" stroke="#00d9ff" stroke-width="6" fill="none"/>
+
+  <!-- Right hand (palm) -->
+  <rect x="210" y="130" width="30" height="80" rx="4" fill="#2efc86" opacity="0.3"/>
+  <rect x="210" y="130" width="30" height="50" rx="4" stroke="#2efc86" stroke-width="6" fill="none"/>
+
+  <!-- Fingers - left hand -->
+  <circle cx="75" cy="120" r="8" fill="#00d9ff"/>
+  <circle cx="75" cy="105" r="8" fill="#00d9ff"/>
+
+  <!-- Fingers - right hand -->
+  <circle cx="225" cy="120" r="8" fill="#2efc86"/>
+  <circle cx="225" cy="105" r="8" fill="#2efc86"/>
+
+  <!-- Handshake connection/grip -->
+  <path d="M90 150 L130 150 L150 165 L170 150 L210 150"
+        stroke="#00d9ff"
+        stroke-width="8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+
+  <path d="M90 165 L130 165 L150 150 L170 165 L210 165"
+        stroke="#2efc86"
+        stroke-width="8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+
+  <!-- Agreement checkmark -->
+  <circle cx="150" cy="140" r="25" fill="#fff" stroke="#00d9ff" stroke-width="4"/>
+  <path d="M140 140 L147 147 L162 132"
+        stroke="#00d9ff"
+        stroke-width="5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+</svg>

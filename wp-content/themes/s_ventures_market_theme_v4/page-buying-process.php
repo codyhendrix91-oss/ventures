@@ -73,18 +73,29 @@ get_header();
   align-items: center;
 }
 
-/* Connecting lines between steps - stops at circle borders */
+/* Connecting lines between steps - continuous line through all steps */
 .process-step:not(:last-child)::after {
   content: '';
   position: absolute;
   left: 50%;
-  top: 120px;
+  top: 60px;
   width: 4px;
-  height: 120px;
+  height: calc(100% + 120px);
   background: linear-gradient(180deg, #00d9ff 0%, #2efc86 100%);
   transform: translateX(-50%);
   border-radius: 2px;
   z-index: 0;
+}
+
+/* White circle behind icon to create break in line for icon visibility */
+.process-step__icon-wrapper::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #ffffff;
+  z-index: 1;
 }
 
 .process-step:last-child {
@@ -292,11 +303,17 @@ get_header();
     margin-bottom: 80px;
   }
 
-  /* Mobile connecting lines - stops at circle borders */
+  /* Mobile connecting lines - continuous through all steps */
   .process-step:not(:last-child)::after {
     left: 40px;
-    top: 80px;
-    height: 80px;
+    top: 40px;
+    height: calc(100% + 80px);
+  }
+
+  /* Mobile white circle mask for icon visibility */
+  .process-step__icon-wrapper::before {
+    width: 60px;
+    height: 60px;
   }
 
   .process-step:nth-child(odd) .process-step__icon-wrapper,
@@ -561,47 +578,7 @@ get_header();
         <div class="process-step__icon-wrapper">
           <div class="process-step__icon">
             <span class="process-step__number">9</span>
-            <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Left hand (palm) -->
-              <rect x="60" y="130" width="30" height="80" rx="4" fill="#00d9ff" opacity="0.3"/>
-              <rect x="60" y="130" width="30" height="50" rx="4" stroke="#00d9ff" stroke-width="6" fill="none"/>
-
-              <!-- Right hand (palm) -->
-              <rect x="210" y="130" width="30" height="80" rx="4" fill="#2efc86" opacity="0.3"/>
-              <rect x="210" y="130" width="30" height="50" rx="4" stroke="#2efc86" stroke-width="6" fill="none"/>
-
-              <!-- Fingers - left hand -->
-              <circle cx="75" cy="120" r="8" fill="#00d9ff"/>
-              <circle cx="75" cy="105" r="8" fill="#00d9ff"/>
-
-              <!-- Fingers - right hand -->
-              <circle cx="225" cy="120" r="8" fill="#2efc86"/>
-              <circle cx="225" cy="105" r="8" fill="#2efc86"/>
-
-              <!-- Handshake connection/grip -->
-              <path d="M90 150 L130 150 L150 165 L170 150 L210 150"
-                    stroke="#00d9ff"
-                    stroke-width="8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="none"/>
-
-              <path d="M90 165 L130 165 L150 150 L170 165 L210 165"
-                    stroke="#2efc86"
-                    stroke-width="8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="none"/>
-
-              <!-- Agreement checkmark -->
-              <circle cx="150" cy="140" r="25" fill="#fff" stroke="#00d9ff" stroke-width="4"/>
-              <path d="M140 140 L147 147 L162 132"
-                    stroke="#00d9ff"
-                    stroke-width="5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="none"/>
-            </svg>
+            <img src="<?php echo get_template_directory_uri(); ?>/assets/handshake.svg" alt="Handshake - Transaction Closed" />
           </div>
         </div>
         <div class="process-step__spacer"></div>
