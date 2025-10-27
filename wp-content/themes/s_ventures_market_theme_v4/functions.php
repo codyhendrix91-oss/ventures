@@ -121,6 +121,12 @@ add_filter('body_class', function($classes) {
         $has_white_bg = true;
     }
 
+    // Pages with dark backgrounds that explicitly need dark header
+    if (is_page('domain-buying-process')) {
+        $classes[] = 'header-dark';
+        return $classes;
+    }
+
     // If not a white background page, add dark header class
     if (!$has_white_bg) {
         $classes[] = 'header-dark';
