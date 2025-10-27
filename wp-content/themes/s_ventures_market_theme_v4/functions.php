@@ -311,13 +311,6 @@ add_action('init', function () {
     ));
 });
 
-// Force Yoast to recognize domains
-add_filter('wpseo_accessible_post_types', 'svm_add_domains_to_yoast');
-function svm_add_domains_to_yoast($post_types) {
-    $post_types[] = 'domains';
-    return $post_types;
-}
-
 add_filter('wpseo_robots', 'svm_force_index_domains', 999);
 function svm_force_index_domains($robots) {
     if (is_singular('domains')) {

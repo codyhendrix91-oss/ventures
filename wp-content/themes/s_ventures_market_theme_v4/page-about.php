@@ -209,32 +209,32 @@ get_header();
 .cta-btn {
   display: inline-block;
   padding: 16px 40px;
-  background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
   color: #fff;
   border-radius: 50px;
   font-size: 17px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(46, 252, 134, 0.3);
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
   font-family: 'Poppins', sans-serif;
 }
 
 .cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(46, 252, 134, 0.45);
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.45);
 }
 
 .cta-btn--secondary {
-  background: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%);
   color: #fff;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 0 4px 16px rgba(46, 252, 134, 0.3);
 }
 
 .cta-btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(46, 252, 134, 0.45);
 }
 
 @media (max-width: 1024px) {
@@ -332,7 +332,7 @@ get_header();
     <p>Whether you're here to buy a killer domain, sell one, or just browse and learn, we welcome you to S Ventures. Let's find the perfect name for your next big idea.</p>
     <div class="cta-buttons">
       <a href="<?php echo get_post_type_archive_link('domains'); ?>" class="cta-btn">Browse Premium Domains</a>
-      <a href="mailto:info@s.ventures?subject=General Inquiry" class="cta-btn">Get in Touch</a>
+      <a href="mailto:info@s.ventures?subject=General Inquiry" class="cta-btn cta-btn--secondary">Get in Touch</a>
     </div>
   </div>
 </section>
