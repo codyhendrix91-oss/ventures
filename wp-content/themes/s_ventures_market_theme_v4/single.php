@@ -54,14 +54,19 @@ while (have_posts()): the_post();
         </div>
 
         <!-- Featured Image -->
-        <?php if (has_post_thumbnail()): ?>
-          <div class="entry-featured-image">
+        <?php
+        // Check if Elementor is editing this post
+        $is_elementor = class_exists('\Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor($post_id);
+
+        if (has_post_thumbnail()):
+        ?>
+          <div class="entry-featured-image <?php echo $is_elementor ? 'elementor-active' : ''; ?>">
             <?php the_post_thumbnail('large', array('class' => 'entry-image')); ?>
           </div>
         <?php endif; ?>
 
         <!-- Post Content -->
-        <div class="entry-content">
+        <div class="entry-content <?php echo $is_elementor ? 'has-elementor' : ''; ?>">
           <?php
           // Elementor will automatically handle its content when present
           the_content();
@@ -342,6 +347,14 @@ while (have_posts()): the_post();
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* When Elementor is active, make featured image full-width above content */
+.entry-featured-image.elementor-active {
+  float: none;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 32px 0;
+}
+
 .entry-image {
   width: 100%;
   height: auto;
@@ -363,6 +376,36 @@ while (have_posts()): the_post();
   line-height: 1.625;
   color: #1a1d35;
   font-family: Inter, sans-serif;
+}
+
+/* Elementor Content Fixes - Clear float and proper alignment */
+.entry-content.has-elementor {
+  clear: both;
+}
+
+.entry-content .elementor,
+.entry-content .elementor-section-wrap,
+.entry-content .elementor-element {
+  clear: both;
+  width: 100%;
+}
+
+/* Ensure Elementor sections don't inherit any problematic float behavior */
+.entry-content.has-elementor > .elementor-section,
+.entry-content.has-elementor > .elementor-element-populated {
+  float: none !important;
+  clear: both;
+}
+
+/* Reset Elementor container widths to full width */
+.entry-content .elementor-section,
+.entry-content .elementor-container {
+  max-width: 100%;
+}
+
+/* Ensure Elementor inner sections respect the content area */
+.entry-content .elementor-inner-section .elementor-container {
+  max-width: 100%;
 }
 
 .entry-content h1,
