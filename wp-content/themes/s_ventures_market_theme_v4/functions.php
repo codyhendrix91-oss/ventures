@@ -102,6 +102,10 @@ add_filter('body_class', function($classes) {
         'page-template-front-page',
         'single-domains',
         'page-template-page-newsletter',
+        'single-post',
+        'single',
+        'blog',
+        'archive',
     );
 
     $has_white_bg = false;
@@ -112,8 +116,8 @@ add_filter('body_class', function($classes) {
         }
     }
 
-    // Also check if it's the front page or single post type
-    if (is_front_page() || is_singular('domains')) {
+    // Also check if it's the front page, single post, or blog
+    if (is_front_page() || is_singular('domains') || is_singular('post') || is_home() || is_archive()) {
         $has_white_bg = true;
     }
 
