@@ -7,10 +7,11 @@
   <style>
 /* Builder.io Header Styling */
 .header--builder {
-  background: rgba(0, 0, 0, 0.3) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   -webkit-font-smoothing: antialiased;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 .header--builder .svm-menu {
   list-style: none;
@@ -32,7 +33,7 @@
   border-bottom: 3px solid transparent;
 }
 .header--builder .svm-menu > li:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(172, 126, 244, 0.08);
   border-bottom-color: #AC7EF4;
 }
 .header--builder .svm-menu > li.current-menu-item {
@@ -42,7 +43,7 @@
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 14px;
-  color: #fff;
+  color: rgba(0, 0, 0, 0.87);
   text-decoration: none;
   outline: none;
   margin: 0;
@@ -58,7 +59,7 @@
   margin-left: 4px;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 4px solid #fff;
+  border-top: 4px solid rgba(0, 0, 0, 0.6);
   transition: transform 0.2s ease;
 }
 .header--builder .svm-menu .menu-item-has-children.open > a .caret {
