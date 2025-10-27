@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php wp_head(); ?>
   <style>
-/* Builder.io Header Styling */
+/* Builder.io Header Styling - Light Mode (Default for white pages) */
 .header--builder {
   background: rgba(255, 255, 255, 0.7) !important;
   backdrop-filter: saturate(180%) blur(20px);
@@ -130,6 +130,49 @@
 .header--builder .svm-menu .sub-menu li a:hover {
   background: rgba(43, 35, 74, 0.08);
   color: rgba(0, 0, 0, 0.95);
+}
+
+/* Dark Mode Header - For pages with dark backgrounds */
+.header-dark .header--builder {
+  background: rgba(26, 29, 53, 0.85) !important;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.header-dark .header--builder .svm-menu > li:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-bottom-color: rgba(255, 255, 255, 0.7);
+}
+.header-dark .header--builder .svm-menu > li.current-menu-item,
+.header-dark .header--builder .svm-menu > li.current_page_item {
+  border-bottom-color: rgba(255, 255, 255, 0.7);
+}
+.header-dark .header--builder .svm-menu > li > a {
+  color: rgba(255, 255, 255, 0.95);
+}
+.header-dark .header--builder .svm-menu > li > a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+.header-dark .header--builder .svm-menu > li.current-menu-item > a,
+.header-dark .header--builder .svm-menu > li.current_page_item > a {
+  color: rgba(255, 255, 255, 1);
+}
+.header-dark .header--builder .svm-menu > li > a::selection,
+.header-dark .header--builder .svm-menu > li > a *::selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+.header-dark .header--builder .svm-menu .sub-menu {
+  background: rgba(26, 29, 53, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+.header-dark .header--builder .svm-menu .sub-menu li a {
+  color: rgba(255, 255, 255, 0.95);
+}
+.header-dark .header--builder .svm-menu .sub-menu li a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 1);
 }
   </style>
   <script>
