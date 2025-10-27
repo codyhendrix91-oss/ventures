@@ -93,49 +93,6 @@ add_action('wp_footer', function() {
 }, 20);
 
 /* -------------------------------------------------------
- * Header Styling - Conditional Dark/Light Modes
- * -----------------------------------------------------*/
-add_filter('body_class', function($classes) {
-    // Pages with white backgrounds keep the light header
-    // All other pages get the dark header
-    $white_pages = array(
-        'page-template-front-page',
-        'single-domains',
-        'page-template-page-newsletter',
-        'single-post',
-        'single',
-        'blog',
-        'archive',
-    );
-
-    $has_white_bg = false;
-    foreach ($white_pages as $page_class) {
-        if (in_array($page_class, $classes)) {
-            $has_white_bg = true;
-            break;
-        }
-    }
-
-    // Also check if it's the front page, single post, or blog
-    if (is_front_page() || is_singular('domains') || is_singular('post') || is_home() || is_archive()) {
-        $has_white_bg = true;
-    }
-
-    // Pages with dark backgrounds that explicitly need dark header
-    if (is_page('domain-buying-process')) {
-        $classes[] = 'header-dark';
-        return $classes;
-    }
-
-    // If not a white background page, add dark header class
-    if (!$has_white_bg) {
-        $classes[] = 'header-dark';
-    }
-
-    return $classes;
-});
-
-/* -------------------------------------------------------
  * Assets
  * -----------------------------------------------------*/
 add_action('wp_enqueue_scripts', function () {

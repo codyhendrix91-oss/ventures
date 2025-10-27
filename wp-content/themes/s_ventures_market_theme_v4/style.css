@@ -350,6 +350,65 @@ body.admin-bar .svm-header{
   }
 }
 
+/* Light Header - For white background pages (blog, single posts, single domains, front page) */
+body.single-post .svm-header,
+body.single-domains .svm-header,
+body.blog .svm-header,
+body.archive .svm-header,
+body.home .svm-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body.single-post .svm-header.scrolled,
+body.single-domains .svm-header.scrolled,
+body.blog .svm-header.scrolled,
+body.archive .svm-header.scrolled,
+body.home .svm-header.scrolled {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+body.single-post .svm-nav .svm-menu > li > a,
+body.single-domains .svm-nav .svm-menu > li > a,
+body.blog .svm-nav .svm-menu > li > a,
+body.archive .svm-nav .svm-menu > li > a,
+body.home .svm-nav .svm-menu > li > a {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+body.single-post .svm-nav .svm-menu > li > a:hover,
+body.single-domains .svm-nav .svm-menu > li > a:hover,
+body.blog .svm-nav .svm-menu > li > a:hover,
+body.archive .svm-nav .svm-menu > li > a:hover,
+body.home .svm-nav .svm-menu > li > a:hover {
+  color: rgba(0, 0, 0, 0.95);
+}
+
+body.single-post .svm-nav .svm-menu li.current-menu-item > a,
+body.single-post .svm-nav .svm-menu li.current_page_item > a,
+body.single-domains .svm-nav .svm-menu li.current-menu-item > a,
+body.single-domains .svm-nav .svm-menu li.current_page_item > a,
+body.blog .svm-nav .svm-menu li.current-menu-item > a,
+body.blog .svm-nav .svm-menu li.current_page_item > a,
+body.archive .svm-nav .svm-menu li.current-menu-item > a,
+body.archive .svm-nav .svm-menu li.current_page_item > a,
+body.home .svm-nav .svm-menu li.current-menu-item > a,
+body.home .svm-nav .svm-menu li.current_page_item > a {
+  color: var(--color-accent);
+  background: rgba(0, 217, 255, 0.12);
+}
+
+body.single-post .svm-menu-toggle span,
+body.single-domains .svm-menu-toggle span,
+body.blog .svm-menu-toggle span,
+body.archive .svm-menu-toggle span,
+body.home .svm-menu-toggle span {
+  background: rgba(0, 0, 0, 0.87);
+}
+
 /* HERO SECTIONS */
 .svm-hero{
   background:linear-gradient(135deg,var(--color-navy) 0%,var(--color-darker) 100%);
