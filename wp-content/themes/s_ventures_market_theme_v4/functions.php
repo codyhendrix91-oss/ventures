@@ -101,6 +101,7 @@ add_filter('body_class', function($classes) {
         'page-template-front-page',
         'single-domains',
         'page-template-page-newsletter',
+        'page-template-page-sell-domain',
     );
 
     $has_white_bg = false;
@@ -1604,6 +1605,123 @@ add_shortcode('newsletter_signup', 'svm_newsletter_shortcode');
 
 function svm_newsletter_shortcode($atts) {
     return svm_newsletter_form(true);
+}
+
+/* -------------------------------------------------------
+ * Sell Domain Form Handler
+ * -----------------------------------------------------*/
+add_action('wp_ajax_submit_domain_sell', 'svm_handle_sell_domain_form');
+add_action('wp_ajax_nopriv_submit_domain_sell', 'svm_handle_sell_domain_form');
+
+function svm_handle_sell_domain_form() {
+    // Verify nonce for security
+    if (!isset($_POST['sell_domain_nonce']) || !wp_verify_nonce($_POST['sell_domain_nonce'], 'sell_domain_form')) {
+        wp_send_json_error(array('message' => 'Security check failed'));
+    }
+
+    // Honeypot spam check
+    if (!empty($_POST['website'])) {
+        // Bot filled the honeypot - reject silently
+        wp_send_json_success(array('message' => 'Thank you! We have received your submission and will be in touch soon.'));
+        exit;
+    }
+
+    // Get and sanitize form data
+    $first_name = sanitize_text_field($_POST['first_name'] ?? '');
+    $last_name = sanitize_text_field($_POST['last_name'] ?? '');
+    $email = sanitize_email($_POST['email'] ?? '');
+    $domain_name = sanitize_text_field($_POST['domain_name'] ?? '');
+    $phone = sanitize_text_field($_POST['phone'] ?? '');
+    $message = sanitize_textarea_field($_POST['message'] ?? '');
+
+    // Validation
+    if (empty($first_name) || empty($last_name) || empty($email) || empty($domain_name)) {
+        wp_send_json_error(array('message' => 'Please fill in all required fields'));
+    }
+
+    if (!is_email($email)) {
+        wp_send_json_error(array('message' => 'Please enter a valid email address'));
+    }
+
+    // Rate limiting by IP
+    $user_ip = $_SERVER['REMOTE_ADDR'];
+    $transient_key = 'sell_domain_ip_' . md5($user_ip);
+    $recent_submissions = get_transient($transient_key);
+
+    if ($recent_submissions && $recent_submissions >= 3) {
+        wp_send_json_error(array('message' => 'Too many requests. Please try again later.'));
+        exit;
+    }
+
+    // Increment submission count (expires in 1 hour)
+    set_transient($transient_key, ($recent_submissions ? $recent_submissions + 1 : 1), HOUR_IN_SECONDS);
+
+    // Get additional information
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    $ref = $_SERVER['HTTP_REFERER'] ?? '';
+
+    // Store as a comment/lead for tracking
+    $content = "DOMAIN SELL INQUIRY\n\n" .
+               "Domain: {$domain_name}\n" .
+               "Name: {$first_name} {$last_name}\n" .
+               "Email: {$email}\n" .
+               "Phone: {$phone}\n" .
+               "Message: {$message}\n\n" .
+               "IP: {$ip}\n" .
+               "User Agent: {$ua}\n" .
+               "Referrer: {$ref}";
+
+    // Insert as a custom comment type for tracking
+    wp_insert_comment(array(
+        'comment_post_ID' => 0,
+        'comment_author' => $first_name . ' ' . $last_name,
+        'comment_author_email' => $email,
+        'comment_content' => $content,
+        'comment_type' => 'svm_sell_domain',
+        'comment_approved' => 0
+    ));
+
+    // Send email notification to admin
+    $to = 'info@s.ventures';
+    $subject = 'New Domain Sell Inquiry: ' . $domain_name;
+    $email_message = "You have received a new domain sell inquiry.\n\n" .
+                     "Domain: {$domain_name}\n" .
+                     "Name: {$first_name} {$last_name}\n" .
+                     "Email: {$email}\n" .
+                     "Phone: {$phone}\n\n" .
+                     "Message:\n{$message}\n\n" .
+                     "---\n" .
+                     "IP Address: {$ip}\n" .
+                     "User Agent: {$ua}";
+
+    $headers = array('Content-Type: text/plain; charset=UTF-8', 'Reply-To: ' . $email);
+
+    wp_mail($to, $subject, $email_message, $headers);
+
+    // Send confirmation email to submitter
+    $confirmation_subject = 'Thank you for your domain submission - S Ventures';
+    $confirmation_message = "Hi {$first_name},\n\n" .
+                           "Thank you for submitting {$domain_name} for our review.\n\n" .
+                           "We have received your information and will evaluate your domain within 1-2 business days. " .
+                           "If we are interested in acquiring your domain, we will reach out with an offer.\n\n" .
+                           "What happens next:\n" .
+                           "- Our team will review your domain\n" .
+                           "- You will hear back from us within 1-2 business days\n" .
+                           "- If we are interested, we will send you a straightforward offer\n\n" .
+                           "Thank you for considering S Ventures.\n\n" .
+                           "Best regards,\n" .
+                           "The S Ventures Team\n\n" .
+                           "---\n" .
+                           "S Ventures\n" .
+                           "https://s.ventures\n" .
+                           "info@s.ventures";
+
+    wp_mail($email, $confirmation_subject, $confirmation_message, array('Content-Type: text/plain; charset=UTF-8'));
+
+    wp_send_json_success(array(
+        'message' => 'Thank you! We have received your submission and will be in touch soon.'
+    ));
 }
 
 /**
