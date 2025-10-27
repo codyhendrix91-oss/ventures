@@ -557,8 +557,6 @@ while (have_posts()): the_post();
   width: 100%;
   position: sticky;
   top: calc(var(--header-height) + 20px);
-  max-height: calc(100vh - var(--header-height) - 40px);
-  overflow-y: auto;
 }
 
 /* Sidebar Widgets */
