@@ -193,7 +193,7 @@ while (have_posts()): the_post();
 /* Hero Section */
 .post-hero {
   background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
-  padding: calc(70px + 80px) 20px 80px;
+  padding: calc(62px + 80px) 20px 80px;
   position: relative;
   overflow: hidden;
 }
@@ -245,7 +245,7 @@ while (have_posts()): the_post();
 }
 
 .breadcrumbs a:hover {
-  color: #2efc86;
+  color: #00d9ff;
 }
 
 .breadcrumbs span {
@@ -256,8 +256,8 @@ while (have_posts()): the_post();
 .post-category {
   display: inline-block;
   padding: 6px 16px;
-  background: linear-gradient(135deg, #2efc86 0%, #25d876 100%);
-  color: #2B234A;
+  background: linear-gradient(135deg, #00d9ff 0%, #2B234A 100%);
+  color: #ffffff;
   border-radius: 20px;
   font-weight: 700;
   font-size: 12px;
@@ -270,7 +270,7 @@ while (have_posts()): the_post();
 
 .post-category:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(46, 252, 134, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.4);
 }
 
 /* Title */
@@ -281,7 +281,7 @@ while (have_posts()): the_post();
   margin: 0 0 24px;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Meta Info */
@@ -332,7 +332,7 @@ while (have_posts()): the_post();
 .post-body h4,
 .post-body h5,
 .post-body h6 {
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
   color: #1a1d35;
   margin: 48px 0 24px;
@@ -362,7 +362,7 @@ while (have_posts()): the_post();
 }
 
 .post-body a {
-  color: #1ec770;
+  color: #00d9ff;
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
@@ -370,7 +370,7 @@ while (have_posts()): the_post();
 }
 
 .post-body a:hover {
-  color: #2efc86;
+  color: #2B234A;
   text-decoration-thickness: 3px;
 }
 
@@ -397,8 +397,8 @@ while (have_posts()): the_post();
 .post-body blockquote {
   margin: 40px 0;
   padding: 24px 32px;
-  border-left: 4px solid #2efc86;
-  background: linear-gradient(135deg, rgba(46, 252, 134, 0.05) 0%, rgba(46, 252, 134, 0.02) 100%);
+  border-left: 4px solid #00d9ff;
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(0, 217, 255, 0.02) 100%);
   border-radius: 0 12px 12px 0;
   font-size: 21px;
   font-style: italic;
@@ -450,7 +450,7 @@ while (have_posts()): the_post();
   font-weight: 700;
   color: #2B234A;
   margin: 0 0 16px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .tag-list {
@@ -471,8 +471,8 @@ while (have_posts()): the_post();
 }
 
 .tag-chip:hover {
-  background: rgba(46, 252, 134, 0.15);
-  color: #1ec770;
+  background: rgba(0, 217, 255, 0.15);
+  color: #00d9ff;
   transform: translateY(-2px);
 }
 
@@ -488,7 +488,7 @@ while (have_posts()): the_post();
   font-weight: 700;
   color: #2B234A;
   margin: 0 0 16px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .share-buttons {
@@ -538,7 +538,7 @@ while (have_posts()): the_post();
 }
 
 .share-btn--copy:hover {
-  background: #2efc86;
+  background: #00d9ff;
   color: #2B234A;
 }
 
@@ -559,7 +559,8 @@ while (have_posts()): the_post();
   color: #2B234A;
   margin: 0 0 40px;
   text-align: center;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.02em;
 }
 
 .related-posts__grid {
@@ -609,8 +610,8 @@ while (have_posts()): the_post();
 .blog-card__category {
   display: inline-block;
   padding: 4px 12px;
-  background: linear-gradient(135deg, rgba(46, 252, 134, 0.15) 0%, rgba(46, 252, 134, 0.08) 100%);
-  color: #1ec770;
+  background: linear-gradient(135deg, rgba(43, 35, 74, 0.1) 0%, rgba(43, 35, 74, 0.05) 100%);
+  color: #2B234A;
   border-radius: 12px;
   font-weight: 600;
   font-size: 12px;
@@ -636,7 +637,8 @@ while (have_posts()): the_post();
   color: #2B234A;
   margin: 0 0 12px;
   line-height: 1.3;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .blog-card h3 a {
@@ -645,7 +647,7 @@ while (have_posts()): the_post();
 }
 
 .blog-card h3 a:hover {
-  color: #1ec770;
+  color: #00d9ff;
 }
 
 .blog-card__excerpt {
@@ -660,15 +662,16 @@ while (have_posts()): the_post();
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #1ec770;
+  color: #2B234A;
   font-weight: 600;
   font-size: 15px;
   text-decoration: none;
-  transition: gap 0.2s ease;
+  transition: gap 0.2s ease, color 0.2s ease;
 }
 
 .blog-card__link:hover {
   gap: 12px;
+  color: #00d9ff;
 }
 
 .blog-card__link svg {
@@ -686,7 +689,7 @@ while (have_posts()): the_post();
 
 @media (max-width: 768px) {
   .post-hero {
-    padding: calc(70px + 60px) 20px 60px;
+    padding: calc(62px + 60px) 20px 60px;
   }
 
   .post-hero h1 {

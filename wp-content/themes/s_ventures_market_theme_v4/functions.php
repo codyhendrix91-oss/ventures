@@ -8,12 +8,13 @@ if ( ! defined('ABSPATH') ) { exit; }
 /* -------------------------------------------------------
  * Fix FluentForm Translation Loading Error
  * -----------------------------------------------------*/
-add_filter('doing_it_wrong_trigger_error', function($trigger, $function) {
-    if ($function === '_load_textdomain_just_in_time' && strpos($function, 'fluentform') !== false) {
+add_filter('doing_it_wrong_trigger_error', function($trigger, $function, $message) {
+    // Suppress the fluentform translation loading warning
+    if ($function === '_load_textdomain_just_in_time' && strpos($message, 'fluentform') !== false) {
         return false;
     }
     return $trigger;
-}, 10, 2);
+}, 10, 3);
 
 /* -------------------------------------------------------
  * SEO - Product Schema for Domains
