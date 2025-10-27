@@ -1,8 +1,7 @@
 <?php
 /**
- * Single Blog Post Template - 2025 Best Practices
- * Modern, readable design with white content background
- * Full Elementor support
+ * Single Blog Post Template - MediaOptions Style with Sidebar
+ * Clean white background with 75-80% content width and sidebar
  */
 get_header();
 
@@ -14,14 +13,13 @@ while (have_posts()): the_post();
 
 <article class="blog-single">
 
-  <!-- Hero with Featured Image -->
-  <section class="post-hero">
-    <?php if (has_post_thumbnail()): ?>
-      <div class="post-hero__image" style="background-image: url('<?php echo get_the_post_thumbnail_url($post_id, 'full'); ?>');"></div>
-    <?php endif; ?>
+  <!-- Main Container with White Background -->
+  <div class="site-container">
+    <div class="site-inner">
 
-    <div class="post-hero__content">
-      <div class="post-hero__inner">
+      <!-- Main Content Area (75-80% width) -->
+      <main class="content-main">
+
         <!-- Breadcrumbs -->
         <nav class="breadcrumbs">
           <a href="<?php echo home_url(); ?>">Home</a>
@@ -33,93 +31,127 @@ while (have_posts()): the_post();
           <?php endif; ?>
         </nav>
 
-        <!-- Category Badge -->
-        <?php if ($primary_cat): ?>
-          <a href="<?php echo get_category_link($primary_cat->term_id); ?>" class="post-category"><?php echo esc_html($primary_cat->name); ?></a>
-        <?php endif; ?>
-
         <!-- Title -->
-        <h1><?php the_title(); ?></h1>
+        <h1 class="entry-title"><?php the_title(); ?></h1>
 
         <!-- Meta -->
-        <div class="post-meta">
-          <span class="post-date">
+        <div class="entry-meta">
+          <?php if ($primary_cat): ?>
+            <a href="<?php echo get_category_link($primary_cat->term_id); ?>" class="entry-category"><?php echo esc_html($primary_cat->name); ?></a>
+          <?php endif; ?>
+          <span class="entry-date">
             <svg viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
             </svg>
             <?php echo get_the_date('F j, Y'); ?>
           </span>
-          <span>•</span>
-          <span class="post-reading-time">
+          <span class="entry-reading-time">
             <svg viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
             </svg>
             <?php echo svm_reading_time(); ?> min read
           </span>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Post Content - WHITE BACKGROUND -->
-  <section class="post-content">
-    <div class="post-content__inner">
+        <!-- Featured Image -->
+        <?php if (has_post_thumbnail()): ?>
+          <div class="entry-featured-image">
+            <?php the_post_thumbnail('large', array('class' => 'entry-image')); ?>
+          </div>
+        <?php endif; ?>
 
-      <!-- Main Content -->
-      <div class="post-body">
-        <?php
-        // Elementor will automatically handle its content when present
-        // MUST call the_content() directly for Elementor editor to work
-        the_content();
-        ?>
-      </div>
-
-      <!-- Tags -->
-      <?php if (has_tag()): ?>
-      <div class="post-tags">
-        <h3>Tags</h3>
-        <div class="tag-list">
+        <!-- Post Content -->
+        <div class="entry-content">
           <?php
-          $tags = get_the_tags();
-          foreach($tags as $tag):
+          // Elementor will automatically handle its content when present
+          the_content();
           ?>
-            <a href="<?php echo get_tag_link($tag->term_id); ?>" class="tag-chip"><?php echo esc_html($tag->name); ?></a>
-          <?php endforeach; ?>
         </div>
-      </div>
-      <?php endif; ?>
 
-      <!-- Share Buttons -->
-      <div class="post-share">
-        <h3>Share This Article</h3>
-        <div class="share-buttons">
-          <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode(get_permalink()); ?>&text=<?php echo urlencode(get_the_title()); ?>" target="_blank" rel="noopener" class="share-btn share-btn--twitter" title="Share on Twitter">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
-            </svg>
-          </a>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode(get_permalink()); ?>" target="_blank" rel="noopener" class="share-btn share-btn--linkedin" title="Share on LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
-              <circle cx="4" cy="4" r="2"/>
-            </svg>
-          </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(get_permalink()); ?>" target="_blank" rel="noopener" class="share-btn share-btn--facebook" title="Share on Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-            </svg>
-          </a>
-          <button onclick="navigator.clipboard.writeText('<?php echo get_permalink(); ?>');alert('Link copied!');" class="share-btn share-btn--copy" title="Copy Link">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
-              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
-            </svg>
-          </button>
+        <!-- Tags -->
+        <?php if (has_tag()): ?>
+        <div class="entry-tags">
+          <h3>Tags</h3>
+          <div class="tag-list">
+            <?php
+            $tags = get_the_tags();
+            foreach($tags as $tag):
+            ?>
+              <a href="<?php echo get_tag_link($tag->term_id); ?>" class="tag-chip"><?php echo esc_html($tag->name); ?></a>
+            <?php endforeach; ?>
+          </div>
         </div>
-      </div>
+        <?php endif; ?>
+
+      </main>
+
+      <!-- Sidebar (20-25% width) -->
+      <aside class="content-sidebar">
+
+        <!-- Newsletter Signup Form -->
+        <div class="sidebar-widget sidebar-newsletter">
+          <h3 class="widget-title">Subscribe to Our Newsletter</h3>
+          <p class="widget-description">Get the latest insights on domain strategies and tech startup trends delivered to your inbox.</p>
+
+          <?php if (function_exists('svm_newsletter_form')): ?>
+            <?php echo svm_newsletter_form(true); ?>
+          <?php else: ?>
+            <!-- Fallback Newsletter Form -->
+            <form class="newsletter-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+              <input type="hidden" name="action" value="svm_newsletter_signup">
+              <input type="email" name="email" placeholder="Enter your email" required class="newsletter-input">
+              <button type="submit" class="newsletter-button">Subscribe</button>
+            </form>
+          <?php endif; ?>
+        </div>
+
+        <!-- Recent Posts Widget -->
+        <div class="sidebar-widget sidebar-recent-posts">
+          <h3 class="widget-title">Recent Posts</h3>
+          <?php
+          $recent_posts = new WP_Query(array(
+            'post_type' => 'post',
+            'posts_per_page' => 5,
+            'post__not_in' => array($post_id),
+          ));
+
+          if ($recent_posts->have_posts()):
+          ?>
+          <ul class="recent-posts-list">
+            <?php while ($recent_posts->have_posts()): $recent_posts->the_post(); ?>
+              <li>
+                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                <span class="recent-post-date"><?php echo get_the_date('M j, Y'); ?></span>
+              </li>
+            <?php endwhile; wp_reset_postdata(); ?>
+          </ul>
+          <?php endif; ?>
+        </div>
+
+        <!-- Categories Widget -->
+        <?php
+        $post_categories = get_categories(array('hide_empty' => true));
+        if (!empty($post_categories)):
+        ?>
+        <div class="sidebar-widget sidebar-categories">
+          <h3 class="widget-title">Categories</h3>
+          <ul class="categories-list">
+            <?php foreach($post_categories as $category): ?>
+              <li>
+                <a href="<?php echo get_category_link($category->term_id); ?>">
+                  <?php echo esc_html($category->name); ?>
+                  <span class="category-count">(<?php echo $category->count; ?>)</span>
+                </a>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+        <?php endif; ?>
+
+      </aside>
 
     </div>
-  </section>
+  </div>
 
   <!-- Related Posts -->
   <?php
@@ -188,180 +220,174 @@ while (have_posts()): the_post();
 </article>
 
 <style>
-/* 2025 Blog Post Styles - Modern & Readable */
+/* Blog Post Styles - MediaOptions Inspired with Sidebar */
 
-/* Hero Section */
-.post-hero {
-  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
-  padding: calc(62px + 80px) 20px 80px;
-  position: relative;
-  overflow: hidden;
+/* Global Blog Container */
+.blog-single {
+  background: #ffffff;
+  min-height: 100vh;
 }
 
-.post-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(46, 252, 134, 0.05) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+/* Site Container - MediaOptions Structure */
+.site-container {
+  background: #ffffff;
+  padding: calc(var(--header-height) + 40px) 0 80px;
+  min-height: calc(100vh - 400px);
 }
 
-.post-hero__image {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.15;
-  z-index: 0;
-}
-
-.post-hero__content {
-  position: relative;
-  z-index: 1;
-}
-
-.post-hero__inner {
-  max-width: 900px;
+.site-inner {
+  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
-  text-align: center;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 60px;
+  align-items: start;
+}
+
+/* Main Content Area - Takes 75-80% width */
+.content-main {
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Breadcrumbs */
 .breadcrumbs {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
   margin-bottom: 24px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #6b7280;
 }
 
 .breadcrumbs a {
-  color: rgba(255, 255, 255, 0.8);
+  color: #374151;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .breadcrumbs a:hover {
-  color: #00d9ff;
+  color: #2B234A;
 }
 
 .breadcrumbs span {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* Category Badge */
-.post-category {
-  display: inline-block;
-  padding: 6px 16px;
-  background: linear-gradient(135deg, #00d9ff 0%, #2B234A 100%);
-  color: #ffffff;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 20px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.post-category:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.4);
+  color: #9ca3af;
 }
 
 /* Title */
-.post-hero h1 {
-  font-size: clamp(32px, 6vw, 56px);
+.entry-title {
+  font-size: clamp(32px, 5vw, 48px);
   font-weight: 700;
-  color: #fff;
-  margin: 0 0 24px;
-  line-height: 1.15;
+  color: #160042;
+  margin: 0 0 20px;
+  line-height: 1.2;
   letter-spacing: -0.02em;
   font-family: 'Poppins', sans-serif;
 }
 
-/* Meta Info */
-.post-meta {
+/* Entry Meta */
+.entry-meta {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.8);
+  gap: 16px;
   flex-wrap: wrap;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid #f3f4f6;
+  font-size: 14px;
+  color: #6b7280;
 }
 
-.post-meta span {
+.entry-category {
+  display: inline-block;
+  padding: 4px 14px;
+  background: linear-gradient(135deg, rgba(43, 35, 74, 0.1) 0%, rgba(43, 35, 74, 0.05) 100%);
+  color: #2B234A;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.entry-category:hover {
+  background: linear-gradient(135deg, rgba(43, 35, 74, 0.2) 0%, rgba(43, 35, 74, 0.1) 100%);
+}
+
+.entry-date,
+.entry-reading-time {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.post-meta svg {
+.entry-meta svg {
   width: 16px;
   height: 16px;
-  opacity: 0.8;
+  opacity: 0.6;
 }
 
-/* Content Section - WHITE BACKGROUND */
-.post-content {
-  background: #ffffff;
-  padding: 80px 20px;
+/* Featured Image */
+.entry-featured-image {
+  margin: 0 0 40px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.post-content__inner {
-  max-width: 800px;
-  margin: 0 auto;
+.entry-image {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-/* Post Body - Typography Optimized for 2025 */
-.post-body {
-  font-size: 19px;
-  line-height: 1.8;
-  color: #374151;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+/* Entry Content - Typography */
+.entry-content {
+  font-size: 18px;
+  line-height: 1.625;
+  color: #160042;
+  font-family: Inter, sans-serif;
 }
 
-.post-body h1,
-.post-body h2,
-.post-body h3,
-.post-body h4,
-.post-body h5,
-.post-body h6 {
+.entry-content h1,
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6 {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  color: #1a1d35;
-  margin: 48px 0 24px;
+  color: #160042;
+  margin: 40px 0 20px;
   line-height: 1.3;
   letter-spacing: -0.02em;
 }
 
-.post-body h1 { font-size: 42px; }
-.post-body h2 { font-size: 36px; }
-.post-body h3 { font-size: 28px; }
-.post-body h4 { font-size: 24px; }
-.post-body h5 { font-size: 20px; }
-.post-body h6 { font-size: 18px; }
+.entry-content h1 { font-size: 42px; }
+.entry-content h2 { font-size: 36px; }
+.entry-content h3 { font-size: 28px; }
+.entry-content h4 { font-size: 24px; }
+.entry-content h5 { font-size: 20px; }
+.entry-content h6 { font-size: 18px; }
 
-.post-body h2:first-child,
-.post-body h3:first-child,
-.post-body h4:first-child {
+.entry-content h2:first-child,
+.entry-content h3:first-child,
+.entry-content h4:first-child {
   margin-top: 0;
 }
 
-.post-body p {
+.entry-content p {
   margin: 0 0 24px;
 }
 
-.post-body p:last-child {
+.entry-content p:last-child {
   margin-bottom: 0;
 }
 
-.post-body a {
+.entry-content a {
   color: #00d9ff;
   text-decoration: underline;
   text-decoration-thickness: 2px;
@@ -369,32 +395,27 @@ while (have_posts()): the_post();
   transition: all 0.2s ease;
 }
 
-.post-body a:hover {
+.entry-content a:hover {
   color: #2B234A;
-  text-decoration-thickness: 3px;
 }
 
-.post-body strong {
+.entry-content strong {
   font-weight: 700;
-  color: #2B234A;
+  color: #160042;
 }
 
-.post-body em {
-  font-style: italic;
-}
-
-.post-body ul,
-.post-body ol {
+.entry-content ul,
+.entry-content ol {
   margin: 24px 0;
   padding-left: 28px;
 }
 
-.post-body li {
+.entry-content li {
   margin: 12px 0;
   line-height: 1.7;
 }
 
-.post-body blockquote {
+.entry-content blockquote {
   margin: 40px 0;
   padding: 24px 32px;
   border-left: 4px solid #00d9ff;
@@ -405,14 +426,14 @@ while (have_posts()): the_post();
   color: #4b5563;
 }
 
-.post-body img {
+.entry-content img {
   max-width: 100%;
   height: auto;
   border-radius: 12px;
   margin: 32px 0;
 }
 
-.post-body code {
+.entry-content code {
   padding: 3px 8px;
   background: #f3f4f6;
   border-radius: 4px;
@@ -421,7 +442,7 @@ while (have_posts()): the_post();
   color: #e11d48;
 }
 
-.post-body pre {
+.entry-content pre {
   background: #1a1d35;
   color: #e5e7eb;
   padding: 24px;
@@ -430,7 +451,7 @@ while (have_posts()): the_post();
   margin: 32px 0;
 }
 
-.post-body pre code {
+.entry-content pre code {
   background: none;
   padding: 0;
   color: #e5e7eb;
@@ -439,13 +460,13 @@ while (have_posts()): the_post();
 }
 
 /* Tags */
-.post-tags {
+.entry-tags {
   margin-top: 60px;
   padding-top: 40px;
   border-top: 2px solid #f3f4f6;
 }
 
-.post-tags h3 {
+.entry-tags h3 {
   font-size: 18px;
   font-weight: 700;
   color: #2B234A;
@@ -476,14 +497,29 @@ while (have_posts()): the_post();
   transform: translateY(-2px);
 }
 
-/* Share Buttons */
-.post-share {
-  margin-top: 40px;
-  padding-top: 40px;
-  border-top: 2px solid #f3f4f6;
+/* Sidebar - 20-25% width */
+.content-sidebar {
+  width: 100%;
+  position: sticky;
+  top: calc(var(--header-height) + 20px);
+  max-height: calc(100vh - var(--header-height) - 40px);
+  overflow-y: auto;
 }
 
-.post-share h3 {
+/* Sidebar Widgets */
+.sidebar-widget {
+  background: #ffffff;
+  border: 2px solid #f3f4f6;
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.sidebar-widget:last-child {
+  margin-bottom: 0;
+}
+
+.widget-title {
   font-size: 18px;
   font-weight: 700;
   color: #2B234A;
@@ -491,55 +527,162 @@ while (have_posts()): the_post();
   font-family: 'Poppins', sans-serif;
 }
 
-.share-buttons {
+.widget-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6b7280;
+  margin: 0 0 20px;
+}
+
+/* Newsletter Form in Sidebar */
+.sidebar-newsletter .newsletter-form {
   display: flex;
+  flex-direction: column;
   gap: 12px;
-  flex-wrap: wrap;
 }
 
-.share-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #f3f4f6;
-  color: #4b5563;
-  border: none;
-  cursor: pointer;
+.sidebar-newsletter .newsletter-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
   transition: all 0.2s ease;
-  text-decoration: none;
 }
 
-.share-btn svg {
-  width: 20px;
-  height: 20px;
+.sidebar-newsletter .newsletter-input:focus {
+  outline: none;
+  border-color: #2B234A;
+  box-shadow: 0 0 0 3px rgba(43, 35, 74, 0.1);
 }
 
-.share-btn:hover {
+.sidebar-newsletter .newsletter-button {
+  width: 100%;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sidebar-newsletter .newsletter-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(43, 35, 74, 0.3);
 }
 
-.share-btn--twitter:hover {
-  background: #1DA1F2;
-  color: #fff;
+/* Override existing newsletter styles for sidebar */
+.sidebar-newsletter .svm-newsletter {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-.share-btn--linkedin:hover {
-  background: #0A66C2;
-  color: #fff;
+.sidebar-newsletter .svm-newsletter__text {
+  font-size: 14px !important;
+  color: #6b7280 !important;
+  margin-bottom: 16px !important;
 }
 
-.share-btn--facebook:hover {
-  background: #1877F2;
-  color: #fff;
+.sidebar-newsletter .svm-newsletter__input {
+  width: 100% !important;
+  padding: 12px 16px !important;
+  font-size: 14px !important;
+  margin-bottom: 12px !important;
 }
 
-.share-btn--copy:hover {
-  background: #00d9ff;
+.sidebar-newsletter .svm-newsletter__button {
+  width: 100% !important;
+  padding: 12px 20px !important;
+  font-size: 14px !important;
+}
+
+/* Recent Posts List */
+.recent-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent-posts-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.recent-posts-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.recent-posts-list li:first-child {
+  padding-top: 0;
+}
+
+.recent-posts-list a {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  text-decoration: none;
+  line-height: 1.5;
+  display: block;
+  margin-bottom: 4px;
+  transition: color 0.2s ease;
+}
+
+.recent-posts-list a:hover {
   color: #2B234A;
+}
+
+.recent-post-date {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* Categories List */
+.categories-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categories-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.categories-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.categories-list li:first-child {
+  padding-top: 0;
+}
+
+.categories-list a {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.categories-list a:hover {
+  color: #2B234A;
+}
+
+.category-count {
+  font-size: 12px;
+  color: #9ca3af;
 }
 
 /* Related Posts */
@@ -569,7 +712,7 @@ while (have_posts()): the_post();
   gap: 32px;
 }
 
-/* Blog Cards (reused from archive) */
+/* Blog Cards */
 .blog-card {
   background: #fff;
   border-radius: 16px;
@@ -680,37 +823,37 @@ while (have_posts()): the_post();
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
-  .related-posts__grid {
+@media (max-width: 992px) {
+  .site-inner {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 40px;
+  }
+
+  .content-sidebar {
+    position: static;
+    max-height: none;
   }
 }
 
 @media (max-width: 768px) {
-  .post-hero {
-    padding: calc(62px + 60px) 20px 60px;
+  .site-container {
+    padding: calc(var(--header-height) + 20px) 0 60px;
   }
 
-  .post-hero h1 {
+  .site-inner {
+    padding: 0 16px;
+  }
+
+  .entry-title {
     font-size: 32px;
   }
 
-  .post-content {
-    padding: 60px 20px;
-  }
-
-  .post-body {
+  .entry-content {
     font-size: 17px;
   }
 
-  .post-body h2 { font-size: 28px; }
-  .post-body h3 { font-size: 24px; }
-
-  .post-body blockquote {
-    font-size: 18px;
-    padding: 20px 24px;
-  }
+  .entry-content h2 { font-size: 28px; }
+  .entry-content h3 { font-size: 24px; }
 
   .related-posts {
     padding: 60px 20px;
@@ -719,8 +862,14 @@ while (have_posts()): the_post();
   .related-posts h2 {
     font-size: 28px;
   }
+
+  .related-posts__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
 </style>
 
 <?php endwhile; ?>
 
+<?php get_footer(); ?>

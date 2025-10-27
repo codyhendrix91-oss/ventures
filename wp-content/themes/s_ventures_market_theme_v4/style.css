@@ -44,6 +44,21 @@ body{
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+  margin:0;
+  padding:0;
+}
+
+/* Body padding for admin bar - ensure admin bar is visible */
+body.admin-bar {
+  padding-top:0 !important;
+  margin-top:0 !important;
+}
+
+/* Ensure admin bar is visible */
+body.admin-bar #wpadminbar {
+  position:fixed !important;
+  top:0 !important;
+  z-index:99999 !important;
 }
 
 /* Builder.io Typography Scale */
@@ -120,7 +135,16 @@ a:hover{opacity:.85}
   box-shadow:0 4px 24px rgba(0,0,0,0.2);
 }
 
-body.admin-bar .svm-header{top:32px}
+/* Admin bar positioning - header below admin bar */
+body.admin-bar .svm-header{
+  top:32px;
+}
+
+@media screen and (max-width: 782px) {
+  body.admin-bar .svm-header {
+    top:46px;
+  }
+}
 
 .svm-header__inner {
   max-width:1400px;
@@ -601,4 +625,35 @@ body.admin-bar .svm-header{top:32px}
 @media (max-width:768px) {
   .svm-purple-about{padding:25px 20px}
   .svm-purple-about-inner p{font-size:12px;line-height:1.6;margin-bottom:12px}
+}
+
+/* =====================================================
+   BLOG POST SPECIFIC STYLES
+   ===================================================== */
+
+/* Ensure blog posts have white background from top to bottom */
+body.single-post,
+body.single,
+body.blog,
+body.archive {
+  background: #ffffff !important;
+}
+
+/* Blog post body - no extra margins or paddings that create white bars */
+body.single-post,
+body.single {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure no gap appears at top of page */
+body.single-post .svm-header,
+body.single .svm-header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Blog single pages should start content right after header */
+body.single article {
+  margin-top: 0;
+  padding-top: 0;
 }
