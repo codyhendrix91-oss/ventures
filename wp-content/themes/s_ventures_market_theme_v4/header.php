@@ -6,8 +6,12 @@
   <?php wp_head(); ?>
   <style>
 /* Builder.io Header Styling - Light Mode (Default for white pages) */
-.header--builder {
-  background: rgba(255, 255, 255, 0.7) !important;
+body:not(.home) .header--builder,
+.single .header--builder,
+.page .header--builder,
+.blog .header--builder,
+.archive .header--builder {
+  background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   -webkit-font-smoothing: antialiased;
