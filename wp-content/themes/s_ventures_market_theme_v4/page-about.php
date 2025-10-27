@@ -9,7 +9,7 @@ get_header();
 <style>
 .about-hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(70px + 80px) 20px 80px;
+  padding: calc(62px + 80px) 20px 80px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -37,7 +37,7 @@ get_header();
   margin: 0 0 24px;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .about-hero__subtitle {
@@ -67,7 +67,7 @@ get_header();
   color: #1a1d35;
   margin: 0 0 32px;
   line-height: 1.2;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .about-section h3 {
@@ -76,7 +76,7 @@ get_header();
   color: #1a1d35;
   margin: 48px 0 20px;
   line-height: 1.3;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .about-section h3:first-child {
@@ -190,7 +190,7 @@ get_header();
   font-size: clamp(32px, 5vw, 42px);
   color: #fff;
   margin: 0 0 24px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .cta-section p {
@@ -209,32 +209,32 @@ get_header();
 .cta-btn {
   display: inline-block;
   padding: 16px 40px;
-  background: linear-gradient(135deg, #00d9ff 0%, #00b8d9 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
   color: #fff;
   border-radius: 50px;
   font-size: 17px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.3);
-  font-family: 'Colour Brown', sans-serif;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+  font-family: 'Poppins', sans-serif;
 }
 
 .cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0, 217, 255, 0.45);
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.45);
 }
 
 .cta-btn--secondary {
-  background: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%);
   color: #fff;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 0 4px 16px rgba(46, 252, 134, 0.3);
 }
 
 .cta-btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(46, 252, 134, 0.45);
 }
 
 @media (max-width: 1024px) {
@@ -243,7 +243,7 @@ get_header();
 }
 
 @media (max-width: 768px) {
-  .about-hero { padding: calc(70px + 60px) 20px 60px; }
+  .about-hero { padding: calc(62px + 60px) 20px 60px; }
   .about-section { padding: 60px 20px; }
   .two-column { grid-template-columns: 1fr; gap: 32px; }
   .highlight-box { padding: 24px; margin: 32px 0; }

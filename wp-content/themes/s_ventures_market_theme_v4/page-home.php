@@ -10,7 +10,7 @@ get_header();
 /* Home Hero Section */
 .home-hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(70px + 100px) 20px 100px;
+  padding: calc(62px + 100px) 20px 100px;
   position: relative;
   overflow: hidden;
 }
@@ -330,7 +330,7 @@ get_header();
 
 @media (max-width: 768px) {
   .home-hero {
-    padding: calc(70px + 70px) 20px 70px;
+    padding: calc(62px + 70px) 20px 70px;
   }
   
   .home-domains,

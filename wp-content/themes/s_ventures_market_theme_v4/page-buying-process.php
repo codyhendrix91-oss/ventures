@@ -14,8 +14,8 @@ get_header();
 }
 
 .buying-process__hero {
-  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
-  padding: calc(70px + 90px) 40px 90px;
+  background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
+  padding: calc(62px + 90px) 40px 90px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -25,7 +25,7 @@ get_header();
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -41,7 +41,7 @@ get_header();
   font-weight: 700;
   color: #fff;
   margin: 0 0 20px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.1;
 }
 
@@ -59,7 +59,6 @@ get_header();
   position: relative;
 }
 
-/* Timeline vertical line - segments between icons */
 .buying-process__timeline {
   position: relative;
 }
@@ -74,23 +73,33 @@ get_header();
   align-items: center;
 }
 
-.process-step:last-child {
-  margin-bottom: 0;
-}
-
-/* Line segment between steps - stops at icons, not through them */
+/* Connecting lines between steps - continuous line through all steps */
 .process-step:not(:last-child)::after {
   content: '';
   position: absolute;
   left: 50%;
-  top: calc(50% + 60px);
-  /* Height = margin-bottom (120px) - icon radius (60px) - next icon radius (60px) */
-  height: 60px;
+  top: 60px;
   width: 4px;
+  height: calc(100% + 120px);
   background: linear-gradient(180deg, #00d9ff 0%, #2efc86 100%);
   transform: translateX(-50%);
   border-radius: 2px;
   z-index: 0;
+}
+
+/* White circle behind icon to create break in line for icon visibility */
+.process-step__icon-wrapper::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #ffffff;
+  z-index: 1;
+}
+
+.process-step:last-child {
+  margin-bottom: 0;
 }
 
 /* Alternating layout */
@@ -141,6 +150,7 @@ get_header();
   position: relative;
   border: 4px solid #f3f4f6;
   transition: all 0.3s ease;
+  z-index: 2;
 }
 
 .process-step:hover .process-step__icon {
@@ -176,7 +186,7 @@ get_header();
   color: #fff;
   font-size: 14px;
   font-weight: 700;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -193,7 +203,7 @@ get_header();
   font-weight: 700;
   color: #1a1d35;
   margin: 0 0 12px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.2;
 }
 
@@ -240,7 +250,7 @@ get_header();
   font-size: 36px;
   font-weight: 700;
   margin: 0 0 16px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #fff;
 }
 
@@ -255,8 +265,8 @@ get_header();
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(135deg, #00d9ff 0%, #2efc86 100%);
-  color: #1a1d35;
+  background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%);
+  color: #ffffff;
   padding: 18px 40px;
   border-radius: 50px;
   text-decoration: none;
@@ -264,7 +274,7 @@ get_header();
   font-size: 16px;
   transition: all 0.3s ease;
   box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .buying-process__cta-btn:hover {
@@ -275,12 +285,13 @@ get_header();
 .buying-process__cta-btn svg {
   width: 20px;
   height: 20px;
+  fill: #ffffff;
 }
 
 /* Responsive */
 @media (max-width: 968px) {
   .buying-process__hero {
-    padding: calc(70px + 60px) 20px 60px;
+    padding: calc(62px + 60px) 20px 60px;
   }
 
   .buying-process__content {
@@ -293,11 +304,17 @@ get_header();
     margin-bottom: 80px;
   }
 
-  /* Mobile timeline segments - positioned from left */
+  /* Mobile connecting lines - continuous through all steps */
   .process-step:not(:last-child)::after {
     left: 40px;
-    top: calc(50% + 40px);
-    height: 40px;
+    top: 40px;
+    height: calc(100% + 80px);
+  }
+
+  /* Mobile white circle mask for icon visibility */
+  .process-step__icon-wrapper::before {
+    width: 60px;
+    height: 60px;
   }
 
   .process-step:nth-child(odd) .process-step__icon-wrapper,
@@ -563,17 +580,24 @@ get_header();
           <div class="process-step__icon">
             <span class="process-step__number">9</span>
             <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="handGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#00d9ff" />
-                  <stop offset="100%" style="stop-color:#2efc86" />
-                </linearGradient>
-              </defs>
-              <circle cx="150" cy="150" r="90" fill="rgba(0, 217, 255, 0.1)" stroke="url(#handGrad)" stroke-width="8"/>
-              <path d="M110 160 L110 140 L120 130 L130 140 L130 120 L140 110 L150 120 L150 130 L160 120 L170 130 L170 160 L160 180 L140 180 Z" fill="url(#handGrad)"/>
-              <path d="M130 160 L130 140 L140 130 L150 140 L150 130 L160 120 L170 130 L170 150 L180 140 L190 150 L190 170 L180 190 L160 190 Z" fill="url(#handGrad)" transform="scale(-1, 1) translate(-300, 0)"/>
-              <circle cx="190" cy="110" r="6" fill="#FFD700"/>
-              <path d="M190 104 L192 108 L196 108 L193 111 L194 115 L190 113 L186 115 L187 111 L184 108 L188 108 Z" fill="#FFD700"/>
+              <!-- Left hand (palm) -->
+              <rect x="60" y="130" width="30" height="80" rx="4" fill="#00d9ff" opacity="0.3"/>
+              <rect x="60" y="130" width="30" height="50" rx="4" stroke="#00d9ff" stroke-width="6" fill="none"/>
+              <!-- Right hand (palm) -->
+              <rect x="210" y="130" width="30" height="80" rx="4" fill="#2efc86" opacity="0.3"/>
+              <rect x="210" y="130" width="30" height="50" rx="4" stroke="#2efc86" stroke-width="6" fill="none"/>
+              <!-- Fingers - left hand -->
+              <circle cx="75" cy="120" r="8" fill="#00d9ff"/>
+              <circle cx="75" cy="105" r="8" fill="#00d9ff"/>
+              <!-- Fingers - right hand -->
+              <circle cx="225" cy="120" r="8" fill="#2efc86"/>
+              <circle cx="225" cy="105" r="8" fill="#2efc86"/>
+              <!-- Handshake connection/grip -->
+              <path d="M90 150 L130 150 L150 165 L170 150 L210 150" stroke="#00d9ff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <path d="M90 165 L130 165 L150 150 L170 165 L210 165" stroke="#2efc86" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <!-- Agreement checkmark -->
+              <circle cx="150" cy="140" r="25" fill="#fff" stroke="#00d9ff" stroke-width="4"/>
+              <path d="M140 140 L147 147 L162 132" stroke="#00d9ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
             </svg>
           </div>
         </div>
