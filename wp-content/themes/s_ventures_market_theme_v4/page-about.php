@@ -9,7 +9,7 @@ get_header();
 <style>
 .about-hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(70px + 80px) 20px 80px;
+  padding: calc(62px + 80px) 20px 80px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -209,20 +209,20 @@ get_header();
 .cta-btn {
   display: inline-block;
   padding: 16px 40px;
-  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%);
   color: #fff;
   border-radius: 50px;
   font-size: 17px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 16px rgba(46, 252, 134, 0.3);
   font-family: 'Poppins', sans-serif;
 }
 
 .cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.45);
+  box-shadow: 0 6px 24px rgba(46, 252, 134, 0.45);
 }
 
 .cta-btn--secondary {
@@ -243,7 +243,7 @@ get_header();
 }
 
 @media (max-width: 768px) {
-  .about-hero { padding: calc(70px + 60px) 20px 60px; }
+  .about-hero { padding: calc(62px + 60px) 20px 60px; }
   .about-section { padding: 60px 20px; }
   .two-column { grid-template-columns: 1fr; gap: 32px; }
   .highlight-box { padding: 24px; margin: 32px 0; }

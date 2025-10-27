@@ -15,7 +15,7 @@ get_header();
 
 .faq-page__hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(70px + 90px) 40px 90px;
+  padding: calc(62px + 90px) 40px 90px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -362,7 +362,7 @@ get_header();
 /* Button gradients for better contrast */
 .btn-grad-cyan { background: linear-gradient(135deg, #00d9ff 0%, #2efc86 100%); color:#0b122b; }
 .btn-grad-azure { background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%); color:#fff; }
-.btn-grad-mint  { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color:#fff; }
+.btn-grad-mint  { background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%); color:#fff; }
 .btn-grad-azure:hover, .btn-grad-mint:hover { filter: brightness(1.05); }
 
 /* Highlight matching text in search */
@@ -376,7 +376,7 @@ get_header();
 /* Responsive */
 @media (max-width: 768px) {
   .faq-page__hero {
-    padding: calc(70px + 60px) 20px 60px;
+    padding: calc(62px + 60px) 20px 60px;
   }
 
   .faq-page__content {
