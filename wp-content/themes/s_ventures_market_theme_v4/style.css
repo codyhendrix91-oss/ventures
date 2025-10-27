@@ -122,7 +122,7 @@ a:hover{opacity:.85}
   left:0;
   right:0;
   z-index:9999;
-  background:rgba(15,20,25,0.95);
+  background:rgba(0,0,0,0.87);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(255,255,255,0.08);
@@ -131,7 +131,7 @@ a:hover{opacity:.85}
 }
 
 .svm-header.scrolled {
-  background:rgba(10,14,27,0.98);
+  background:rgba(0,0,0,0.87);
   box-shadow:0 4px 24px rgba(0,0,0,0.2);
 }
 
@@ -249,7 +249,7 @@ body.admin-bar .svm-header{
   position:absolute;
   top:100%;
   left:0;
-  background:rgba(26, 29, 53, 0.98);
+  background:rgba(0,0,0,0.87);
   backdrop-filter:saturate(180%) blur(20px);
   -webkit-backdrop-filter:saturate(180%) blur(20px);
   min-width:220px;
@@ -327,7 +327,7 @@ body.admin-bar .svm-header{
     top:var(--header-height);
     left:0;
     right:0;
-    background:rgba(15,20,25,0.98);
+    background:rgba(0,0,0,0.87);
     backdrop-filter:blur(12px);
     padding:20px;
     max-height:calc(100vh - var(--header-height));
@@ -373,7 +373,7 @@ body.admin-bar .svm-header{
 /* Light Header - Only for white background pages (single posts and single domains) */
 body.single-post .svm-header,
 body.single-domains .svm-header {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.87);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -381,7 +381,7 @@ body.single-domains .svm-header {
 
 body.single-post .svm-header.scrolled,
 body.single-domains .svm-header.scrolled {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.87);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -410,7 +410,7 @@ body.single-domains .svm-nav .svm-menu > li > a:hover {
 
 body.single-post .svm-nav .svm-menu .sub-menu,
 body.single-domains .svm-nav .svm-menu .sub-menu {
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(255, 255, 255, 0.87);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
