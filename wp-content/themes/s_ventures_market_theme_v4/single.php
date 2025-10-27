@@ -193,7 +193,7 @@ while (have_posts()): the_post();
 /* Hero Section */
 .post-hero {
   background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
-  padding: calc(70px + 80px) 20px 80px;
+  padding: calc(62px + 80px) 20px 80px;
   position: relative;
   overflow: hidden;
 }
@@ -281,7 +281,7 @@ while (have_posts()): the_post();
   margin: 0 0 24px;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Meta Info */
@@ -332,7 +332,7 @@ while (have_posts()): the_post();
 .post-body h4,
 .post-body h5,
 .post-body h6 {
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
   color: #1a1d35;
   margin: 48px 0 24px;
@@ -450,7 +450,7 @@ while (have_posts()): the_post();
   font-weight: 700;
   color: #2B234A;
   margin: 0 0 16px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .tag-list {
@@ -488,7 +488,7 @@ while (have_posts()): the_post();
   font-weight: 700;
   color: #2B234A;
   margin: 0 0 16px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .share-buttons {
@@ -559,7 +559,8 @@ while (have_posts()): the_post();
   color: #2B234A;
   margin: 0 0 40px;
   text-align: center;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.02em;
 }
 
 .related-posts__grid {
@@ -636,7 +637,8 @@ while (have_posts()): the_post();
   color: #2B234A;
   margin: 0 0 12px;
   line-height: 1.3;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .blog-card h3 a {
@@ -687,7 +689,7 @@ while (have_posts()): the_post();
 
 @media (max-width: 768px) {
   .post-hero {
-    padding: calc(70px + 60px) 20px 60px;
+    padding: calc(62px + 60px) 20px 60px;
   }
 
   .post-hero h1 {
