@@ -15,7 +15,7 @@ get_header();
 
 .buying-process__hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(70px + 90px) 40px 90px;
+  padding: calc(62px + 90px) 40px 90px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -265,8 +265,8 @@ get_header();
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(135deg, #00d9ff 0%, #2efc86 100%);
-  color: #1a1d35;
+  background: linear-gradient(135deg, #2efc86 0%, #00d9ff 100%);
+  color: #ffffff;
   padding: 18px 40px;
   border-radius: 50px;
   text-decoration: none;
@@ -285,12 +285,13 @@ get_header();
 .buying-process__cta-btn svg {
   width: 20px;
   height: 20px;
+  fill: #ffffff;
 }
 
 /* Responsive */
 @media (max-width: 968px) {
   .buying-process__hero {
-    padding: calc(70px + 60px) 20px 60px;
+    padding: calc(62px + 60px) 20px 60px;
   }
 
   .buying-process__content {

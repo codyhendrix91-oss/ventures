@@ -10,7 +10,7 @@ get_header();
 <style>
     .sell-hero {
         background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-darker) 100%);
-        padding: 120px 20px 80px;
+        padding: 112px 20px 80px;
         position: relative;
         overflow: hidden;
     }

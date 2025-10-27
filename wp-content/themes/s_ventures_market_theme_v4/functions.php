@@ -101,7 +101,6 @@ add_filter('body_class', function($classes) {
         'page-template-front-page',
         'single-domains',
         'page-template-page-newsletter',
-        'page-template-page-sell-domain',
     );
 
     $has_white_bg = false;
