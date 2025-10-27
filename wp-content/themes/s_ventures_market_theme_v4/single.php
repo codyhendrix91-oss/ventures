@@ -54,18 +54,17 @@ while (have_posts()): the_post();
         </div>
 
         <!-- Featured Image -->
-        <?php
-        // Check if Elementor is editing this post
-        $is_elementor = class_exists('\Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor($post_id);
-
-        if (has_post_thumbnail()):
-        ?>
-          <div class="entry-featured-image <?php echo $is_elementor ? 'elementor-active' : ''; ?>">
+        <?php if (has_post_thumbnail()): ?>
+          <div class="entry-featured-image">
             <?php the_post_thumbnail('large', array('class' => 'entry-image')); ?>
           </div>
         <?php endif; ?>
 
         <!-- Post Content -->
+        <?php
+        // Check if Elementor is editing this post for content-specific styling
+        $is_elementor = class_exists('\Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor($post_id);
+        ?>
         <div class="entry-content <?php echo $is_elementor ? 'has-elementor' : ''; ?>">
           <?php
           // Elementor will automatically handle its content when present
@@ -336,38 +335,22 @@ while (have_posts()): the_post();
   opacity: 0.6;
 }
 
-/* Featured Image - Float Right Style */
+/* Featured Image - Full Width for All Posts (Uniform Display) */
 .entry-featured-image {
-  float: right;
-  width: 40%;
-  max-width: 350px;
-  margin: 0 0 24px 32px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-/* When Elementor is active, make featured image full-width above content */
-.entry-featured-image.elementor-active {
   float: none;
   width: 100%;
   max-width: 100%;
   margin: 0 0 32px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .entry-image {
   width: 100%;
   height: auto;
   display: block;
-}
-
-@media (max-width: 768px) {
-  .entry-featured-image {
-    float: none;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 0 24px;
-  }
+  object-fit: contain;
 }
 
 /* Entry Content - Typography */
@@ -842,7 +825,8 @@ while (have_posts()): the_post();
 .blog-card__image {
   width: 100%;
   height: 220px;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f9fafb;
 }
 
 .blog-card__content {

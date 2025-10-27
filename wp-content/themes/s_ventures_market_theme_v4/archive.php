@@ -108,8 +108,8 @@ if (is_category()) {
 .blog-card__image {
   width: 100%;
   height: 220px;
-  object-fit: cover;
-  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
+  object-fit: contain;
+  background: #f9fafb;
 }
 
 .blog-card__content {
