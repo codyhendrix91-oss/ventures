@@ -690,8 +690,15 @@ while (have_posts()): the_post();
 
 /* Hide the duplicate newsletter text from the function, keep only widget description */
 #sidebar-newsletter-widget .svm-newsletter__content,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__content {
+.sidebar-newsletter .svm-newsletter__content,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__content,
+.content-sidebar .sidebar-newsletter .svm-newsletter__content {
   display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 #sidebar-newsletter-widget .svm-newsletter__form-wrapper,
@@ -709,6 +716,7 @@ while (have_posts()): the_post();
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
+  display: block !important;
 }
 
 /* Change input group to vertical layout for narrow sidebar */
@@ -716,7 +724,7 @@ while (have_posts()): the_post();
 .content-sidebar #sidebar-newsletter-widget .svm-newsletter__input-group {
   display: flex !important;
   flex-direction: column !important;
-  gap: 10px !important;
+  gap: 12px !important;
   padding: 0 !important;
   border: none !important;
   background: transparent !important;
@@ -724,14 +732,15 @@ while (have_posts()): the_post();
   max-width: 100% !important;
   box-sizing: border-box !important;
   align-items: stretch !important;
+  position: relative !important;
 }
 
 #sidebar-newsletter-widget .svm-newsletter__text,
 .content-sidebar #sidebar-newsletter-widget .svm-newsletter__text {
-  font-size: 14px !important;
-  color: #6b7280 !important;
-  margin: 0 0 16px 0 !important;
-  text-align: left !important;
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
 }
 
 #sidebar-newsletter-widget .svm-newsletter__input,
@@ -739,20 +748,23 @@ while (have_posts()): the_post();
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  flex: 1 1 auto !important;
-  padding: 11px 14px !important;
+  flex: 0 0 auto !important;
+  padding: 12px 14px !important;
   font-size: 14px !important;
   margin: 0 !important;
   box-sizing: border-box !important;
   border: 2px solid #e5e7eb !important;
   border-radius: 8px !important;
   background: #ffffff !important;
+  order: 1 !important;
+  position: relative !important;
 }
 
 #sidebar-newsletter-widget .svm-newsletter__input:focus,
 .content-sidebar #sidebar-newsletter-widget .svm-newsletter__input:focus {
   border-color: #2B234A !important;
   outline: none !important;
+  box-shadow: 0 0 0 3px rgba(43, 35, 74, 0.1) !important;
 }
 
 #sidebar-newsletter-widget .svm-newsletter__button,
@@ -761,7 +773,7 @@ while (have_posts()): the_post();
   max-width: 100% !important;
   min-width: 0 !important;
   flex: 0 0 auto !important;
-  padding: 11px 20px !important;
+  padding: 12px 20px !important;
   font-size: 14px !important;
   box-sizing: border-box !important;
   justify-content: center !important;
@@ -769,6 +781,10 @@ while (have_posts()): the_post();
   align-items: center !important;
   background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%) !important;
   white-space: normal !important;
+  order: 2 !important;
+  position: relative !important;
+  margin: 0 !important;
+  gap: 8px !important;
 }
 
 #sidebar-newsletter-widget .svm-newsletter__button:hover,
@@ -782,7 +798,8 @@ while (have_posts()): the_post();
 #sidebar-newsletter-widget .svm-newsletter__button .button-icon,
 .content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-text,
 .content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-icon {
-  display: inline !important;
+  display: inline-flex !important;
+  flex-shrink: 0 !important;
 }
 
 /* Success/Error message styling */
@@ -790,10 +807,11 @@ while (have_posts()): the_post();
 .content-sidebar #sidebar-newsletter-widget .svm-newsletter__message {
   width: 100% !important;
   box-sizing: border-box !important;
-  margin-top: 10px !important;
-  padding: 10px !important;
+  margin-top: 12px !important;
+  padding: 12px !important;
   border-radius: 6px !important;
   font-size: 13px !important;
+  order: 3 !important;
 }
 
 /* Recent Posts List */
