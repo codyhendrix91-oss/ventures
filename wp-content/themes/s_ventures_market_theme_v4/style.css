@@ -122,16 +122,22 @@ a:hover{opacity:.85}
   left:0;
   right:0;
   z-index:9999;
-  background:rgba(0,0,0,0.87);
+  background-color:rgb(30, 32, 35);
+  color:rgba(0, 0, 0, 0.87);
+  font-family:Poppins, Avenir, Helvetica, Arial, sans-serif;
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  transition:all .3s ease;
+  border-bottom:3px solid transparent;
+  transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
+             border-color 0.3s cubic-bezier(.37,.01,0,.98),
+             box-shadow 0.3s cubic-bezier(.37,.01,0,.98);
   height:var(--header-height);
+  -webkit-font-smoothing:antialiased;
+  -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 
 .svm-header.scrolled {
-  background:rgba(0,0,0,0.87);
   box-shadow:0 4px 24px rgba(0,0,0,0.2);
 }
 
@@ -200,36 +206,41 @@ body.admin-bar .svm-header{
   display:flex;
   align-items:center;
   border-bottom:3px solid transparent;
-  transition:all 0.2s cubic-bezier(0.37, 0.01, 0, 0.98);
+  transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
+             border-color 0.3s cubic-bezier(.37,.01,0,.98);
 }
 
 .svm-nav .svm-menu > li:hover {
-  background:rgba(255,255,255,0.08);
-  border-bottom-color:rgba(17, 24, 39, 0.93);
-  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  background-color:rgba(255,255,255,0.08);
+  border-bottom-color:rgb(172, 126, 244);
 }
 
 .svm-nav .svm-menu > li.current-menu-item,
 .svm-nav .svm-menu > li.current_page_item {
-  border-bottom-color:rgba(17, 24, 39, 0.93);
+  border-bottom-color:rgb(172, 126, 244);
 }
 
 .svm-nav .svm-menu > li > a {
-  color:var(--color-text-light);
+  color:#ffffff;
   font-weight:500;
-  font-size:15px;
-  font-family:var(--font-primary);
-  padding:0 20px;
+  font-size:14px;
+  font-family:Poppins, Avenir, Helvetica, Arial, sans-serif;
+  padding:0 15px;
   display:flex;
   align-items:center;
+  justify-content:center;
   height:100%;
   width:100%;
-  transition:color .2s ease;
+  background-color:transparent;
+  border:none;
+  cursor:pointer;
+  transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
+             border-color 0.3s cubic-bezier(.37,.01,0,.98),
+             color 0.3s cubic-bezier(.37,.01,0,.98);
 }
 
 .svm-nav .svm-menu > li > a:hover {
-  color:#fff;
-  opacity:1;
+  color:#ffffff;
 }
 
 .svm-nav .svm-menu li.menu-item-has-children > a::after {
@@ -249,7 +260,7 @@ body.admin-bar .svm-header{
   position:absolute;
   top:100%;
   left:0;
-  background:rgba(0,0,0,0.87);
+  background:rgb(30, 32, 35);
   backdrop-filter:saturate(180%) blur(20px);
   -webkit-backdrop-filter:saturate(180%) blur(20px);
   min-width:220px;
@@ -260,7 +271,9 @@ body.admin-bar .svm-header{
   opacity:0;
   visibility:hidden;
   transform:translateY(-8px);
-  transition:all .2s ease;
+  transition:opacity 0.3s cubic-bezier(.37,.01,0,.98),
+             visibility 0.3s cubic-bezier(.37,.01,0,.98),
+             transform 0.3s cubic-bezier(.37,.01,0,.98);
   z-index:1000;
   list-style:none;
 }
@@ -282,14 +295,14 @@ body.admin-bar .svm-header{
   font-size:14px;
   font-weight:500;
   border-radius:6px;
-  transition:all .15s ease;
+  transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
+             color 0.3s cubic-bezier(.37,.01,0,.98);
   height:auto;
 }
 
 .svm-nav .svm-menu .sub-menu li a:hover {
-  background:rgba(255,255,255,0.1);
+  background-color:rgba(255,255,255,0.1);
   color:rgba(255,255,255,1);
-  opacity:1;
 }
 
 .svm-menu-toggle {
@@ -299,21 +312,34 @@ body.admin-bar .svm-header{
   cursor:pointer;
   padding:8px;
   flex-direction:column;
-  gap:5px;
+  gap:6px;
   z-index:10;
+  width:40px;
+  height:40px;
+  align-items:center;
+  justify-content:center;
 }
 
 .svm-menu-toggle span {
-  width:24px;
-  height:2px;
+  width:26px;
+  height:3px;
   background:#fff;
   border-radius:2px;
-  transition:all .3s ease;
+  display:block;
+  transition:all 0.3s cubic-bezier(.37,.01,0,.98);
+  transform-origin:center;
 }
 
-.svm-header.active .svm-menu-toggle span:nth-child(1){transform:rotate(45deg) translate(7px,7px)}
-.svm-header.active .svm-menu-toggle span:nth-child(2){opacity:0}
-.svm-header.active .svm-menu-toggle span:nth-child(3){transform:rotate(-45deg) translate(7px,-7px)}
+.svm-header.active .svm-menu-toggle span:nth-child(1){
+  transform:rotate(45deg) translate(0px, 9px);
+}
+.svm-header.active .svm-menu-toggle span:nth-child(2){
+  opacity:0;
+  transform:scale(0);
+}
+.svm-header.active .svm-menu-toggle span:nth-child(3){
+  transform:rotate(-45deg) translate(0px, -9px);
+}
 
 @media (max-width:768px) {
   .svm-header__inner{padding:0 20px}
@@ -327,28 +353,31 @@ body.admin-bar .svm-header{
     top:var(--header-height);
     left:0;
     right:0;
-    background:rgba(0,0,0,0.87);
+    background:rgb(30, 32, 35);
     backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
     padding:20px;
     max-height:calc(100vh - var(--header-height));
     overflow-y:auto;
     box-shadow:0 8px 24px rgba(0,0,0,0.2);
   }
-  
+
   .svm-nav .svm-menu {
     flex-direction:column;
     gap:0;
+    height:auto;
   }
-  
+
   .svm-nav .svm-menu > li {
     width:100%;
     border-bottom:1px solid rgba(255,255,255,0.05);
   }
-  
+
   .svm-nav .svm-menu > li > a {
     padding:16px 12px;
+    justify-content:flex-start;
   }
-  
+
   .svm-header.active .svm-nav .svm-menu .sub-menu {
     position:static;
     opacity:1;
@@ -357,78 +386,143 @@ body.admin-bar .svm-header{
     box-shadow:none;
     background:rgba(255,255,255,0.05);
     margin:4px 0 8px 12px;
-    border-left:2px solid var(--color-accent);
+    border-left:2px solid rgb(172, 126, 244);
   }
-  
+
   .svm-nav .svm-menu .sub-menu li a {
-    color:var(--color-text-light);
+    color:rgba(255,255,255,0.95);
     padding:10px 16px;
   }
-  
+
   .svm-nav .svm-menu .sub-menu li a:hover {
-    color:var(--color-accent);
+    color:#ffffff;
+    background-color:rgba(255,255,255,0.08);
   }
 }
 
-/* Light Header - Only for white background pages (single posts and single domains) */
+/* =====================================================
+   Light Header - For white background pages
+   (home page, single posts, single domains, blog)
+   ===================================================== */
+body.home .svm-header,
+body.blog .svm-header,
 body.single-post .svm-header,
-body.single-domains .svm-header {
-  background: rgba(255, 255, 255, 0.87);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+body.single-domains .svm-header,
+.svm-header.header--light {
+  background-color:#ffffff;
+  color:rgba(0, 0, 0, 0.87);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:3px solid transparent;
 }
 
+body.home .svm-header.scrolled,
+body.blog .svm-header.scrolled,
 body.single-post .svm-header.scrolled,
-body.single-domains .svm-header.scrolled {
-  background: rgba(255, 255, 255, 0.87);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+body.single-domains .svm-header.scrolled,
+.svm-header.header--light.scrolled {
+  box-shadow:0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
+body.home .svm-nav .svm-menu > li:hover,
+body.blog .svm-nav .svm-menu > li:hover,
 body.single-post .svm-nav .svm-menu > li:hover,
-body.single-domains .svm-nav .svm-menu > li:hover {
-  background: rgba(43, 35, 74, 0.06);
-  border-bottom-color: #2B234A;
+body.single-domains .svm-nav .svm-menu > li:hover,
+.svm-header.header--light .svm-nav .svm-menu > li:hover {
+  background-color:rgba(0, 0, 0, 0.05);
+  border-bottom-color:rgb(172, 126, 244);
 }
 
+body.home .svm-nav .svm-menu > li.current-menu-item,
+body.home .svm-nav .svm-menu > li.current_page_item,
+body.blog .svm-nav .svm-menu > li.current-menu-item,
+body.blog .svm-nav .svm-menu > li.current_page_item,
 body.single-post .svm-nav .svm-menu > li.current-menu-item,
 body.single-post .svm-nav .svm-menu > li.current_page_item,
 body.single-domains .svm-nav .svm-menu > li.current-menu-item,
-body.single-domains .svm-nav .svm-menu > li.current_page_item {
-  border-bottom-color: #2B234A;
+body.single-domains .svm-nav .svm-menu > li.current_page_item,
+.svm-header.header--light .svm-nav .svm-menu > li.current-menu-item,
+.svm-header.header--light .svm-nav .svm-menu > li.current_page_item {
+  border-bottom-color:rgb(172, 126, 244);
 }
 
+body.home .svm-nav .svm-menu > li > a,
+body.blog .svm-nav .svm-menu > li > a,
 body.single-post .svm-nav .svm-menu > li > a,
-body.single-domains .svm-nav .svm-menu > li > a {
-  color: rgba(0, 0, 0, 0.87);
+body.single-domains .svm-nav .svm-menu > li > a,
+.svm-header.header--light .svm-nav .svm-menu > li > a {
+  color:rgba(0, 0, 0, 0.87);
 }
 
+body.home .svm-nav .svm-menu > li > a:hover,
+body.blog .svm-nav .svm-menu > li > a:hover,
 body.single-post .svm-nav .svm-menu > li > a:hover,
-body.single-domains .svm-nav .svm-menu > li > a:hover {
-  color: rgba(0, 0, 0, 0.95);
+body.single-domains .svm-nav .svm-menu > li > a:hover,
+.svm-header.header--light .svm-nav .svm-menu > li > a:hover {
+  color:#000000;
 }
 
+body.home .svm-nav .svm-menu .sub-menu,
+body.blog .svm-nav .svm-menu .sub-menu,
 body.single-post .svm-nav .svm-menu .sub-menu,
-body.single-domains .svm-nav .svm-menu .sub-menu {
-  background: rgba(255, 255, 255, 0.87);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+body.single-domains .svm-nav .svm-menu .sub-menu,
+.svm-header.header--light .svm-nav .svm-menu .sub-menu {
+  background:#ffffff;
+  border:1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
+body.home .svm-nav .svm-menu .sub-menu li a,
+body.blog .svm-nav .svm-menu .sub-menu li a,
 body.single-post .svm-nav .svm-menu .sub-menu li a,
-body.single-domains .svm-nav .svm-menu .sub-menu li a {
-  color: rgba(0, 0, 0, 0.87);
+body.single-domains .svm-nav .svm-menu .sub-menu li a,
+.svm-header.header--light .svm-nav .svm-menu .sub-menu li a {
+  color:rgba(0, 0, 0, 0.87);
 }
 
+body.home .svm-nav .svm-menu .sub-menu li a:hover,
+body.blog .svm-nav .svm-menu .sub-menu li a:hover,
 body.single-post .svm-nav .svm-menu .sub-menu li a:hover,
-body.single-domains .svm-nav .svm-menu .sub-menu li a:hover {
-  background: rgba(43, 35, 74, 0.08);
-  color: rgba(0, 0, 0, 0.95);
+body.single-domains .svm-nav .svm-menu .sub-menu li a:hover,
+.svm-header.header--light .svm-nav .svm-menu .sub-menu li a:hover {
+  background-color:rgba(0, 0, 0, 0.05);
+  color:#000000;
 }
 
+body.home .svm-menu-toggle span,
+body.blog .svm-menu-toggle span,
 body.single-post .svm-menu-toggle span,
-body.single-domains .svm-menu-toggle span {
-  background: rgba(0, 0, 0, 0.87);
+body.single-domains .svm-menu-toggle span,
+.svm-header.header--light .svm-menu-toggle span {
+  background:rgba(0, 0, 0, 0.87);
+}
+
+/* Mobile menu for light header */
+@media (max-width:768px) {
+  body.home .svm-header.active .svm-nav,
+  body.blog .svm-header.active .svm-nav,
+  body.single-post .svm-header.active .svm-nav,
+  body.single-domains .svm-header.active .svm-nav,
+  .svm-header.header--light.active .svm-nav {
+    background:#ffffff;
+  }
+
+  body.home .svm-header.active .svm-nav .svm-menu .sub-menu,
+  body.blog .svm-header.active .svm-nav .svm-menu .sub-menu,
+  body.single-post .svm-header.active .svm-nav .svm-menu .sub-menu,
+  body.single-domains .svm-header.active .svm-nav .svm-menu .sub-menu,
+  .svm-header.header--light.active .svm-nav .svm-menu .sub-menu {
+    background:rgba(0, 0, 0, 0.05);
+    border-left:2px solid rgb(172, 126, 244);
+  }
+
+  body.home .svm-nav .svm-menu > li,
+  body.blog .svm-nav .svm-menu > li,
+  body.single-post .svm-nav .svm-menu > li,
+  body.single-domains .svm-nav .svm-menu > li,
+  .svm-header.header--light .svm-nav .svm-menu > li {
+    border-bottom:1px solid rgba(0, 0, 0, 0.05);
+  }
 }
 
 /* HERO SECTIONS */

@@ -189,6 +189,103 @@ JS;
     wp_add_inline_script('svm-global', $scroll_js);
 }, 11);
 
+// Adaptive Header Brightness Detection
+add_action('wp_enqueue_scripts', function() {
+    $adaptive_js = <<<'JS'
+(function(){
+document.addEventListener('DOMContentLoaded', function() {
+  var header = document.querySelector('.svm-header');
+  if (!header) return;
+
+  // Skip adaptive header on pages with body classes that force specific themes
+  var body = document.body;
+  var skipAdaptive = body.classList.contains('home') ||
+                     body.classList.contains('blog') ||
+                     body.classList.contains('single-post') ||
+                     body.classList.contains('single-domains');
+
+  if (skipAdaptive) return;
+
+  // Utility: compute luminance of RGB
+  function getLuminance(r, g, b) {
+    var a = [r, g, b].map(function(v) {
+      v /= 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+  }
+
+  // Parse RGB color from element
+  function parseColor(el) {
+    var style = window.getComputedStyle(el);
+    var color = style.backgroundColor;
+    if (color === 'rgba(0, 0, 0, 0)' || color === 'transparent') {
+      var parent = el.parentElement;
+      if (parent && parent !== document.body) {
+        return parseColor(parent);
+      }
+      return 'rgb(255, 255, 255)'; // default to white
+    }
+    return color;
+  }
+
+  // Estimate brightness from color
+  function estimateBrightness(el) {
+    var color = parseColor(el);
+    var match = color.match(/\d+/g);
+    if (match && match.length >= 3) {
+      var rgb = match.map(Number);
+      return getLuminance(rgb[0], rgb[1], rgb[2]);
+    }
+    return 0.5; // mid-gray fallback
+  }
+
+  // Update header theme based on luminance
+  function updateHeaderTheme(luminance) {
+    if (luminance < 0.5) {
+      header.classList.remove('header--light');
+      header.classList.add('header--dark');
+    } else {
+      header.classList.remove('header--dark');
+      header.classList.add('header--light');
+    }
+  }
+
+  // Find the top-most visible section
+  function checkHeaderTheme() {
+    var sections = document.querySelectorAll('section, .elementor-section, .svm-hero, main');
+    var headerHeight = header.offsetHeight;
+
+    for (var i = 0; i < sections.length; i++) {
+      var rect = sections[i].getBoundingClientRect();
+      // Check if section is at the top of viewport (just below header)
+      if (rect.top <= headerHeight && rect.bottom >= headerHeight) {
+        var brightness = estimateBrightness(sections[i]);
+        updateHeaderTheme(brightness);
+        return;
+      }
+    }
+  }
+
+  // Check on scroll with throttling
+  var scrollTimeout;
+  window.addEventListener('scroll', function() {
+    if (scrollTimeout) return;
+    scrollTimeout = setTimeout(function() {
+      checkHeaderTheme();
+      scrollTimeout = null;
+    }, 100);
+  }, { passive: true });
+
+  // Initial check
+  checkHeaderTheme();
+});
+})();
+JS;
+
+    wp_add_inline_script('svm-global', $adaptive_js);
+}, 12);
+
 /* -------------------------------------------------------
  * Menus - UPDATED WITH FOOTER MENUS
  * -----------------------------------------------------*/
