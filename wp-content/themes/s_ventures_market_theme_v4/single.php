@@ -606,8 +606,10 @@ while (have_posts()): the_post();
   font-size: 18px;
   font-weight: 700;
   color: #2B234A;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   font-family: 'Poppins', sans-serif;
+  text-align: left;
+  line-height: 1.4;
 }
 
 .widget-description {
@@ -615,6 +617,8 @@ while (have_posts()): the_post();
   line-height: 1.6;
   color: #6b7280;
   margin: 0 0 20px;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Newsletter Form in Sidebar */
@@ -667,7 +671,8 @@ while (have_posts()): the_post();
 /* Override existing newsletter styles for sidebar - MAXIMUM SPECIFICITY FIX */
 /* Using ID and multiple class selectors for highest specificity */
 #sidebar-newsletter-widget .svm-newsletter,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter {
   background: transparent !important;
   border: none !important;
   padding: 0 !important;
@@ -680,7 +685,8 @@ while (have_posts()): the_post();
 
 /* Fix inner container widths for narrow sidebar */
 #sidebar-newsletter-widget .svm-newsletter__inner,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__inner {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__inner,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__inner {
   max-width: 100% !important;
   width: 100% !important;
   box-sizing: border-box !important;
@@ -688,21 +694,35 @@ while (have_posts()): the_post();
   padding: 0 !important;
 }
 
-/* Hide the duplicate newsletter text from the function, keep only widget description */
+/* CRITICAL: Hide the duplicate newsletter text from the function completely */
+/* The widget already has "Subscribe to Our Newsletter" title and description */
 #sidebar-newsletter-widget .svm-newsletter__content,
 .sidebar-newsletter .svm-newsletter__content,
 .content-sidebar #sidebar-newsletter-widget .svm-newsletter__content,
-.content-sidebar .sidebar-newsletter .svm-newsletter__content {
+.content-sidebar .sidebar-newsletter .svm-newsletter__content,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__content,
+aside.content-sidebar .sidebar-newsletter .svm-newsletter__content,
+#sidebar-newsletter-widget .svm-newsletter__content p,
+.sidebar-newsletter .svm-newsletter__content p,
+#sidebar-newsletter-widget .svm-newsletter__text,
+.sidebar-newsletter .svm-newsletter__text,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__text,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__text {
   display: none !important;
   visibility: hidden !important;
   height: 0 !important;
+  width: 0 !important;
   overflow: hidden !important;
   margin: 0 !important;
   padding: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  opacity: 0 !important;
 }
 
 #sidebar-newsletter-widget .svm-newsletter__form-wrapper,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form-wrapper {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form-wrapper,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form-wrapper {
   max-width: 100% !important;
   width: 100% !important;
   box-sizing: border-box !important;
@@ -712,7 +732,8 @@ while (have_posts()): the_post();
 
 /* Ensure form itself is full width */
 #sidebar-newsletter-widget .svm-newsletter__form,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form {
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
@@ -721,7 +742,8 @@ while (have_posts()): the_post();
 
 /* Change input group to vertical layout for narrow sidebar */
 #sidebar-newsletter-widget .svm-newsletter__input-group,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input-group {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input-group,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input-group {
   display: flex !important;
   flex-direction: column !important;
   gap: 12px !important;
@@ -735,60 +757,71 @@ while (have_posts()): the_post();
   position: relative !important;
 }
 
-#sidebar-newsletter-widget .svm-newsletter__text,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__text {
-  display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  overflow: hidden !important;
-}
-
+/* Email Input Field - Full Width and Visible */
 #sidebar-newsletter-widget .svm-newsletter__input,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
   flex: 0 0 auto !important;
   padding: 12px 14px !important;
   font-size: 14px !important;
+  line-height: 1.5 !important;
   margin: 0 !important;
   box-sizing: border-box !important;
   border: 2px solid #e5e7eb !important;
   border-radius: 8px !important;
   background: #ffffff !important;
+  color: #1a1d35 !important;
+  font-family: 'Poppins', sans-serif !important;
   order: 1 !important;
   position: relative !important;
+  z-index: 1 !important;
 }
 
 #sidebar-newsletter-widget .svm-newsletter__input:focus,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input:focus {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input:focus,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input:focus {
   border-color: #2B234A !important;
   outline: none !important;
   box-shadow: 0 0 0 3px rgba(43, 35, 74, 0.1) !important;
 }
 
+/* Submit Button - Below Input Field, Full Width */
 #sidebar-newsletter-widget .svm-newsletter__button,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
   flex: 0 0 auto !important;
   padding: 12px 20px !important;
   font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
   box-sizing: border-box !important;
   justify-content: center !important;
   display: flex !important;
   align-items: center !important;
   background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-family: 'Poppins', sans-serif !important;
   white-space: normal !important;
   order: 2 !important;
   position: relative !important;
+  z-index: 1 !important;
   margin: 0 !important;
   gap: 8px !important;
+  transition: all 0.3s ease !important;
 }
 
 #sidebar-newsletter-widget .svm-newsletter__button:hover,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button:hover {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button:hover,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(43, 35, 74, 0.3) !important;
 }
@@ -797,14 +830,17 @@ while (have_posts()): the_post();
 #sidebar-newsletter-widget .svm-newsletter__button .button-text,
 #sidebar-newsletter-widget .svm-newsletter__button .button-icon,
 .content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-text,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-icon {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-icon,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-text,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-icon {
   display: inline-flex !important;
   flex-shrink: 0 !important;
 }
 
 /* Success/Error message styling */
 #sidebar-newsletter-widget .svm-newsletter__message,
-.content-sidebar #sidebar-newsletter-widget .svm-newsletter__message {
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__message,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__message {
   width: 100% !important;
   box-sizing: border-box !important;
   margin-top: 12px !important;
