@@ -664,7 +664,7 @@ while (have_posts()): the_post();
   box-shadow: 0 4px 12px rgba(43, 35, 74, 0.3);
 }
 
-/* Override existing newsletter styles for sidebar */
+/* Override existing newsletter styles for sidebar - COMPREHENSIVE FIX */
 .sidebar-newsletter .svm-newsletter {
   background: transparent !important;
   border: none !important;
@@ -672,31 +672,50 @@ while (have_posts()): the_post();
   margin: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* Fix inner container widths for narrow sidebar */
 .sidebar-newsletter .svm-newsletter__inner {
   max-width: 100% !important;
   width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
+/* Hide the duplicate newsletter text from the function, keep only widget description */
 .sidebar-newsletter .svm-newsletter__content {
-  text-align: left !important;
-  margin-bottom: 16px !important;
+  display: none !important;
 }
 
 .sidebar-newsletter .svm-newsletter__form-wrapper {
   max-width: 100% !important;
   width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Ensure form itself is full width */
+.sidebar-newsletter .svm-newsletter__form {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* Change input group to vertical layout for narrow sidebar */
 .sidebar-newsletter .svm-newsletter__input-group {
+  display: flex !important;
   flex-direction: column !important;
   gap: 10px !important;
   padding: 0 !important;
   border: none !important;
   background: transparent !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  align-items: stretch !important;
 }
 
 .sidebar-newsletter .svm-newsletter__text {
@@ -709,6 +728,8 @@ while (have_posts()): the_post();
 .sidebar-newsletter .svm-newsletter__input {
   width: 100% !important;
   max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
   padding: 11px 14px !important;
   font-size: 14px !important;
   margin: 0 !important;
@@ -720,16 +741,43 @@ while (have_posts()): the_post();
 
 .sidebar-newsletter .svm-newsletter__input:focus {
   border-color: #2B234A !important;
+  outline: none !important;
 }
 
 .sidebar-newsletter .svm-newsletter__button {
   width: 100% !important;
   max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
   padding: 11px 20px !important;
   font-size: 14px !important;
   box-sizing: border-box !important;
   justify-content: center !important;
+  display: flex !important;
+  align-items: center !important;
   background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%) !important;
+  white-space: normal !important;
+}
+
+.sidebar-newsletter .svm-newsletter__button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(43, 35, 74, 0.3) !important;
+}
+
+/* Fix any icon/span elements in the button */
+.sidebar-newsletter .svm-newsletter__button .button-text,
+.sidebar-newsletter .svm-newsletter__button .button-icon {
+  display: inline !important;
+}
+
+/* Success/Error message styling */
+.sidebar-newsletter .svm-newsletter__message {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin-top: 10px !important;
+  padding: 10px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
 }
 
 /* Recent Posts List */
