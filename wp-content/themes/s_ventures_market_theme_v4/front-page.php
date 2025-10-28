@@ -46,7 +46,7 @@ get_header();
   margin: 0 0 32px;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .home-hero-redesigned h1 .gradient-text {
@@ -88,7 +88,7 @@ get_header();
   font-weight: 700;
   color: #2B234A;
   line-height: 1;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   background: linear-gradient(135deg, #2B234A 0%, #00d9ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -121,7 +121,7 @@ get_header();
   border-radius: 50px;
   font-size: 17px;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   text-decoration: none;
   transition: all 0.3s ease;
   box-shadow: 0 8px 28px rgba(43, 35, 74, 0.25);
@@ -159,7 +159,7 @@ get_header();
   font-weight: 700;
   color: #1a1d35;
   margin: 0 0 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   letter-spacing: -0.02em;
 }
 
@@ -207,7 +207,7 @@ get_header();
   border-radius: 50px;
   font-size: 17px;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   text-decoration: none;
   transition: all 0.3s ease;
 }
@@ -239,7 +239,7 @@ get_header();
   font-weight: 700;
   color: #1a1d35;
   margin: 0 0 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   letter-spacing: -0.02em;
 }
 
@@ -317,7 +317,7 @@ get_header();
   color: #2B234A;
   margin: 0 0 12px;
   line-height: 1.3;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   letter-spacing: -0.01em;
 }
 
@@ -372,7 +372,7 @@ get_header();
   border-radius: 50px;
   font-size: 17px;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   text-decoration: none;
   transition: all 0.3s ease;
 }

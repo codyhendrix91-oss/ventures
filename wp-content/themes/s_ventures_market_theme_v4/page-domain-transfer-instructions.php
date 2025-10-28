@@ -33,7 +33,7 @@ get_header();
   font-weight: 700;
   color: #1a1d35;
   margin: 0 0 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
@@ -103,7 +103,7 @@ get_header();
   margin: 0 0 8px;
   font-size: 32px;
   font-weight: 700;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.2;
 }
 
@@ -163,7 +163,7 @@ get_header();
   font-weight: 700;
   color: #2B234A;
   margin: 0 0 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -236,7 +236,7 @@ get_header();
   font-weight: 700;
   color: #2B234A;
   margin: 0 0 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .toc-grid {

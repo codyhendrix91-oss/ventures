@@ -288,7 +288,7 @@ while (have_posts()): the_post();
   margin: 0 0 20px;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 /* Entry Meta */
@@ -397,7 +397,7 @@ while (have_posts()): the_post();
 .entry-content h4,
 .entry-content h5,
 .entry-content h6 {
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 700;
   color: #1a1d35;
   margin: 40px 0 20px;
@@ -552,7 +552,7 @@ while (have_posts()): the_post();
   font-weight: 700;
   color: #2B234A;
   margin: 0 0 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .tag-list {
@@ -607,7 +607,7 @@ while (have_posts()): the_post();
   font-weight: 700;
   color: #2B234A;
   margin: 0 0 12px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   text-align: left;
   line-height: 1.4;
 }
@@ -618,7 +618,7 @@ while (have_posts()): the_post();
   color: #6b7280;
   margin: 0 0 20px;
   text-align: left;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 /* Newsletter Form in Sidebar */
@@ -636,7 +636,7 @@ while (have_posts()): the_post();
   border: 2px solid #e5e7eb;
   border-radius: 8px;
   font-size: 14px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
@@ -657,7 +657,7 @@ while (have_posts()): the_post();
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   cursor: pointer;
   transition: all 0.3s ease;
   box-sizing: border-box;
@@ -774,7 +774,7 @@ aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input {
   border-radius: 8px !important;
   background: #ffffff !important;
   color: #1a1d35 !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif !important;
   order: 1 !important;
   position: relative !important;
   z-index: 1 !important;
@@ -809,7 +809,7 @@ aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button {
   border: none !important;
   border-radius: 8px !important;
   cursor: pointer !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif !important;
   white-space: normal !important;
   order: 2 !important;
   position: relative !important;
@@ -949,7 +949,7 @@ aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__message {
   color: #2B234A;
   margin: 0 0 40px;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   letter-spacing: -0.02em;
 }
 
@@ -1028,7 +1028,7 @@ aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__message {
   color: #2B234A;
   margin: 0 0 12px;
   line-height: 1.3;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   letter-spacing: -0.01em;
 }
 

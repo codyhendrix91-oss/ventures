@@ -61,7 +61,7 @@ if (is_category()) {
   font-weight: 700;
   color: #fff;
   margin: 0 0 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
@@ -146,7 +146,7 @@ if (is_category()) {
   color: #2B234A;
   margin: 0 0 12px;
   line-height: 1.3;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   letter-spacing: -0.01em;
 }
 
@@ -202,7 +202,7 @@ if (is_category()) {
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .blog-pagination a:hover {
@@ -236,7 +236,7 @@ if (is_category()) {
   font-weight: 700;
   color: #1a1d35;
   margin: 0 0 12px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .blog-archive__empty p {

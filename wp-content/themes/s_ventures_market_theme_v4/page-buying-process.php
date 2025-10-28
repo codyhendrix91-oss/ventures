@@ -41,7 +41,7 @@ get_header();
   font-weight: 700;
   color: #fff;
   margin: 0 0 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.1;
 }
 
@@ -186,7 +186,7 @@ get_header();
   color: #fff;
   font-size: 14px;
   font-weight: 700;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -203,7 +203,7 @@ get_header();
   font-weight: 700;
   color: #1a1d35;
   margin: 0 0 12px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.2;
 }
 
@@ -250,7 +250,7 @@ get_header();
   font-size: 36px;
   font-weight: 700;
   margin: 0 0 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   color: #fff;
 }
 
@@ -274,7 +274,7 @@ get_header();
   font-size: 16px;
   transition: all 0.3s ease;
   box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .buying-process__cta-btn:hover {

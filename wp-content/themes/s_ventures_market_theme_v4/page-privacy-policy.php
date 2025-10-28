@@ -41,7 +41,7 @@ get_header();
   font-weight: 700;
   color: #fff;
   margin: 0 0 20px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.1;
 }
 
@@ -111,7 +111,7 @@ get_header();
   font-weight: 700;
   color: #2B234A;
   margin: 0;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.3;
 }
 
@@ -120,7 +120,7 @@ get_header();
   font-weight: 600;
   color: #2B234A;
   margin: 28px 0 16px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .privacy-policy__section p {
@@ -160,7 +160,7 @@ get_header();
   font-size: 32px;
   font-weight: 700;
   margin: 0 0 16px;
-  font-family: 'Colour Brown', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   color: #fff;
 }
 

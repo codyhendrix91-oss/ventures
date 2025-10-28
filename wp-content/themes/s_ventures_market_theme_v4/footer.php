@@ -239,7 +239,7 @@ body.single-domains .svm-footer {
   font-weight: 700;
   color: rgba(255, 255, 255, 1.0);
   margin: 0 0 28px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   line-height: 1.2;
   text-align: center;
