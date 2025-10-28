@@ -674,10 +674,36 @@ while (have_posts()): the_post();
   max-width: 100% !important;
 }
 
+/* Fix inner container widths for narrow sidebar */
+.sidebar-newsletter .svm-newsletter__inner {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.sidebar-newsletter .svm-newsletter__content {
+  text-align: left !important;
+  margin-bottom: 16px !important;
+}
+
+.sidebar-newsletter .svm-newsletter__form-wrapper {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Change input group to vertical layout for narrow sidebar */
+.sidebar-newsletter .svm-newsletter__input-group {
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
 .sidebar-newsletter .svm-newsletter__text {
   font-size: 14px !important;
   color: #6b7280 !important;
-  margin-bottom: 16px !important;
+  margin: 0 0 16px 0 !important;
+  text-align: left !important;
 }
 
 .sidebar-newsletter .svm-newsletter__input {
@@ -685,8 +711,15 @@ while (have_posts()): the_post();
   max-width: 100% !important;
   padding: 11px 14px !important;
   font-size: 14px !important;
-  margin-bottom: 10px !important;
+  margin: 0 !important;
   box-sizing: border-box !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+}
+
+.sidebar-newsletter .svm-newsletter__input:focus {
+  border-color: #2B234A !important;
 }
 
 .sidebar-newsletter .svm-newsletter__button {
@@ -695,6 +728,8 @@ while (have_posts()): the_post();
   padding: 11px 20px !important;
   font-size: 14px !important;
   box-sizing: border-box !important;
+  justify-content: center !important;
+  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%) !important;
 }
 
 /* Recent Posts List */
