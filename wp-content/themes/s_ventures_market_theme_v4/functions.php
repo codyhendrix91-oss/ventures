@@ -197,14 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var header = document.querySelector('.svm-header');
   if (!header) return;
 
-  // Skip adaptive header on pages with body classes that force specific themes
   var body = document.body;
-  var skipAdaptive = body.classList.contains('home') ||
-                     body.classList.contains('blog') ||
-                     body.classList.contains('single-post') ||
-                     body.classList.contains('single-domains');
-
-  if (skipAdaptive) return;
 
   // Utility: compute luminance of RGB
   function getLuminance(r, g, b) {
@@ -280,9 +273,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Find the top-most visible section
   function checkHeaderTheme() {
-    var sections = document.querySelectorAll('section, .elementor-section, .svm-hero, main');
+    var sections = document.querySelectorAll('section, .elementor-section, .svm-hero, main, .elementor-top-section');
     var headerHeight = header.offsetHeight;
 
+    // Check sections that are in viewport
     for (var i = 0; i < sections.length; i++) {
       var rect = sections[i].getBoundingClientRect();
       // Check if section is at the top of viewport (just below header)
@@ -292,6 +286,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
     }
+
+    // Fallback: check body background if no section found
+    var bodyBrightness = estimateBrightness(body);
+    updateHeaderTheme(bodyBrightness);
   }
 
   // Check on scroll with throttling

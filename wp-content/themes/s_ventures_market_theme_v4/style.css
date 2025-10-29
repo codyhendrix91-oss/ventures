@@ -401,13 +401,8 @@ body.admin-bar .svm-header{
 }
 
 /* =====================================================
-   Light Header - For white background pages
-   (home page, single posts, single domains, blog)
+   Adaptive Header Classes (applied by JavaScript)
    ===================================================== */
-body.home .svm-header,
-body.blog .svm-header,
-body.single-post .svm-header,
-body.single-domains .svm-header,
 .svm-header.header--light {
   background-color:#ffffff;
   color:rgba(0, 0, 0, 0.87);
@@ -424,10 +419,53 @@ body.single-domains .svm-header,
   border-bottom:3px solid transparent;
 }
 
+.svm-header.header--light.scrolled {
+  box-shadow:0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
 .svm-header.header--dark.scrolled {
   box-shadow:0 4px 24px rgba(0,0,0,0.2);
 }
 
+/* Light header styles */
+.svm-header.header--light .svm-nav .svm-menu > li:hover {
+  background-color:rgba(0, 0, 0, 0.05);
+  border-bottom-color:#3d3158;
+}
+
+.svm-header.header--light .svm-nav .svm-menu > li.current-menu-item,
+.svm-header.header--light .svm-nav .svm-menu > li.current_page_item {
+  border-bottom-color:#3d3158;
+}
+
+.svm-header.header--light .svm-nav .svm-menu > li > a {
+  color:rgba(0, 0, 0, 0.87);
+}
+
+.svm-header.header--light .svm-nav .svm-menu > li > a:hover {
+  color:#000000;
+}
+
+.svm-header.header--light .svm-nav .svm-menu .sub-menu {
+  background:#ffffff;
+  border:1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.svm-header.header--light .svm-nav .svm-menu .sub-menu li a {
+  color:rgba(0, 0, 0, 0.87);
+}
+
+.svm-header.header--light .svm-nav .svm-menu .sub-menu li a:hover {
+  background-color:rgba(0, 0, 0, 0.05);
+  color:#000000;
+}
+
+.svm-header.header--light .svm-menu-toggle span {
+  background:rgba(0, 0, 0, 0.87);
+}
+
+/* Dark header styles */
 .svm-header.header--dark .svm-nav .svm-menu > li > a {
   color:#ffffff;
 }
@@ -440,116 +478,21 @@ body.single-domains .svm-header,
   background:#ffffff;
 }
 
+/* Mobile menu adaptations */
 @media (max-width:768px) {
-  .svm-header.header--dark.active .svm-nav {
-    background:rgb(30, 32, 35);
-  }
-}
-
-body.home .svm-header.scrolled,
-body.blog .svm-header.scrolled,
-body.single-post .svm-header.scrolled,
-body.single-domains .svm-header.scrolled,
-.svm-header.header--light.scrolled {
-  box-shadow:0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
-body.home .svm-nav .svm-menu > li:hover,
-body.blog .svm-nav .svm-menu > li:hover,
-body.single-post .svm-nav .svm-menu > li:hover,
-body.single-domains .svm-nav .svm-menu > li:hover,
-.svm-header.header--light .svm-nav .svm-menu > li:hover {
-  background-color:rgba(0, 0, 0, 0.05);
-  border-bottom-color:#3d3158;
-}
-
-body.home .svm-nav .svm-menu > li.current-menu-item,
-body.home .svm-nav .svm-menu > li.current_page_item,
-body.blog .svm-nav .svm-menu > li.current-menu-item,
-body.blog .svm-nav .svm-menu > li.current_page_item,
-body.single-post .svm-nav .svm-menu > li.current-menu-item,
-body.single-post .svm-nav .svm-menu > li.current_page_item,
-body.single-domains .svm-nav .svm-menu > li.current-menu-item,
-body.single-domains .svm-nav .svm-menu > li.current_page_item,
-.svm-header.header--light .svm-nav .svm-menu > li.current-menu-item,
-.svm-header.header--light .svm-nav .svm-menu > li.current_page_item {
-  border-bottom-color:#3d3158;
-}
-
-body.home .svm-nav .svm-menu > li > a,
-body.blog .svm-nav .svm-menu > li > a,
-body.single-post .svm-nav .svm-menu > li > a,
-body.single-domains .svm-nav .svm-menu > li > a,
-.svm-header.header--light .svm-nav .svm-menu > li > a {
-  color:rgba(0, 0, 0, 0.87);
-}
-
-body.home .svm-nav .svm-menu > li > a:hover,
-body.blog .svm-nav .svm-menu > li > a:hover,
-body.single-post .svm-nav .svm-menu > li > a:hover,
-body.single-domains .svm-nav .svm-menu > li > a:hover,
-.svm-header.header--light .svm-nav .svm-menu > li > a:hover {
-  color:#000000;
-}
-
-body.home .svm-nav .svm-menu .sub-menu,
-body.blog .svm-nav .svm-menu .sub-menu,
-body.single-post .svm-nav .svm-menu .sub-menu,
-body.single-domains .svm-nav .svm-menu .sub-menu,
-.svm-header.header--light .svm-nav .svm-menu .sub-menu {
-  background:#ffffff;
-  border:1px solid rgba(0, 0, 0, 0.08);
-  box-shadow:0 8px 32px rgba(0, 0, 0, 0.12);
-}
-
-body.home .svm-nav .svm-menu .sub-menu li a,
-body.blog .svm-nav .svm-menu .sub-menu li a,
-body.single-post .svm-nav .svm-menu .sub-menu li a,
-body.single-domains .svm-nav .svm-menu .sub-menu li a,
-.svm-header.header--light .svm-nav .svm-menu .sub-menu li a {
-  color:rgba(0, 0, 0, 0.87);
-}
-
-body.home .svm-nav .svm-menu .sub-menu li a:hover,
-body.blog .svm-nav .svm-menu .sub-menu li a:hover,
-body.single-post .svm-nav .svm-menu .sub-menu li a:hover,
-body.single-domains .svm-nav .svm-menu .sub-menu li a:hover,
-.svm-header.header--light .svm-nav .svm-menu .sub-menu li a:hover {
-  background-color:rgba(0, 0, 0, 0.05);
-  color:#000000;
-}
-
-body.home .svm-menu-toggle span,
-body.blog .svm-menu-toggle span,
-body.single-post .svm-menu-toggle span,
-body.single-domains .svm-menu-toggle span,
-.svm-header.header--light .svm-menu-toggle span {
-  background:rgba(0, 0, 0, 0.87);
-}
-
-/* Mobile menu for light header */
-@media (max-width:768px) {
-  body.home .svm-header.active .svm-nav,
-  body.blog .svm-header.active .svm-nav,
-  body.single-post .svm-header.active .svm-nav,
-  body.single-domains .svm-header.active .svm-nav,
   .svm-header.header--light.active .svm-nav {
     background:#ffffff;
   }
 
-  body.home .svm-header.active .svm-nav .svm-menu .sub-menu,
-  body.blog .svm-header.active .svm-nav .svm-menu .sub-menu,
-  body.single-post .svm-header.active .svm-nav .svm-menu .sub-menu,
-  body.single-domains .svm-header.active .svm-nav .svm-menu .sub-menu,
+  .svm-header.header--dark.active .svm-nav {
+    background:rgb(30, 32, 35);
+  }
+
   .svm-header.header--light.active .svm-nav .svm-menu .sub-menu {
     background:rgba(0, 0, 0, 0.05);
     border-left:2px solid #3d3158;
   }
 
-  body.home .svm-nav .svm-menu > li,
-  body.blog .svm-nav .svm-menu > li,
-  body.single-post .svm-nav .svm-menu > li,
-  body.single-domains .svm-nav .svm-menu > li,
   .svm-header.header--light .svm-nav .svm-menu > li {
     border-bottom:1px solid rgba(0, 0, 0, 0.05);
   }
