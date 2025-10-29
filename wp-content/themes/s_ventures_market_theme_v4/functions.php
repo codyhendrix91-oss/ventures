@@ -116,8 +116,29 @@ add_action('wp_enqueue_scripts', function () {
     --color-text:#fff;
     --font-primary:'Colour Brown',sans-serif;
     --font-secondary:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --nav-border-color:#3d3158;
 }
 body{margin:0;font-family:var(--font-secondary);background:#fff;color:#111827;}
+
+/* Force correct nav border color - override any cached styles */
+.svm-header .svm-nav .svm-menu > li {
+    border-bottom-color:transparent !important;
+}
+.svm-header .svm-nav .svm-menu > li:hover,
+.svm-header .svm-nav .svm-menu > li.current-menu-item,
+.svm-header .svm-nav .svm-menu > li.current_page_item {
+    border-bottom-color:var(--nav-border-color) !important;
+}
+.svm-header.header--light .svm-nav .svm-menu > li:hover,
+.svm-header.header--light .svm-nav .svm-menu > li.current-menu-item,
+.svm-header.header--light .svm-nav .svm-menu > li.current_page_item {
+    border-bottom-color:var(--nav-border-color) !important;
+}
+.svm-header.header--dark .svm-nav .svm-menu > li:hover,
+.svm-header.header--dark .svm-nav .svm-menu > li.current-menu-item,
+.svm-header.header--dark .svm-nav .svm-menu > li.current_page_item {
+    border-bottom-color:var(--nav-border-color) !important;
+}
 CSS;
 
     wp_register_style('svm-inline', false);
@@ -189,134 +210,160 @@ JS;
     wp_add_inline_script('svm-global', $scroll_js);
 }, 11);
 
-// Adaptive Header Brightness Detection
+// Adaptive Header Brightness Detection - Enhanced Version
 add_action('wp_enqueue_scripts', function() {
     $adaptive_js = <<<'JS'
 (function(){
-document.addEventListener('DOMContentLoaded', function() {
-  var header = document.querySelector('.svm-header');
-  if (!header) return;
+  // Run immediately and on DOM ready
+  function initAdaptiveHeader() {
+    var header = document.querySelector('.svm-header');
+    if (!header) return;
 
-  // Utility: compute luminance of RGB
-  function getLuminance(r, g, b) {
-    var a = [r, g, b].map(function(v) {
-      v /= 255;
-      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-    });
-    return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
-  }
+    // Utility: compute luminance of RGB
+    function getLuminance(r, g, b) {
+      var a = [r, g, b].map(function(v) {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+    }
 
-  // Get effective background color (handles gradients, images, and transparency)
-  function getEffectiveBackground(el, stopAtBody) {
-    if (!el || el === document.documentElement) return null;
-    if (stopAtBody && el === document.body) return null;
+    // Get effective background color (handles gradients, images, and transparency)
+    function getEffectiveBackground(el, stopAtBody) {
+      if (!el || el === document.documentElement) return null;
+      if (stopAtBody && el === document.body) return null;
 
-    var style = window.getComputedStyle(el);
+      var style = window.getComputedStyle(el);
 
-    // Check for gradient or background image
-    var bgImage = style.backgroundImage;
-    if (bgImage && bgImage !== 'none') {
-      // Extract first color from gradient
-      var hexMatch = bgImage.match(/#([0-9a-f]{6}|[0-9a-f]{3})/i);
-      if (hexMatch) {
-        var hex = hexMatch[1];
-        if (hex.length === 3) {
-          hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+      // Check for gradient or background image
+      var bgImage = style.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        // Extract first color from gradient - try hex first
+        var hexMatch = bgImage.match(/#([0-9a-f]{6}|[0-9a-f]{3})/i);
+        if (hexMatch) {
+          var hex = hexMatch[1];
+          if (hex.length === 3) {
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+          }
+          var r = parseInt(hex.substr(0, 2), 16);
+          var g = parseInt(hex.substr(2, 2), 16);
+          var b = parseInt(hex.substr(4, 2), 16);
+          return { r: r, g: g, b: b, element: el };
         }
-        var r = parseInt(hex.substr(0, 2), 16);
-        var g = parseInt(hex.substr(2, 2), 16);
-        var b = parseInt(hex.substr(4, 2), 16);
-        return { r: r, g: g, b: b, element: el };
-      }
 
-      var rgbMatch = bgImage.match(/rgba?\(([^)]+)\)/);
-      if (rgbMatch) {
-        var parts = rgbMatch[1].split(',').map(function(p) { return parseFloat(p.trim()); });
-        if (parts.length >= 3) {
-          return { r: parts[0], g: parts[1], b: parts[2], element: el };
-        }
-      }
-    }
-
-    // Check backgroundColor
-    var bgColor = style.backgroundColor;
-    if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
-      var match = bgColor.match(/\d+/g);
-      if (match && match.length >= 3) {
-        var rgb = match.map(Number);
-        return { r: rgb[0], g: rgb[1], b: rgb[2], element: el };
-      }
-    }
-
-    // Recurse to parent
-    return getEffectiveBackground(el.parentElement, stopAtBody);
-  }
-
-  // Update header theme based on luminance
-  function updateHeaderTheme(luminance) {
-    if (luminance < 0.5) {
-      header.classList.remove('header--light');
-      header.classList.add('header--dark');
-    } else {
-      header.classList.remove('header--dark');
-      header.classList.add('header--light');
-    }
-  }
-
-  // Find the top-most visible section and determine header theme
-  function checkHeaderTheme() {
-    var headerHeight = header.offsetHeight;
-    var checkPoint = headerHeight + 10; // Check slightly below header
-
-    // Get element at checkpoint
-    var elementAtTop = document.elementFromPoint(window.innerWidth / 2, checkPoint);
-
-    if (elementAtTop) {
-      // Find the closest section/container
-      var section = elementAtTop.closest('section, .elementor-section, .svm-hero, main, .elementor-top-section, .elementor-element');
-
-      if (section) {
-        var bgColor = getEffectiveBackground(section, true);
-
-        if (bgColor) {
-          var luminance = getLuminance(bgColor.r, bgColor.g, bgColor.b);
-          updateHeaderTheme(luminance);
-          return;
+        // Try to extract RGB from gradient
+        var rgbMatch = bgImage.match(/rgba?\(([^)]+)\)/);
+        if (rgbMatch) {
+          var parts = rgbMatch[1].split(',').map(function(p) { return parseFloat(p.trim()); });
+          if (parts.length >= 3) {
+            return { r: parts[0], g: parts[1], b: parts[2], element: el };
+          }
         }
       }
+
+      // Check backgroundColor
+      var bgColor = style.backgroundColor;
+      if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+        var match = bgColor.match(/\d+/g);
+        if (match && match.length >= 3) {
+          var rgb = match.map(Number);
+          return { r: rgb[0], g: rgb[1], b: rgb[2], element: el };
+        }
+      }
+
+      // Recurse to parent
+      return getEffectiveBackground(el.parentElement, stopAtBody);
     }
 
-    // Fallback: check first visible section with a background
-    var sections = document.querySelectorAll('section, .elementor-section, .svm-hero, main, .elementor-top-section');
-    for (var i = 0; i < sections.length; i++) {
-      var rect = sections[i].getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        var bgColor = getEffectiveBackground(sections[i], true);
-        if (bgColor) {
-          var luminance = getLuminance(bgColor.r, bgColor.g, bgColor.b);
-          updateHeaderTheme(luminance);
-          return;
-        }
+    // Update header theme based on luminance
+    function updateHeaderTheme(luminance) {
+      if (luminance < 0.5) {
+        header.classList.remove('header--light');
+        header.classList.add('header--dark');
+      } else {
+        header.classList.remove('header--dark');
+        header.classList.add('header--light');
       }
     }
 
-    // Default to light header if we can't determine
-    updateHeaderTheme(0.8);
+    // Find the top-most visible section and determine header theme
+    function checkHeaderTheme() {
+      var headerHeight = header.offsetHeight || 62;
+      var checkPoint = headerHeight + 10; // Check slightly below header
+
+      // Get element at checkpoint
+      var elementAtTop = document.elementFromPoint(window.innerWidth / 2, checkPoint);
+
+      if (elementAtTop) {
+        // Find the closest section/container with more selectors
+        var section = elementAtTop.closest('section, .elementor-section, .svm-hero, main, .elementor-top-section, .elementor-element, .elementor-widget-wrap, div[data-elementor-type]');
+
+        if (section) {
+          var bgColor = getEffectiveBackground(section, true);
+
+          if (bgColor) {
+            var luminance = getLuminance(bgColor.r, bgColor.g, bgColor.b);
+            updateHeaderTheme(luminance);
+            return true;
+          }
+        }
+      }
+
+      // Fallback: check first visible section with a background
+      var sections = document.querySelectorAll('section, .elementor-section, .svm-hero, main, .elementor-top-section, .elementor-widget-wrap');
+      for (var i = 0; i < sections.length; i++) {
+        var rect = sections[i].getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > headerHeight) {
+          var bgColor = getEffectiveBackground(sections[i], true);
+          if (bgColor) {
+            var luminance = getLuminance(bgColor.r, bgColor.g, bgColor.b);
+            updateHeaderTheme(luminance);
+            return true;
+          }
+        }
+      }
+
+      // Check body background as last resort
+      var bodyBg = getEffectiveBackground(document.body, false);
+      if (bodyBg) {
+        var luminance = getLuminance(bodyBg.r, bodyBg.g, bodyBg.b);
+        updateHeaderTheme(luminance);
+        return true;
+      }
+
+      // Default to dark header on white background
+      updateHeaderTheme(0.9);
+      return false;
+    }
+
+    // Check on scroll with throttling
+    var scrollTimeout;
+    window.addEventListener('scroll', function() {
+      if (scrollTimeout) return;
+      scrollTimeout = setTimeout(function() {
+        checkHeaderTheme();
+        scrollTimeout = null;
+      }, 50);
+    }, { passive: true });
+
+    // Initial check - run multiple times to ensure it catches Elementor rendering
+    checkHeaderTheme();
+    setTimeout(checkHeaderTheme, 50);
+    setTimeout(checkHeaderTheme, 200);
+    setTimeout(checkHeaderTheme, 500);
   }
 
-  // Check on scroll with throttling
-  var scrollTimeout;
-  window.addEventListener('scroll', function() {
-    if (scrollTimeout) return;
-    scrollTimeout = setTimeout(function() {
-      checkHeaderTheme();
-      scrollTimeout = null;
-    }, 100);
-  }, { passive: true });
+  // Run immediately if DOM is ready, otherwise wait
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAdaptiveHeader);
+  } else {
+    initAdaptiveHeader();
+  }
 
-  // Initial check with small delay to ensure DOM is ready
-  setTimeout(checkHeaderTheme, 100);
-});
+  // Also run on window load to catch late-loading content
+  window.addEventListener('load', function() {
+    setTimeout(initAdaptiveHeader, 100);
+  });
 })();
 JS;
 
