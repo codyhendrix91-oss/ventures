@@ -212,12 +212,12 @@ body.admin-bar .svm-header{
 
 .svm-nav .svm-menu > li:hover {
   background-color:rgba(255,255,255,0.08);
-  border-bottom-color:rgb(172, 126, 244);
+  border-bottom-color:#3d3158;
 }
 
 .svm-nav .svm-menu > li.current-menu-item,
 .svm-nav .svm-menu > li.current_page_item {
-  border-bottom-color:rgb(172, 126, 244);
+  border-bottom-color:#3d3158;
 }
 
 .svm-nav .svm-menu > li > a {
@@ -386,7 +386,7 @@ body.admin-bar .svm-header{
     box-shadow:none;
     background:rgba(255,255,255,0.05);
     margin:4px 0 8px 12px;
-    border-left:2px solid rgb(172, 126, 244);
+    border-left:2px solid #3d3158;
   }
 
   .svm-nav .svm-menu .sub-menu li a {
@@ -460,7 +460,7 @@ body.single-post .svm-nav .svm-menu > li:hover,
 body.single-domains .svm-nav .svm-menu > li:hover,
 .svm-header.header--light .svm-nav .svm-menu > li:hover {
   background-color:rgba(0, 0, 0, 0.05);
-  border-bottom-color:rgb(172, 126, 244);
+  border-bottom-color:#3d3158;
 }
 
 body.home .svm-nav .svm-menu > li.current-menu-item,
@@ -473,7 +473,7 @@ body.single-domains .svm-nav .svm-menu > li.current-menu-item,
 body.single-domains .svm-nav .svm-menu > li.current_page_item,
 .svm-header.header--light .svm-nav .svm-menu > li.current-menu-item,
 .svm-header.header--light .svm-nav .svm-menu > li.current_page_item {
-  border-bottom-color:rgb(172, 126, 244);
+  border-bottom-color:#3d3158;
 }
 
 body.home .svm-nav .svm-menu > li > a,
@@ -543,7 +543,7 @@ body.single-domains .svm-menu-toggle span,
   body.single-domains .svm-header.active .svm-nav .svm-menu .sub-menu,
   .svm-header.header--light.active .svm-nav .svm-menu .sub-menu {
     background:rgba(0, 0, 0, 0.05);
-    border-left:2px solid rgb(172, 126, 244);
+    border-left:2px solid #3d3158;
   }
 
   body.home .svm-nav .svm-menu > li,
