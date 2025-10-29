@@ -150,6 +150,48 @@ html body .svm-header .svm-nav .svm-menu > li.current-menu-item,
 html body .svm-header .svm-nav .svm-menu > li.current_page_item {
     border-bottom-color:#3d3158 !important;
 }
+
+/* ELEMENTOR NAV MENU FIX: Override Elementor's pseudo-element background colors */
+/* Elementor uses :before and :after pseudo-elements with background-color for the underline effect */
+.elementor-nav-menu--main .elementor-item:before,
+.elementor-nav-menu--main .elementor-item:after,
+.elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item:before,
+.elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item:after {
+    background-color:#3d3158 !important;
+}
+
+/* Elementor nav menu hover and active states */
+.elementor-nav-menu--main .elementor-item:hover:before,
+.elementor-nav-menu--main .elementor-item:hover:after,
+.elementor-nav-menu--main .elementor-item.elementor-item-active:before,
+.elementor-nav-menu--main .elementor-item.elementor-item-active:after,
+.elementor-nav-menu--main .elementor-item.highlighted:before,
+.elementor-nav-menu--main .elementor-item.highlighted:after,
+.elementor-nav-menu--main .elementor-item.current-menu-item:before,
+.elementor-nav-menu--main .elementor-item.current-menu-item:after {
+    background-color:#3d3158 !important;
+}
+
+/* Override ALL Elementor pointer styles with maximum specificity */
+.elementor-nav-menu .elementor-item:before,
+.elementor-nav-menu .elementor-item:after {
+    background-color:#3d3158 !important;
+    border-color:#3d3158 !important;
+}
+
+/* Target specific Elementor nav menu containers */
+.elementor-element.elementor-widget-nav-menu .elementor-item:before,
+.elementor-element.elementor-widget-nav-menu .elementor-item:after {
+    background-color:#3d3158 !important;
+    border-color:#3d3158 !important;
+}
+
+/* Nuclear option: Override any Elementor menu item pseudo-element on the entire page */
+[class*="elementor"] [class*="nav-menu"] [class*="item"]:before,
+[class*="elementor"] [class*="nav-menu"] [class*="item"]:after {
+    background-color:#3d3158 !important;
+    border-color:#3d3158 !important;
+}
 CSS;
 
     wp_register_style('svm-inline', false);
