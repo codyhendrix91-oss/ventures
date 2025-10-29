@@ -416,6 +416,36 @@ body.single-domains .svm-header,
   border-bottom:3px solid transparent;
 }
 
+.svm-header.header--dark {
+  background-color:rgba(30, 32, 35, 0.95);
+  color:#ffffff;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:3px solid transparent;
+}
+
+.svm-header.header--dark.scrolled {
+  box-shadow:0 4px 24px rgba(0,0,0,0.2);
+}
+
+.svm-header.header--dark .svm-nav .svm-menu > li > a {
+  color:#ffffff;
+}
+
+.svm-header.header--dark .svm-nav .svm-menu > li > a:hover {
+  color:#ffffff;
+}
+
+.svm-header.header--dark .svm-menu-toggle span {
+  background:#ffffff;
+}
+
+@media (max-width:768px) {
+  .svm-header.header--dark.active .svm-nav {
+    background:rgb(30, 32, 35);
+  }
+}
+
 body.home .svm-header.scrolled,
 body.blog .svm-header.scrolled,
 body.single-post .svm-header.scrolled,

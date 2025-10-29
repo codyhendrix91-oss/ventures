@@ -215,9 +215,36 @@ document.addEventListener('DOMContentLoaded', function() {
     return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
   }
 
-  // Parse RGB color from element
+  // Parse RGB color from element (supports gradients)
   function parseColor(el) {
     var style = window.getComputedStyle(el);
+
+    // First, check if there's a gradient in backgroundImage
+    var bgImage = style.backgroundImage;
+    if (bgImage && bgImage !== 'none') {
+      // Extract color from gradient (hex, rgb, or rgba)
+      // Match hex colors like #1a1d35
+      var hexMatch = bgImage.match(/#([0-9a-f]{6}|[0-9a-f]{3})/i);
+      if (hexMatch) {
+        var hex = hexMatch[1];
+        if (hex.length === 3) {
+          // Expand shorthand hex (e.g., #abc -> #aabbcc)
+          hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        }
+        var r = parseInt(hex.substr(0, 2), 16);
+        var g = parseInt(hex.substr(2, 2), 16);
+        var b = parseInt(hex.substr(4, 2), 16);
+        return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+      }
+
+      // Match rgb/rgba colors
+      var rgbMatch = bgImage.match(/rgba?\(([^)]+)\)/);
+      if (rgbMatch) {
+        return rgbMatch[0];
+      }
+    }
+
+    // Fall back to backgroundColor
     var color = style.backgroundColor;
     if (color === 'rgba(0, 0, 0, 0)' || color === 'transparent') {
       var parent = el.parentElement;
