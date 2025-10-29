@@ -120,24 +120,35 @@ add_action('wp_enqueue_scripts', function () {
 }
 body{margin:0;font-family:var(--font-secondary);background:#fff;color:#111827;}
 
-/* Force correct nav border color - override any cached styles */
+/* CRITICAL FIX: Force correct nav border color - nuclear option to override ALL cached styles */
+/* Using hardcoded color #3d3158 with maximum specificity to prevent any purple rgb(172, 126, 244) */
 .svm-header .svm-nav .svm-menu > li {
+    border-bottom:3px solid transparent !important;
     border-bottom-color:transparent !important;
 }
 .svm-header .svm-nav .svm-menu > li:hover,
 .svm-header .svm-nav .svm-menu > li.current-menu-item,
 .svm-header .svm-nav .svm-menu > li.current_page_item {
-    border-bottom-color:var(--nav-border-color) !important;
+    border-bottom:3px solid #3d3158 !important;
+    border-bottom-color:#3d3158 !important;
 }
 .svm-header.header--light .svm-nav .svm-menu > li:hover,
 .svm-header.header--light .svm-nav .svm-menu > li.current-menu-item,
 .svm-header.header--light .svm-nav .svm-menu > li.current_page_item {
-    border-bottom-color:var(--nav-border-color) !important;
+    border-bottom:3px solid #3d3158 !important;
+    border-bottom-color:#3d3158 !important;
 }
 .svm-header.header--dark .svm-nav .svm-menu > li:hover,
 .svm-header.header--dark .svm-nav .svm-menu > li.current-menu-item,
 .svm-header.header--dark .svm-nav .svm-menu > li.current_page_item {
-    border-bottom-color:var(--nav-border-color) !important;
+    border-bottom:3px solid #3d3158 !important;
+    border-bottom-color:#3d3158 !important;
+}
+/* Additional catch-all rules with extreme specificity */
+html body .svm-header .svm-nav .svm-menu > li:hover,
+html body .svm-header .svm-nav .svm-menu > li.current-menu-item,
+html body .svm-header .svm-nav .svm-menu > li.current_page_item {
+    border-bottom-color:#3d3158 !important;
 }
 CSS;
 
@@ -210,7 +221,7 @@ JS;
     wp_add_inline_script('svm-global', $scroll_js);
 }, 11);
 
-// Adaptive Header Brightness Detection - Enhanced Version
+// Adaptive Header Brightness Detection - FIXED VERSION
 add_action('wp_enqueue_scripts', function() {
     $adaptive_js = <<<'JS'
 (function(){
@@ -276,13 +287,23 @@ add_action('wp_enqueue_scripts', function() {
     }
 
     // Update header theme based on luminance
-    function updateHeaderTheme(luminance) {
-      if (luminance < 0.5) {
+    function updateHeaderTheme(luminance, foundBackground) {
+      // If we found a background, use normal logic
+      // Otherwise default to dark header (safer choice)
+      if (foundBackground) {
+        if (luminance > 0.6) {
+          // Light background -> Light header (white with dark text)
+          header.classList.remove('header--dark');
+          header.classList.add('header--light');
+        } else {
+          // Dark background -> Dark header (dark with white text)
+          header.classList.remove('header--light');
+          header.classList.add('header--dark');
+        }
+      } else {
+        // No background detected - default to dark header (safer)
         header.classList.remove('header--light');
         header.classList.add('header--dark');
-      } else {
-        header.classList.remove('header--dark');
-        header.classList.add('header--light');
       }
     }
 
@@ -296,28 +317,28 @@ add_action('wp_enqueue_scripts', function() {
 
       if (elementAtTop) {
         // Find the closest section/container with more selectors
-        var section = elementAtTop.closest('section, .elementor-section, .svm-hero, main, .elementor-top-section, .elementor-element, .elementor-widget-wrap, div[data-elementor-type]');
+        var section = elementAtTop.closest('section, .elementor-section, .svm-hero, main, .elementor-top-section, .elementor-element, .elementor-widget-wrap, div[data-elementor-type], .home-hero-redesigned, .home-domains-redesigned, .home-blog-redesigned');
 
         if (section) {
-          var bgColor = getEffectiveBackground(section, true);
+          var bgColor = getEffectiveBackground(section, false);
 
           if (bgColor) {
             var luminance = getLuminance(bgColor.r, bgColor.g, bgColor.b);
-            updateHeaderTheme(luminance);
+            updateHeaderTheme(luminance, true);
             return true;
           }
         }
       }
 
       // Fallback: check first visible section with a background
-      var sections = document.querySelectorAll('section, .elementor-section, .svm-hero, main, .elementor-top-section, .elementor-widget-wrap');
+      var sections = document.querySelectorAll('section, .elementor-section, .svm-hero, main, .elementor-top-section, .elementor-widget-wrap, .home-hero-redesigned, .home-domains-redesigned, .home-blog-redesigned');
       for (var i = 0; i < sections.length; i++) {
         var rect = sections[i].getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > headerHeight) {
-          var bgColor = getEffectiveBackground(sections[i], true);
+          var bgColor = getEffectiveBackground(sections[i], false);
           if (bgColor) {
             var luminance = getLuminance(bgColor.r, bgColor.g, bgColor.b);
-            updateHeaderTheme(luminance);
+            updateHeaderTheme(luminance, true);
             return true;
           }
         }
@@ -327,12 +348,13 @@ add_action('wp_enqueue_scripts', function() {
       var bodyBg = getEffectiveBackground(document.body, false);
       if (bodyBg) {
         var luminance = getLuminance(bodyBg.r, bodyBg.g, bodyBg.b);
-        updateHeaderTheme(luminance);
+        updateHeaderTheme(luminance, true);
         return true;
       }
 
-      // Default to dark header on white background
-      updateHeaderTheme(0.9);
+      // CRITICAL FIX: Default to DARK header when no background detected
+      // This is safer than defaulting to light/white
+      updateHeaderTheme(0, false);
       return false;
     }
 
@@ -348,9 +370,10 @@ add_action('wp_enqueue_scripts', function() {
 
     // Initial check - run multiple times to ensure it catches Elementor rendering
     checkHeaderTheme();
-    setTimeout(checkHeaderTheme, 50);
-    setTimeout(checkHeaderTheme, 200);
-    setTimeout(checkHeaderTheme, 500);
+    setTimeout(checkHeaderTheme, 100);
+    setTimeout(checkHeaderTheme, 300);
+    setTimeout(checkHeaderTheme, 600);
+    setTimeout(checkHeaderTheme, 1000);
   }
 
   // Run immediately if DOM is ready, otherwise wait
@@ -363,6 +386,7 @@ add_action('wp_enqueue_scripts', function() {
   // Also run on window load to catch late-loading content
   window.addEventListener('load', function() {
     setTimeout(initAdaptiveHeader, 100);
+    setTimeout(initAdaptiveHeader, 500);
   });
 })();
 JS;
