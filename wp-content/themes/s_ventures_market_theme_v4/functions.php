@@ -478,6 +478,27 @@ document.addEventListener('DOMContentLoaded', function() {
       header.classList.remove('scrolled');
     }
 
+    // Check if there's a dark hero section at the top of the page
+    var hero = document.querySelector('.svm-hero, .elementor-section');
+    var atTopWithDarkHero = false;
+
+    if (currentScroll < 10 && hero) {
+      // Check if hero has dark background
+      var heroRect = hero.getBoundingClientRect();
+      if (heroRect.top <= header.offsetHeight && heroRect.bottom > header.offsetHeight) {
+        var heroBg = window.getComputedStyle(hero).backgroundColor;
+        if (heroBg && heroBg !== 'transparent' && heroBg !== 'rgba(0, 0, 0, 0)') {
+          atTopWithDarkHero = !isLightColor(heroBg);
+        }
+      }
+    }
+
+    // If at top with dark hero, keep header dark
+    if (atTopWithDarkHero) {
+      header.classList.remove('light-bg');
+      return;
+    }
+
     // Sample background color at center point below header
     var headerHeight = header.offsetHeight;
     var sampleY = headerHeight + 100; // Sample 100px below header
@@ -494,8 +515,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Initial check
-  updateHeaderStyle();
+  // Initial check - delayed slightly to ensure all elements are rendered
+  setTimeout(updateHeaderStyle, 100);
 
   // Update on scroll
   window.addEventListener('scroll', updateHeaderStyle, { passive: true });
