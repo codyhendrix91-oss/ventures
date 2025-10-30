@@ -114,7 +114,7 @@ a:hover{opacity:.85}
 }
 
 /* =====================================================
-   HEADER - Adaptive Navigation (Transparent overlay style like builder.io)
+   HEADER - Adaptive Navigation (Exact builder.io frosted glass style)
    ===================================================== */
 .svm-header {
   position:fixed;
@@ -122,25 +122,26 @@ a:hover{opacity:.85}
   left:0;
   right:0;
   z-index:9999;
-  background-color:rgba(30, 32, 35, 0.85);
+  background-color:rgba(0, 0, 0, 0.3);
   color:rgba(0, 0, 0, 0.87);
   font-family:Poppins, Avenir, Helvetica, Arial, sans-serif;
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:saturate(1.8) blur(20px);
+  -webkit-backdrop-filter:saturate(1.8) blur(20px);
   border-bottom:3px solid transparent;
   transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
              border-color 0.3s cubic-bezier(.37,.01,0,.98),
-             box-shadow 0.3s cubic-bezier(.37,.01,0,.98);
+             box-shadow 0.3s cubic-bezier(.37,.01,0,.98),
+             backdrop-filter 0.3s cubic-bezier(.37,.01,0,.98);
   height:var(--header-height);
   -webkit-font-smoothing:antialiased;
   -webkit-text-size-adjust:100%;
   -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 
-/* Dark header on scroll - more opaque overlay */
+/* Dark header on scroll - slightly more opaque */
 .svm-header.scrolled {
-  background-color:rgba(30, 32, 35, 0.95);
-  box-shadow:0 4px 24px rgba(0,0,0,0.2);
+  background-color:rgba(0, 0, 0, 0.5);
+  box-shadow:0 4px 24px rgba(0,0,0,0.15);
 }
 
 /* White header for pages with white backgrounds */
@@ -149,18 +150,18 @@ body.single-domains .svm-header,
 body.single-post .svm-header,
 body.single .svm-header,
 body.blog .svm-header {
-  background-color:rgba(255, 255, 255, 0.85);
-  box-shadow:0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color:rgba(255, 255, 255, 0.3);
+  box-shadow:0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
-/* White header on scroll - more opaque overlay */
+/* White header on scroll - slightly more opaque */
 body.home .svm-header.scrolled,
 body.single-domains .svm-header.scrolled,
 body.single-post .svm-header.scrolled,
 body.single .svm-header.scrolled,
 body.blog .svm-header.scrolled {
-  background-color:rgba(255, 255, 255, 0.95);
-  box-shadow:0 4px 24px rgba(0, 0, 0, 0.1);
+  background-color:rgba(255, 255, 255, 0.5);
+  box-shadow:0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
 /* Admin bar positioning - header below admin bar */
@@ -177,7 +178,7 @@ body.admin-bar .svm-header{
 .svm-header__inner {
   max-width:1400px;
   margin:0 auto;
-  padding:0 24px;
+  padding:0 40px;
   height:100%;
   display:flex;
   align-items:center;
@@ -416,7 +417,7 @@ body.blog .svm-header .svm-menu-toggle span {
 }
 
 @media (max-width:768px) {
-  .svm-header__inner{padding:0 20px}
+  .svm-header__inner{padding:0 24px}
   .svm-logo svg,.svm-logo img{height:36px!important}
   .svm-menu-toggle{display:flex !important}
   .svm-nav{display:none}
@@ -429,13 +430,13 @@ body.blog .svm-header .svm-menu-toggle span {
     left:0 !important;
     right:0 !important;
     width:100% !important;
-    background:rgba(30, 32, 35, 0.95) !important;
-    backdrop-filter:blur(12px) !important;
-    -webkit-backdrop-filter:blur(12px) !important;
+    background:rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter:saturate(1.8) blur(20px) !important;
+    -webkit-backdrop-filter:saturate(1.8) blur(20px) !important;
     padding:20px !important;
     max-height:calc(100vh - var(--header-height)) !important;
     overflow-y:auto !important;
-    box-shadow:0 8px 24px rgba(0,0,0,0.2) !important;
+    box-shadow:0 8px 24px rgba(0,0,0,0.15) !important;
     z-index:9998 !important;
   }
 
@@ -445,8 +446,8 @@ body.blog .svm-header .svm-menu-toggle span {
   body.single-post .svm-header.active .svm-nav,
   body.single .svm-header.active .svm-nav,
   body.blog .svm-header.active .svm-nav {
-    background:rgba(255, 255, 255, 0.95) !important;
-    box-shadow:0 8px 24px rgba(0,0,0,0.1) !important;
+    background:rgba(255, 255, 255, 0.5) !important;
+    box-shadow:0 8px 24px rgba(0,0,0,0.08) !important;
   }
 
   .svm-header.active .svm-nav .svm-menu {
