@@ -139,24 +139,6 @@ body{margin:0;font-family:var(--font-secondary);background:#fff;color:#111827;}
     border-bottom-width:3px !important;
     border-bottom-style:solid !important;
 }
-.svm-header.header--light .svm-nav .svm-menu > li:hover,
-.svm-header.header--light .svm-nav .svm-menu > li.current-menu-item,
-.svm-header.header--light .svm-nav .svm-menu > li.current_page_item,
-.svm-header.header--light .svm-nav .svm-menu > li.current-menu-ancestor {
-    border-bottom:3px solid #3d3158 !important;
-    border-bottom-color:#3d3158 !important;
-    border-bottom-width:3px !important;
-    border-bottom-style:solid !important;
-}
-.svm-header.header--dark .svm-nav .svm-menu > li:hover,
-.svm-header.header--dark .svm-nav .svm-menu > li.current-menu-item,
-.svm-header.header--dark .svm-nav .svm-menu > li.current_page_item,
-.svm-header.header--dark .svm-nav .svm-menu > li.current-menu-ancestor {
-    border-bottom:3px solid #3d3158 !important;
-    border-bottom-color:#3d3158 !important;
-    border-bottom-width:3px !important;
-    border-bottom-style:solid !important;
-}
 
 /* Catch-all with maximum specificity */
 html body .svm-header .svm-nav .svm-menu > li:hover,
@@ -322,13 +304,20 @@ html body .svm-header .svm-nav .svm-menu > li.current-menu-ancestor {
         transform:rotate(-45deg) translate(8px, -8px) !important;
     }
 
-    /* Light header mobile adjustments */
-    .svm-header.header--light.active .svm-nav {
-        background:#ffffff !important;
+    /* MOBILE FIX: Remove grey split/curved background on homepage hero */
+    body.home .elementor-shape,
+    body.home .elementor-shape-bottom,
+    body.home .elementor-shape-top,
+    body.home .elementor-background-overlay {
+        display:none !important;
     }
 
-    .svm-header.header--light .svm-menu-toggle span {
-        background:rgba(0, 0, 0, 0.87) !important;
+    /* Ensure homepage hero sections have consistent white background on mobile */
+    body.home section,
+    body.home .elementor-section,
+    body.home .elementor-top-section {
+        background-color:#ffffff !important;
+        background-image:none !important;
     }
 }
 CSS;
@@ -452,184 +441,6 @@ JS;
 
     wp_add_inline_script('svm-global', $scroll_js);
 }, 11);
-
-// Adaptive Header Brightness Detection - COMPLETELY REWRITTEN FOR RELIABILITY
-add_action('wp_enqueue_scripts', function() {
-    $adaptive_js = <<<'JS'
-(function(){
-  'use strict';
-
-  // Configuration
-  var DEBUG = false; // Set to true to see console logs
-  var THRESHOLD = 0.55; // Luminance threshold (lower = more sensitive to dark)
-
-  function initAdaptiveHeader() {
-    var header = document.querySelector('.svm-header');
-    if (!header) return;
-
-    // Start with dark header as default
-    header.classList.add('header--dark');
-
-    // Utility: compute relative luminance of RGB (WCAG standard)
-    function getLuminance(r, g, b) {
-      var a = [r, g, b].map(function(v) {
-        v /= 255;
-        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-      });
-      return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
-    }
-
-    // Parse color string to RGB object
-    function parseColor(colorStr) {
-      if (!colorStr || colorStr === 'transparent' || colorStr === 'rgba(0, 0, 0, 0)') {
-        return null;
-      }
-
-      // Try hex color in gradients
-      var hexMatch = colorStr.match(/#([0-9a-f]{6}|[0-9a-f]{3})/i);
-      if (hexMatch) {
-        var hex = hexMatch[1];
-        if (hex.length === 3) {
-          hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-        }
-        return {
-          r: parseInt(hex.substr(0, 2), 16),
-          g: parseInt(hex.substr(2, 2), 16),
-          b: parseInt(hex.substr(4, 2), 16)
-        };
-      }
-
-      // Try rgb/rgba
-      var rgbMatch = colorStr.match(/rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
-      if (rgbMatch) {
-        return {
-          r: parseInt(rgbMatch[1]),
-          g: parseInt(rgbMatch[2]),
-          b: parseInt(rgbMatch[3])
-        };
-      }
-
-      return null;
-    }
-
-    // Get background color of element (handles transparency)
-    function getBackgroundColor(el) {
-      while (el && el !== document.documentElement) {
-        var style = window.getComputedStyle(el);
-
-        // Check background-image first (gradients)
-        var bgImg = style.backgroundImage;
-        if (bgImg && bgImg !== 'none') {
-          var color = parseColor(bgImg);
-          if (color) {
-            if (DEBUG) console.log('Found bg from gradient:', el, color);
-            return color;
-          }
-        }
-
-        // Check background-color
-        var bgColor = style.backgroundColor;
-        if (bgColor && bgColor !== 'transparent' && bgColor !== 'rgba(0, 0, 0, 0)') {
-          var color = parseColor(bgColor);
-          if (color) {
-            if (DEBUG) console.log('Found bg from color:', el, color);
-            return color;
-          }
-        }
-
-        el = el.parentElement;
-      }
-
-      // Default to white if nothing found (body default)
-      if (DEBUG) console.log('No background found, defaulting to white');
-      return { r: 255, g: 255, b: 255 };
-    }
-
-    // Determine and apply header theme
-    function updateHeaderTheme() {
-      var headerHeight = header.offsetHeight || 62;
-      var checkY = headerHeight + 20; // Check 20px below header
-      var checkX = window.innerWidth / 2;
-
-      // Get element at check point
-      var el = document.elementFromPoint(checkX, checkY);
-
-      if (!el) {
-        // Default to dark header if no element found
-        if (DEBUG) console.log('No element at checkpoint, using dark header');
-        header.classList.remove('header--light');
-        header.classList.add('header--dark');
-        return;
-      }
-
-      // Find the nearest section/container
-      var section = el.closest('section, main, .elementor-section, .elementor-top-section, .home-hero-redesigned, .home-domains-redesigned, .home-blog-redesigned, .svm-hero, .svm-archive-hero-v8, [data-elementor-type]');
-
-      if (!section) {
-        section = el.closest('body');
-      }
-
-      if (DEBUG) console.log('Checking section:', section);
-
-      // Get background color
-      var bgColor = getBackgroundColor(section);
-      var luminance = getLuminance(bgColor.r, bgColor.g, bgColor.b);
-
-      if (DEBUG) console.log('RGB:', bgColor, 'Luminance:', luminance.toFixed(2), 'Threshold:', THRESHOLD);
-
-      // Apply theme based on luminance
-      if (luminance > THRESHOLD) {
-        // Light background -> use light header (white bg, dark text)
-        if (DEBUG) console.log('Using LIGHT header (light background detected)');
-        header.classList.remove('header--dark');
-        header.classList.add('header--light');
-      } else {
-        // Dark background -> use dark header (dark bg, light text)
-        if (DEBUG) console.log('Using DARK header (dark background detected)');
-        header.classList.remove('header--light');
-        header.classList.add('header--dark');
-      }
-    }
-
-    // Throttled scroll handler
-    var scrollTimeout;
-    function onScroll() {
-      if (scrollTimeout) return;
-      scrollTimeout = setTimeout(function() {
-        updateHeaderTheme();
-        scrollTimeout = null;
-      }, 100);
-    }
-
-    // Attach scroll listener
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', updateHeaderTheme, { passive: true });
-
-    // Initial checks - run multiple times to handle Elementor/async content
-    updateHeaderTheme();
-    setTimeout(updateHeaderTheme, 100);
-    setTimeout(updateHeaderTheme, 300);
-    setTimeout(updateHeaderTheme, 500);
-    setTimeout(updateHeaderTheme, 1000);
-    setTimeout(updateHeaderTheme, 2000);
-  }
-
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAdaptiveHeader);
-  } else {
-    initAdaptiveHeader();
-  }
-
-  // Also check after full page load
-  window.addEventListener('load', function() {
-    setTimeout(initAdaptiveHeader, 200);
-  });
-})();
-JS;
-
-    wp_add_inline_script('svm-global', $adaptive_js);
-}, 12);
 
 /* -------------------------------------------------------
  * Menus - UPDATED WITH FOOTER MENUS
