@@ -464,8 +464,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    // Default to white if nothing found
-    return 'rgb(255, 255, 255)';
+    // Default to black/dark if nothing found (assumes dark hero)
+    return 'rgb(0, 0, 0)';
   }
 
   function updateHeaderStyle() {
