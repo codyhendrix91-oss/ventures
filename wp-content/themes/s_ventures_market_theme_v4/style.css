@@ -114,15 +114,16 @@ a:hover{opacity:.85}
 }
 
 /* =====================================================
-   HEADER - Adaptive Navigation (Exact builder.io frosted glass style)
+   HEADER - Adaptive Navigation (Builder.io style)
    ===================================================== */
+/* Default dark background behavior (on dark hero) */
 .svm-header {
   position:fixed;
   top:0;
   left:0;
   right:0;
   z-index:9999;
-  background-color:transparent;
+  background-color:rgba(0, 0, 0, 0.3) !important;
   color:rgba(0, 0, 0, 0.87);
   font-family:Poppins, Avenir, Helvetica, Arial, sans-serif;
   border-bottom:3px solid transparent;
@@ -134,28 +135,28 @@ a:hover{opacity:.85}
   -webkit-font-smoothing:antialiased;
   -webkit-text-size-adjust:100%;
   -webkit-tap-highlight-color:rgba(0,0,0,0);
-  /* Ensure no backdrop-filter on dark backgrounds */
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
+  /* No backdrop-filter on dark backgrounds */
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
 }
 
-/* Dark header on scroll - add semi-transparent background */
+/* Dark header on scroll - maintain dark overlay */
 .svm-header.scrolled {
-  background-color:rgba(0, 0, 0, 0.5);
+  background-color:rgba(0, 0, 0, 0.5) !important;
   box-shadow:0 4px 24px rgba(0,0,0,0.15);
 }
 
-/* Adaptive light header when over light backgrounds */
+/* Light background behavior (after scroll or on light content) */
 .svm-header.light-bg {
-  background-color:rgba(255, 255, 255, 0.3);
-  backdrop-filter:saturate(1.8) blur(20px);
-  -webkit-backdrop-filter:saturate(1.8) blur(20px);
+  background-color:rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter:saturate(1.8) blur(20px) !important;
+  -webkit-backdrop-filter:saturate(1.8) blur(20px) !important;
   box-shadow:0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 /* Adaptive light header on scroll - slightly more opaque */
 .svm-header.light-bg.scrolled {
-  background-color:rgba(255, 255, 255, 0.5);
+  background-color:rgba(255, 255, 255, 0.5) !important;
   box-shadow:0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
