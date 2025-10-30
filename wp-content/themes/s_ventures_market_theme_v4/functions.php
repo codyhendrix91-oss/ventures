@@ -427,6 +427,9 @@ document.addEventListener('DOMContentLoaded', function() {
   var header = document.querySelector('.svm-header');
   if (!header) return;
 
+  // CRITICAL: Remove light-bg immediately to prevent white flash
+  header.classList.remove('light-bg');
+
   // Throttle function to limit how often a function can fire
   function throttle(func, delay) {
     var timeoutId;
@@ -490,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return 'rgb(0, 0, 0)';
   }
 
-  function updateHeaderStyle() {
+  function updateHeaderMode() {
     var currentScroll = window.pageYOffset;
 
     // Add/remove scrolled class
@@ -502,14 +505,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Sample background color at center point below header
     var headerHeight = header.offsetHeight;
-    var sampleY = currentScroll + headerHeight + 100; // Sample 100px below header
+    var sampleY = currentScroll + headerHeight + 200; // Sample 200px below header for better detection
     var sampleX = window.innerWidth / 2; // Center of screen
 
     var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
     var isLight = isLightColor(bgColor);
+    var luminance = 0;
 
-    // Debug logging (can be removed in production)
-    // console.log('Luminance detection:', { bgColor: bgColor, isLight: isLight });
+    // Calculate luminance for debug output
+    var match = bgColor.match(/^rgba?\\s*\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)/i);
+    if (match) {
+      var r = parseInt(match[1]);
+      var g = parseInt(match[2]);
+      var b = parseInt(match[3]);
+      luminance = (r * 299 + g * 587 + b * 114) / 1000;
+    }
+
+    // Debug logging
+    console.log('Header Mode:', luminance.toFixed(0), luminance > 180 ? 'Light' : 'Dark', 'at scroll:', currentScroll);
 
     // Add/remove light-bg class based on background
     if (isLight) {
@@ -519,15 +532,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Initial check - delay until after first paint to ensure hero is fully rendered
+  // Initial check - wait for window.load + 500ms to ensure all backgrounds are fully painted
   window.addEventListener('load', function() {
-    setTimeout(updateHeaderStyle, 300);
+    setTimeout(updateHeaderMode, 500);
   });
 
   // Throttled scroll and resize handlers
-  var throttledUpdate = throttle(updateHeaderStyle, 150);
+  var throttledUpdate = throttle(updateHeaderMode, 150);
   window.addEventListener('scroll', throttledUpdate, { passive: true });
-  window.addEventListener('resize', throttle(updateHeaderStyle, 200), { passive: true });
+  window.addEventListener('resize', throttle(updateHeaderMode, 200), { passive: true });
 });
 })();
 JS;
