@@ -526,10 +526,19 @@ document.addEventListener('DOMContentLoaded', function() {
       header.classList.remove('scrolled');
     }
 
-    // Sample background color farther below header to avoid sampling hero gradients
+    // Determine sampling strategy based on scroll position
     var headerHeight = header.offsetHeight;
-    var sampleY = currentScroll + headerHeight + 200; // Sample 200px below header (increased from 100px)
-    var sampleX = window.innerWidth / 2;
+    var sampleY, sampleX;
+
+    // If at or near the top, sample close to header to detect hero background
+    if (currentScroll < 100) {
+      sampleY = headerHeight + 50; // Sample just 50px below header when at top
+      sampleX = window.innerWidth / 2;
+    } else {
+      // When scrolled, sample farther down to detect body background
+      sampleY = currentScroll + headerHeight + 200;
+      sampleX = window.innerWidth / 2;
+    }
 
     var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
     var isLight = isLightColor(bgColor);
