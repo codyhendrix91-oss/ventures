@@ -139,7 +139,7 @@ get_header();
         border: 1px solid var(--color-border);
         border-radius: 8px;
         font-size: 0.95rem;
-        font-family: 'Poppins', sans-serif;
+        font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
         transition: border-color 0.2s;
     }
 
@@ -171,7 +171,7 @@ get_header();
         font-weight: 600;
         cursor: pointer;
         transition: transform 0.2s, box-shadow 0.2s;
-        font-family: 'Poppins', sans-serif;
+        font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
     }
 
     .submit-btn:hover {

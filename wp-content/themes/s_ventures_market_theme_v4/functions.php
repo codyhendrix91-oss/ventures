@@ -93,43 +93,6 @@ add_action('wp_footer', function() {
 }, 20);
 
 /* -------------------------------------------------------
- * Header Styling - Conditional Dark/Light Modes
- * -----------------------------------------------------*/
-add_filter('body_class', function($classes) {
-    // Pages with white backgrounds keep the light header
-    // All other pages get the dark header
-    $white_pages = array(
-        'page-template-front-page',
-        'single-domains',
-        'page-template-page-newsletter',
-        'single-post',
-        'single',
-        'blog',
-        'archive',
-    );
-
-    $has_white_bg = false;
-    foreach ($white_pages as $page_class) {
-        if (in_array($page_class, $classes)) {
-            $has_white_bg = true;
-            break;
-        }
-    }
-
-    // Also check if it's the front page, single post, or blog
-    if (is_front_page() || is_singular('domains') || is_singular('post') || is_home() || is_archive()) {
-        $has_white_bg = true;
-    }
-
-    // If not a white background page, add dark header class
-    if (!$has_white_bg) {
-        $classes[] = 'header-dark';
-    }
-
-    return $classes;
-});
-
-/* -------------------------------------------------------
  * Assets
  * -----------------------------------------------------*/
 add_action('wp_enqueue_scripts', function () {
@@ -153,8 +116,210 @@ add_action('wp_enqueue_scripts', function () {
     --color-text:#fff;
     --font-primary:'Colour Brown',sans-serif;
     --font-secondary:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --nav-border-color:#3d3158;
 }
 body{margin:0;font-family:var(--font-secondary);background:#fff;color:#111827;}
+
+/* ============================================================================
+   COMPREHENSIVE FIX: Nav Border Color #3d3158
+   Prevents rgb(172, 126, 244) from Elementor inline styles
+   ============================================================================ */
+
+/* Theme nav menu - ultra-aggressive specificity */
+.svm-header .svm-nav .svm-menu > li {
+    border-bottom:3px solid transparent !important;
+    border-bottom-color:transparent !important;
+}
+.svm-header .svm-nav .svm-menu > li:hover,
+.svm-header .svm-nav .svm-menu > li.current-menu-item,
+.svm-header .svm-nav .svm-menu > li.current_page_item,
+.svm-header .svm-nav .svm-menu > li.current-menu-ancestor {
+    border-bottom:3px solid #3d3158 !important;
+    border-bottom-color:#3d3158 !important;
+    border-bottom-width:3px !important;
+    border-bottom-style:solid !important;
+}
+
+/* Catch-all with maximum specificity */
+html body .svm-header .svm-nav .svm-menu > li:hover,
+html body .svm-header .svm-nav .svm-menu > li.current-menu-item,
+html body .svm-header .svm-nav .svm-menu > li.current_page_item,
+html body .svm-header .svm-nav .svm-menu > li.current-menu-ancestor {
+    border-bottom-color:#3d3158 !important;
+}
+
+/* ELEMENTOR NAV MENU COMPREHENSIVE FIX */
+/* Target all possible Elementor nav menu selectors */
+.elementor-nav-menu--main .elementor-item:before,
+.elementor-nav-menu--main .elementor-item:after,
+.elementor-nav-menu .elementor-item:before,
+.elementor-nav-menu .elementor-item:after,
+.elementor-nav-menu--dropdown .elementor-item:before,
+.elementor-nav-menu--dropdown .elementor-item:after,
+.e--pointer-underline .elementor-item:before,
+.e--pointer-underline .elementor-item:after,
+.e--pointer-overline .elementor-item:before,
+.e--pointer-overline .elementor-item:after,
+.e--pointer-double-line .elementor-item:before,
+.e--pointer-double-line .elementor-item:after,
+.e--pointer-framed .elementor-item:before,
+.e--pointer-framed .elementor-item:after,
+.e--pointer-background .elementor-item:before,
+.e--pointer-background .elementor-item:after,
+.e--pointer-text .elementor-item:before,
+.e--pointer-text .elementor-item:after {
+    background-color:#3d3158 !important;
+    border-color:#3d3158 !important;
+    border-top-color:#3d3158 !important;
+    border-bottom-color:#3d3158 !important;
+    border-left-color:#3d3158 !important;
+    border-right-color:#3d3158 !important;
+}
+
+/* Elementor hover and active states - all variations */
+.elementor-nav-menu .elementor-item:hover:before,
+.elementor-nav-menu .elementor-item:hover:after,
+.elementor-nav-menu .elementor-item.elementor-item-active:before,
+.elementor-nav-menu .elementor-item.elementor-item-active:after,
+.elementor-nav-menu .elementor-item.highlighted:before,
+.elementor-nav-menu .elementor-item.highlighted:after,
+.elementor-nav-menu .elementor-item.current-menu-item:before,
+.elementor-nav-menu .elementor-item.current-menu-item:after,
+.elementor-nav-menu .elementor-item.current_page_item:before,
+.elementor-nav-menu .elementor-item.current_page_item:after,
+.elementor-nav-menu .elementor-item.current-menu-ancestor:before,
+.elementor-nav-menu .elementor-item.current-menu-ancestor:after {
+    background-color:#3d3158 !important;
+    border-color:#3d3158 !important;
+    border-top-color:#3d3158 !important;
+    border-bottom-color:#3d3158 !important;
+}
+
+/* Target by widget class */
+.elementor-element.elementor-widget-nav-menu .elementor-item:before,
+.elementor-element.elementor-widget-nav-menu .elementor-item:after {
+    background-color:#3d3158 !important;
+    border-color:#3d3158 !important;
+}
+
+/* Nuclear option - catch ANY Elementor nav styling */
+[class*="elementor"][class*="nav"] [class*="item"]:before,
+[class*="elementor"][class*="nav"] [class*="item"]:after,
+[class*="elementor"] [class*="nav-menu"] [class*="item"]:before,
+[class*="elementor"] [class*="nav-menu"] [class*="item"]:after,
+[class*="elementor"] [class*="menu"] [class*="item"]:before,
+[class*="elementor"] [class*="menu"] [class*="item"]:after {
+    background-color:#3d3158 !important;
+    border-color:#3d3158 !important;
+}
+
+/* Override ANY border-bottom-color that might be set inline */
+.svm-nav .svm-menu > li[style*="border-bottom-color"] {
+    border-bottom-color:#3d3158 !important;
+}
+
+/* Mobile menu fixes */
+@media (max-width:768px) {
+    /* Ensure mobile menu expands properly */
+    .svm-header.active .svm-nav {
+        display:block !important;
+        position:fixed !important;
+        top:var(--header-height) !important;
+        left:0 !important;
+        right:0 !important;
+        width:100% !important;
+        background:rgb(30, 32, 35) !important;
+        backdrop-filter:blur(12px) !important;
+        -webkit-backdrop-filter:blur(12px) !important;
+        padding:20px !important;
+        max-height:calc(100vh - var(--header-height)) !important;
+        overflow-y:auto !important;
+        box-shadow:0 8px 24px rgba(0,0,0,0.2) !important;
+        z-index:9998 !important;
+    }
+
+    /* Fix menu items spacing */
+    .svm-header.active .svm-nav .svm-menu {
+        flex-direction:column !important;
+        gap:0 !important;
+        height:auto !important;
+        width:100% !important;
+    }
+
+    .svm-header.active .svm-nav .svm-menu > li {
+        width:100% !important;
+        border-bottom:1px solid rgba(255,255,255,0.05) !important;
+        border-left:none !important;
+        border-right:none !important;
+        border-top:none !important;
+        min-height:56px !important;
+        display:flex !important;
+        align-items:center !important;
+    }
+
+    .svm-header.active .svm-nav .svm-menu > li > a {
+        padding:16px 12px !important;
+        justify-content:flex-start !important;
+        width:100% !important;
+        height:auto !important;
+        min-height:56px !important;
+        display:flex !important;
+        align-items:center !important;
+        font-size:16px !important;
+    }
+
+    /* Hamburger icon fix - ensure proper spacing and alignment */
+    .svm-menu-toggle {
+        display:flex !important;
+        flex-direction:column !important;
+        gap:6px !important;
+        justify-content:center !important;
+        align-items:center !important;
+        width:44px !important;
+        height:44px !important;
+        padding:8px !important;
+        background:transparent !important;
+        border:none !important;
+    }
+
+    .svm-menu-toggle span {
+        width:28px !important;
+        height:3px !important;
+        background:#fff !important;
+        border-radius:2px !important;
+        display:block !important;
+        transition:all 0.3s cubic-bezier(.37,.01,0,.98) !important;
+        transform-origin:center !important;
+    }
+
+    /* X icon when menu is active - fixed transforms */
+    .svm-header.active .svm-menu-toggle span:nth-child(1) {
+        transform:rotate(45deg) translateY(9px) !important;
+    }
+    .svm-header.active .svm-menu-toggle span:nth-child(2) {
+        opacity:0 !important;
+        transform:scale(0) !important;
+    }
+    .svm-header.active .svm-menu-toggle span:nth-child(3) {
+        transform:rotate(-45deg) translateY(-9px) !important;
+    }
+
+    /* MOBILE FIX: Remove grey split/curved background on homepage hero */
+    body.home .elementor-shape,
+    body.home .elementor-shape-bottom,
+    body.home .elementor-shape-top,
+    body.home .elementor-background-overlay {
+        display:none !important;
+    }
+
+    /* Ensure homepage hero sections have consistent white background on mobile */
+    body.home section,
+    body.home .elementor-section,
+    body.home .elementor-top-section {
+        background-color:#ffffff !important;
+        background-image:none !important;
+    }
+}
 CSS;
 
     wp_register_style('svm-inline', false);
@@ -174,10 +339,60 @@ $js = <<<JS
 document.addEventListener('DOMContentLoaded', function () {
     var header = document.querySelector('.svm-header');
     var btn = document.querySelector('.svm-menu-toggle');
-    if (btn && header) btn.addEventListener('click', function(){
-        header.classList.toggle('active');
-    });
 
+    // Mobile menu toggle with improved handling
+    if (btn && header) {
+        btn.addEventListener('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            header.classList.toggle('active');
+
+            // Force menu visibility when active
+            var nav = header.querySelector('.svm-nav');
+            if (header.classList.contains('active')) {
+                nav.style.display = 'block';
+            } else {
+                nav.style.display = '';
+            }
+        });
+    }
+
+    // CRITICAL FIX: Force correct border colors on all menu items
+    // This removes any Elementor inline styles with wrong colors
+    function fixMenuBorderColors() {
+        // Fix theme nav menu items
+        var menuItems = document.querySelectorAll('.svm-nav .svm-menu > li');
+        menuItems.forEach(function(item) {
+            // Remove any inline border-bottom-color styles
+            if (item.style.borderBottomColor) {
+                item.style.borderBottomColor = '';
+            }
+
+            // Force correct color on hover/active states
+            if (item.classList.contains('current-menu-item') ||
+                item.classList.contains('current_page_item') ||
+                item.classList.contains('current-menu-ancestor')) {
+                item.style.setProperty('border-bottom-color', '#3d3158', 'important');
+            }
+        });
+
+        // Fix Elementor nav menu items - target pseudo-elements via parent
+        var elementorItems = document.querySelectorAll('.elementor-nav-menu .elementor-item, .elementor-item');
+        elementorItems.forEach(function(item) {
+            // Force correct color via data attribute that CSS can target
+            item.setAttribute('data-border-color', '#3d3158');
+        });
+    }
+
+    // Run border color fix immediately and on interactions
+    fixMenuBorderColors();
+    document.addEventListener('mouseover', function(e) {
+        if (e.target.closest('.svm-menu > li') || e.target.closest('.elementor-item')) {
+            fixMenuBorderColors();
+        }
+    }, true);
+
+    // Hero parallax effect
     var heroTitle = document.querySelector('.svm-hero .elementor-heading-title') || document.querySelector('.svm-hero h1');
     if (heroTitle) {
         var update = function(){
@@ -187,6 +402,7 @@ document.addEventListener('DOMContentLoaded', function () {
         update();
     }
 
+    // Filter chip handling
     var chips = document.querySelectorAll('.svm-chip');
     chips.forEach(function(chip){
         chip.addEventListener('click', function(){
@@ -203,22 +419,110 @@ JS;
     wp_add_inline_script('svm-global', $js);
 });
 
-// Header scroll effect
+// Header scroll effect with adaptive background detection
 add_action('wp_enqueue_scripts', function() {
     $scroll_js = <<<JS
 (function(){
 document.addEventListener('DOMContentLoaded', function() {
   var header = document.querySelector('.svm-header');
   if (!header) return;
-  
-  window.addEventListener('scroll', function() {
+
+  // Function to determine if a color is light or dark
+  function isLightColor(rgb) {
+    // Parse RGB values
+    var match = rgb.match(/^rgba?\\s*\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)/i);
+    if (!match) return false;
+
+    var r = parseInt(match[1]);
+    var g = parseInt(match[2]);
+    var b = parseInt(match[3]);
+
+    // Calculate perceived brightness using luminance formula
+    var brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+    // Return true if color is light (brightness > 128)
+    return brightness > 128;
+  }
+
+  // Function to get the background color at a specific point
+  function getBackgroundColorAtPoint(x, y) {
+    var elements = document.elementsFromPoint(x, y);
+
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+
+      // Skip the header itself and its children
+      if (element === header || header.contains(element)) {
+        continue;
+      }
+
+      var bgColor = window.getComputedStyle(element).backgroundColor;
+
+      // Check if background color is not transparent
+      if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+        return bgColor;
+      }
+    }
+
+    // Default to black/dark if nothing found (assumes dark hero)
+    return 'rgb(0, 0, 0)';
+  }
+
+  function updateHeaderStyle() {
     var currentScroll = window.pageYOffset;
+
+    // Add/remove scrolled class
     if (currentScroll > 50) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
     }
-  }, { passive: true });
+
+    // Check if there's a dark hero section at the top of the page
+    var hero = document.querySelector('.svm-hero, .elementor-section');
+    var atTopWithDarkHero = false;
+
+    if (currentScroll < 10 && hero) {
+      // Check if hero has dark background
+      var heroRect = hero.getBoundingClientRect();
+      if (heroRect.top <= header.offsetHeight && heroRect.bottom > header.offsetHeight) {
+        var heroBg = window.getComputedStyle(hero).backgroundColor;
+        if (heroBg && heroBg !== 'transparent' && heroBg !== 'rgba(0, 0, 0, 0)') {
+          atTopWithDarkHero = !isLightColor(heroBg);
+        }
+      }
+    }
+
+    // If at top with dark hero, keep header dark
+    if (atTopWithDarkHero) {
+      header.classList.remove('light-bg');
+      return;
+    }
+
+    // Sample background color at center point below header
+    var headerHeight = header.offsetHeight;
+    var sampleY = headerHeight + 100; // Sample 100px below header
+    var sampleX = window.innerWidth / 2; // Center of screen
+
+    var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
+    var isLight = isLightColor(bgColor);
+
+    // Add/remove light-bg class based on background
+    if (isLight) {
+      header.classList.add('light-bg');
+    } else {
+      header.classList.remove('light-bg');
+    }
+  }
+
+  // Initial check - delayed slightly to ensure all elements are rendered
+  setTimeout(updateHeaderStyle, 100);
+
+  // Update on scroll
+  window.addEventListener('scroll', updateHeaderStyle, { passive: true });
+
+  // Update on resize (in case layout changes)
+  window.addEventListener('resize', updateHeaderStyle, { passive: true });
 });
 })();
 JS;

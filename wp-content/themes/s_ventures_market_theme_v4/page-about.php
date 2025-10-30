@@ -37,7 +37,7 @@ get_header();
   margin: 0 0 24px;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .about-hero__subtitle {
@@ -67,7 +67,7 @@ get_header();
   color: #1a1d35;
   margin: 0 0 32px;
   line-height: 1.2;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .about-section h3 {
@@ -76,7 +76,7 @@ get_header();
   color: #1a1d35;
   margin: 48px 0 20px;
   line-height: 1.3;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .about-section h3:first-child {
@@ -190,7 +190,7 @@ get_header();
   font-size: clamp(32px, 5vw, 42px);
   color: #fff;
   margin: 0 0 24px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .cta-section p {
@@ -217,7 +217,7 @@ get_header();
   text-decoration: none;
   transition: all 0.3s ease;
   box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .cta-btn:hover {

@@ -37,7 +37,7 @@ get_header();
   margin: 0 0 20px;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .contact-hero__subtitle {
@@ -69,7 +69,7 @@ get_header();
   margin: 0 0 28px;
   line-height: 1.2;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .contact-section p {
@@ -142,7 +142,7 @@ get_header();
   font-weight: 600;
   color: #1a1d35;
   margin: 0 0 8px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .contact-method p {
@@ -165,7 +165,7 @@ get_header();
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(46, 252, 134, 0.25);
   align-self: flex-start;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .contact-method__link:hover {
@@ -191,7 +191,7 @@ get_header();
   font-weight: 600;
   color: #1a1d35;
   margin: 0 0 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .tips-list ul {
@@ -241,7 +241,7 @@ get_header();
   color: #1a1d35;
   margin: 0 0 8px;
   line-height: 1;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .trust-badge__text {
@@ -278,7 +278,7 @@ get_header();
   font-size: clamp(30px, 5vw, 38px);
   color: #fff;
   margin: 0 0 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .cta-section p {
@@ -308,7 +308,7 @@ get_header();
   text-decoration: none;
   transition: all 0.3s ease;
   box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .cta-btn:hover {

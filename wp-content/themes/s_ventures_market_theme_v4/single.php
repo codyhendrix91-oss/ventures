@@ -61,7 +61,11 @@ while (have_posts()): the_post();
         <?php endif; ?>
 
         <!-- Post Content -->
-        <div class="entry-content">
+        <?php
+        // Check if Elementor is editing this post for content-specific styling
+        $is_elementor = class_exists('\Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor($post_id);
+        ?>
+        <div class="entry-content <?php echo $is_elementor ? 'has-elementor' : ''; ?>">
           <?php
           // Elementor will automatically handle its content when present
           the_content();
@@ -89,7 +93,7 @@ while (have_posts()): the_post();
       <aside class="content-sidebar">
 
         <!-- Newsletter Signup Form -->
-        <div class="sidebar-widget sidebar-newsletter">
+        <div class="sidebar-widget sidebar-newsletter" id="sidebar-newsletter-widget">
           <h3 class="widget-title">Subscribe to Our Newsletter</h3>
           <p class="widget-description">Get the latest insights on domain strategies and tech startup trends delivered to your inbox.</p>
 
@@ -284,7 +288,7 @@ while (have_posts()): the_post();
   margin: 0 0 20px;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 /* Entry Meta */
@@ -331,12 +335,12 @@ while (have_posts()): the_post();
   opacity: 0.6;
 }
 
-/* Featured Image - Float Right Style */
+/* Featured Image - Full Width for All Posts (Uniform Display) */
 .entry-featured-image {
-  float: right;
-  width: 40%;
-  max-width: 350px;
-  margin: 0 0 24px 32px;
+  float: none;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 32px 0;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -346,15 +350,7 @@ while (have_posts()): the_post();
   width: 100%;
   height: auto;
   display: block;
-}
-
-@media (max-width: 768px) {
-  .entry-featured-image {
-    float: none;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 0 24px;
-  }
+  object-fit: contain;
 }
 
 /* Entry Content - Typography */
@@ -365,13 +361,43 @@ while (have_posts()): the_post();
   font-family: Inter, sans-serif;
 }
 
+/* Elementor Content Fixes - Clear float and proper alignment */
+.entry-content.has-elementor {
+  clear: both;
+}
+
+.entry-content .elementor,
+.entry-content .elementor-section-wrap,
+.entry-content .elementor-element {
+  clear: both;
+  width: 100%;
+}
+
+/* Ensure Elementor sections don't inherit any problematic float behavior */
+.entry-content.has-elementor > .elementor-section,
+.entry-content.has-elementor > .elementor-element-populated {
+  float: none !important;
+  clear: both;
+}
+
+/* Reset Elementor container widths to full width */
+.entry-content .elementor-section,
+.entry-content .elementor-container {
+  max-width: 100%;
+}
+
+/* Ensure Elementor inner sections respect the content area */
+.entry-content .elementor-inner-section .elementor-container {
+  max-width: 100%;
+}
+
 .entry-content h1,
 .entry-content h2,
 .entry-content h3,
 .entry-content h4,
 .entry-content h5,
 .entry-content h6 {
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 700;
   color: #1a1d35;
   margin: 40px 0 20px;
@@ -526,7 +552,7 @@ while (have_posts()): the_post();
   font-weight: 700;
   color: #2B234A;
   margin: 0 0 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .tag-list {
@@ -580,8 +606,10 @@ while (have_posts()): the_post();
   font-size: 18px;
   font-weight: 700;
   color: #2B234A;
-  margin: 0 0 16px;
-  font-family: 'Poppins', sans-serif;
+  margin: 0 0 12px;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
+  text-align: left;
+  line-height: 1.4;
 }
 
 .widget-description {
@@ -589,6 +617,8 @@ while (have_posts()): the_post();
   line-height: 1.6;
   color: #6b7280;
   margin: 0 0 20px;
+  text-align: left;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 
 /* Newsletter Form in Sidebar */
@@ -606,7 +636,7 @@ while (have_posts()): the_post();
   border: 2px solid #e5e7eb;
   border-radius: 8px;
   font-size: 14px;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
@@ -627,7 +657,7 @@ while (have_posts()): the_post();
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   cursor: pointer;
   transition: all 0.3s ease;
   box-sizing: border-box;
@@ -638,37 +668,186 @@ while (have_posts()): the_post();
   box-shadow: 0 4px 12px rgba(43, 35, 74, 0.3);
 }
 
-/* Override existing newsletter styles for sidebar */
-.sidebar-newsletter .svm-newsletter {
+/* Override existing newsletter styles for sidebar - MAXIMUM SPECIFICITY FIX */
+/* Using ID and multiple class selectors for highest specificity */
+#sidebar-newsletter-widget .svm-newsletter,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter {
   background: transparent !important;
   border: none !important;
   padding: 0 !important;
   margin: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
 }
 
-.sidebar-newsletter .svm-newsletter__text {
-  font-size: 14px !important;
-  color: #6b7280 !important;
-  margin-bottom: 16px !important;
+/* Fix inner container widths for narrow sidebar */
+#sidebar-newsletter-widget .svm-newsletter__inner,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__inner,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__inner {
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.sidebar-newsletter .svm-newsletter__input {
+/* CRITICAL: Hide the duplicate newsletter text from the function completely */
+/* The widget already has "Subscribe to Our Newsletter" title and description */
+#sidebar-newsletter-widget .svm-newsletter__content,
+.sidebar-newsletter .svm-newsletter__content,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__content,
+.content-sidebar .sidebar-newsletter .svm-newsletter__content,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__content,
+aside.content-sidebar .sidebar-newsletter .svm-newsletter__content,
+#sidebar-newsletter-widget .svm-newsletter__content p,
+.sidebar-newsletter .svm-newsletter__content p,
+#sidebar-newsletter-widget .svm-newsletter__text,
+.sidebar-newsletter .svm-newsletter__text,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__text,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__text {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  opacity: 0 !important;
+}
+
+#sidebar-newsletter-widget .svm-newsletter__form-wrapper,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form-wrapper,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form-wrapper {
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Ensure form itself is full width */
+#sidebar-newsletter-widget .svm-newsletter__form,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__form {
   width: 100% !important;
   max-width: 100% !important;
-  padding: 11px 14px !important;
-  font-size: 14px !important;
-  margin-bottom: 10px !important;
   box-sizing: border-box !important;
+  display: block !important;
 }
 
-.sidebar-newsletter .svm-newsletter__button {
+/* Change input group to vertical layout for narrow sidebar */
+#sidebar-newsletter-widget .svm-newsletter__input-group,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input-group,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
   width: 100% !important;
   max-width: 100% !important;
-  padding: 11px 20px !important;
-  font-size: 14px !important;
   box-sizing: border-box !important;
+  align-items: stretch !important;
+  position: relative !important;
+}
+
+/* Email Input Field - Full Width and Visible */
+#sidebar-newsletter-widget .svm-newsletter__input,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+  padding: 12px 14px !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #1a1d35 !important;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif !important;
+  order: 1 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+#sidebar-newsletter-widget .svm-newsletter__input:focus,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input:focus,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__input:focus {
+  border-color: #2B234A !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(43, 35, 74, 0.1) !important;
+}
+
+/* Submit Button - Below Input Field, Full Width */
+#sidebar-newsletter-widget .svm-newsletter__button,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+  padding: 12px 20px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  box-sizing: border-box !important;
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center !important;
+  background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif !important;
+  white-space: normal !important;
+  order: 2 !important;
+  position: relative !important;
+  z-index: 1 !important;
+  margin: 0 !important;
+  gap: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+#sidebar-newsletter-widget .svm-newsletter__button:hover,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button:hover,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(43, 35, 74, 0.3) !important;
+}
+
+/* Fix any icon/span elements in the button */
+#sidebar-newsletter-widget .svm-newsletter__button .button-text,
+#sidebar-newsletter-widget .svm-newsletter__button .button-icon,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-text,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-icon,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-text,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__button .button-icon {
+  display: inline-flex !important;
+  flex-shrink: 0 !important;
+}
+
+/* Success/Error message styling */
+#sidebar-newsletter-widget .svm-newsletter__message,
+.content-sidebar #sidebar-newsletter-widget .svm-newsletter__message,
+aside.content-sidebar #sidebar-newsletter-widget .svm-newsletter__message {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin-top: 12px !important;
+  padding: 12px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  order: 3 !important;
 }
 
 /* Recent Posts List */
@@ -770,7 +949,7 @@ while (have_posts()): the_post();
   color: #2B234A;
   margin: 0 0 40px;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   letter-spacing: -0.02em;
 }
 
@@ -799,7 +978,8 @@ while (have_posts()): the_post();
 .blog-card__image {
   width: 100%;
   height: 220px;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f9fafb;
 }
 
 .blog-card__content {
@@ -848,7 +1028,7 @@ while (have_posts()): the_post();
   color: #2B234A;
   margin: 0 0 12px;
   line-height: 1.3;
-  font-family: 'Poppins', sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   letter-spacing: -0.01em;
 }
 

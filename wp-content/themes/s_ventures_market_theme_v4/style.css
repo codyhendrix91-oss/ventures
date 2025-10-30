@@ -114,25 +114,50 @@ a:hover{opacity:.85}
 }
 
 /* =====================================================
-   HEADER - Clean Dark Navigation
+   HEADER - Adaptive Navigation (Builder.io style)
    ===================================================== */
+/* Default dark background behavior (on dark hero) */
 .svm-header {
   position:fixed;
   top:0;
   left:0;
   right:0;
   z-index:9999;
-  background:rgba(15,20,25,0.95);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  transition:all .3s ease;
+  background-color:rgba(0, 0, 0, 0.3) !important;
+  color:rgba(0, 0, 0, 0.87);
+  font-family:Poppins, Avenir, Helvetica, Arial, sans-serif;
+  border-bottom:3px solid transparent;
+  transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
+             border-color 0.3s cubic-bezier(.37,.01,0,.98),
+             box-shadow 0.3s cubic-bezier(.37,.01,0,.98),
+             backdrop-filter 0.3s cubic-bezier(.37,.01,0,.98);
   height:var(--header-height);
+  -webkit-font-smoothing:antialiased;
+  -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  /* No backdrop-filter on dark backgrounds */
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
 }
 
+/* Dark header on scroll - maintain dark overlay */
 .svm-header.scrolled {
-  background:rgba(10,14,27,0.98);
-  box-shadow:0 4px 24px rgba(0,0,0,0.2);
+  background-color:rgba(0, 0, 0, 0.5) !important;
+  box-shadow:0 4px 24px rgba(0,0,0,0.15);
+}
+
+/* Light background behavior (after scroll or on light content) */
+.svm-header.light-bg {
+  background-color:rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter:saturate(1.8) blur(20px) !important;
+  -webkit-backdrop-filter:saturate(1.8) blur(20px) !important;
+  box-shadow:0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* Adaptive light header on scroll - slightly more opaque */
+.svm-header.light-bg.scrolled {
+  background-color:rgba(255, 255, 255, 0.5) !important;
+  box-shadow:0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
 /* Admin bar positioning - header below admin bar */
@@ -149,7 +174,7 @@ body.admin-bar .svm-header{
 .svm-header__inner {
   max-width:1400px;
   margin:0 auto;
-  padding:0 24px;
+  padding:0 40px;
   height:100%;
   display:flex;
   align-items:center;
@@ -177,47 +202,87 @@ body.admin-bar .svm-header{
   display:block!important;
 }
 
+/* Dark logo fill for light backgrounds */
+.svm-header.light-bg .svm-logo svg {
+  fill:rgba(0, 0, 0, 0.87);
+}
+
+.svm-header.light-bg .svm-logo svg path {
+  fill:rgba(0, 0, 0, 0.87);
+}
+
 .svm-nav {
   display:flex;
   align-items:center;
+  height:100%;
 }
 
 .svm-nav .svm-menu {
   list-style:none;
   display:flex;
-  gap:4px;
+  gap:0;
   margin:0;
   padding:0;
-  align-items:center;
+  align-items:stretch;
+  height:100%;
 }
 
-.svm-nav .svm-menu li {
+.svm-nav .svm-menu > li {
   margin:0;
   padding:0;
   position:relative;
+  display:flex;
+  align-items:center;
+  border-bottom:3px solid transparent;
+  transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
+             border-color 0.3s cubic-bezier(.37,.01,0,.98);
+}
+
+.svm-nav .svm-menu > li:hover {
+  background-color:rgba(255,255,255,0.08);
+  border-bottom-color:#3d3158 !important;
+}
+
+/* Light hover for light backgrounds */
+.svm-header.light-bg .svm-nav .svm-menu > li:hover {
+  background-color:rgba(0, 0, 0, 0.05);
+}
+
+.svm-nav .svm-menu > li.current-menu-item,
+.svm-nav .svm-menu > li.current_page_item {
+  border-bottom-color:#3d3158 !important;
 }
 
 .svm-nav .svm-menu > li > a {
-  color:var(--color-text-light);
+  color:#ffffff;
   font-weight:500;
-  font-size:15px;
-  font-family:var(--font-primary);
-  padding:10px 16px;
-  display:block;
-  border-radius:8px;
-  transition:all .2s ease;
+  font-size:14px;
+  font-family:Poppins, Avenir, Helvetica, Arial, sans-serif;
+  padding:0 15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  width:100%;
+  background-color:transparent;
+  border:none;
+  cursor:pointer;
+  transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
+             border-color 0.3s cubic-bezier(.37,.01,0,.98),
+             color 0.3s cubic-bezier(.37,.01,0,.98);
 }
 
 .svm-nav .svm-menu > li > a:hover {
-  color:#fff;
-  background:rgba(255,255,255,0.08);
-  opacity:1;
+  color:#ffffff;
 }
 
-.svm-nav .svm-menu li.current-menu-item > a,
-.svm-nav .svm-menu li.current_page_item > a {
-  color:var(--color-accent);
-  background:rgba(0,217,255,0.12);
+/* Dark text for light backgrounds */
+.svm-header.light-bg .svm-nav .svm-menu > li > a {
+  color:rgba(0, 0, 0, 0.87);
+}
+
+.svm-header.light-bg .svm-nav .svm-menu > li > a:hover {
+  color:rgba(0, 0, 0, 1);
 }
 
 .svm-nav .svm-menu li.menu-item-has-children > a::after {
@@ -235,17 +300,22 @@ body.admin-bar .svm-header{
 
 .svm-nav .svm-menu .sub-menu {
   position:absolute;
-  top:calc(100% + 8px);
+  top:100%;
   left:0;
-  background:#fff;
+  background:rgb(30, 32, 35);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
   min-width:220px;
   padding:8px;
-  border-radius:12px;
-  box-shadow:0 12px 48px rgba(0,0,0,0.15);
+  border-radius:8px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.3);
+  border:1px solid rgba(255,255,255,0.1);
   opacity:0;
   visibility:hidden;
   transform:translateY(-8px);
-  transition:all .25s ease;
+  transition:opacity 0.3s cubic-bezier(.37,.01,0,.98),
+             visibility 0.3s cubic-bezier(.37,.01,0,.98),
+             transform 0.3s cubic-bezier(.37,.01,0,.98);
   z-index:1000;
   list-style:none;
 }
@@ -256,20 +326,25 @@ body.admin-bar .svm-header{
   transform:translateY(0);
 }
 
+.svm-nav .svm-menu .sub-menu li {
+  border-bottom:none;
+}
+
 .svm-nav .svm-menu .sub-menu li a {
   display:block;
   padding:10px 16px;
-  color:#374151;
+  color:rgba(255,255,255,0.95);
   font-size:14px;
   font-weight:500;
-  border-radius:8px;
-  transition:all .15s ease;
+  border-radius:6px;
+  transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
+             color 0.3s cubic-bezier(.37,.01,0,.98);
+  height:auto;
 }
 
 .svm-nav .svm-menu .sub-menu li a:hover {
-  background:rgba(0,217,255,0.08);
-  color:var(--color-accent-hover);
-  opacity:1;
+  background-color:rgba(255,255,255,0.1);
+  color:rgba(255,255,255,1);
 }
 
 .svm-menu-toggle {
@@ -279,56 +354,142 @@ body.admin-bar .svm-header{
   cursor:pointer;
   padding:8px;
   flex-direction:column;
-  gap:5px;
+  gap:6px;
   z-index:10;
+  width:40px;
+  height:40px;
+  align-items:center;
+  justify-content:center;
 }
 
 .svm-menu-toggle span {
-  width:24px;
-  height:2px;
+  width:26px;
+  height:3px;
   background:#fff;
   border-radius:2px;
-  transition:all .3s ease;
+  display:block;
+  transition:all 0.3s cubic-bezier(.37,.01,0,.98);
+  transform-origin:center;
 }
 
-.svm-header.active .svm-menu-toggle span:nth-child(1){transform:rotate(45deg) translate(7px,7px)}
-.svm-header.active .svm-menu-toggle span:nth-child(2){opacity:0}
-.svm-header.active .svm-menu-toggle span:nth-child(3){transform:rotate(-45deg) translate(7px,-7px)}
+/* Dark menu toggle for light backgrounds */
+.svm-header.light-bg .svm-menu-toggle span {
+  background:rgba(0, 0, 0, 0.87);
+}
+
+.svm-header.active .svm-menu-toggle span:nth-child(1){
+  transform:rotate(45deg) translateY(9px);
+}
+.svm-header.active .svm-menu-toggle span:nth-child(2){
+  opacity:0;
+  transform:scale(0);
+}
+.svm-header.active .svm-menu-toggle span:nth-child(3){
+  transform:rotate(-45deg) translateY(-9px);
+}
 
 @media (max-width:768px) {
-  .svm-header__inner{padding:0 20px}
+  .svm-header__inner{padding:0 24px}
   .svm-logo svg,.svm-logo img{height:36px!important}
-  .svm-menu-toggle{display:flex}
+  .svm-menu-toggle{display:flex !important}
   .svm-nav{display:none}
-  
+
+  /* FIXED: Mobile menu with proper spacing and full visibility */
   .svm-header.active .svm-nav {
-    display:block;
-    position:fixed;
-    top:var(--header-height);
-    left:0;
-    right:0;
-    background:rgba(15,20,25,0.98);
-    backdrop-filter:blur(12px);
-    padding:20px;
-    max-height:calc(100vh - var(--header-height));
-    overflow-y:auto;
-    box-shadow:0 8px 24px rgba(0,0,0,0.2);
+    display:block !important;
+    position:fixed !important;
+    top:var(--header-height) !important;
+    left:0 !important;
+    right:0 !important;
+    width:100% !important;
+    background:rgba(0, 0, 0, 0.5) !important;
+    padding:20px !important;
+    max-height:calc(100vh - var(--header-height)) !important;
+    overflow-y:auto !important;
+    box-shadow:0 8px 24px rgba(0,0,0,0.15) !important;
+    z-index:9998 !important;
+    /* No backdrop-filter for dark mobile menu */
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
   }
-  
-  .svm-nav .svm-menu {
-    flex-direction:column;
-    gap:0;
+
+  /* Light mobile menu for light backgrounds - with frosted glass */
+  .svm-header.light-bg.active .svm-nav {
+    background:rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter:saturate(1.8) blur(20px) !important;
+    -webkit-backdrop-filter:saturate(1.8) blur(20px) !important;
+    box-shadow:0 8px 24px rgba(0,0,0,0.08) !important;
   }
-  
-  .svm-nav .svm-menu > li {
-    width:100%;
-    border-bottom:1px solid rgba(255,255,255,0.05);
+
+  .svm-header.active .svm-nav .svm-menu {
+    flex-direction:column !important;
+    gap:0 !important;
+    height:auto !important;
+    width:100% !important;
   }
-  
-  .svm-nav .svm-menu > li > a {
-    padding:16px 12px;
+
+  .svm-header.active .svm-nav .svm-menu > li {
+    width:100% !important;
+    border-bottom:1px solid rgba(255,255,255,0.05) !important;
+    border-left:none !important;
+    border-right:none !important;
+    border-top:none !important;
+    min-height:56px !important;
+    display:flex !important;
+    align-items:center !important;
   }
-  
+
+  /* Dark borders for light mobile menu */
+  .svm-header.light-bg.active .svm-nav .svm-menu > li {
+    border-bottom:1px solid rgba(0,0,0,0.1) !important;
+  }
+
+  .svm-header.active .svm-nav .svm-menu > li > a {
+    padding:16px 12px !important;
+    justify-content:flex-start !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:56px !important;
+    display:flex !important;
+    align-items:center !important;
+    font-size:16px !important;
+  }
+
+  /* Dark text for light mobile menu */
+  .svm-header.light-bg.active .svm-nav .svm-menu > li > a {
+    color:rgba(0, 0, 0, 0.87) !important;
+  }
+
+  /* Hamburger icon - ensure proper display */
+  .svm-menu-toggle {
+    display:flex !important;
+    flex-direction:column !important;
+    gap:6px !important;
+    justify-content:center !important;
+    align-items:center !important;
+    width:44px !important;
+    height:44px !important;
+    padding:8px !important;
+  }
+
+  .svm-menu-toggle span {
+    width:28px !important;
+    height:3px !important;
+    display:block !important;
+  }
+
+  /* X icon when active */
+  .svm-header.active .svm-menu-toggle span:nth-child(1) {
+    transform:rotate(45deg) translateY(9px) !important;
+  }
+  .svm-header.active .svm-menu-toggle span:nth-child(2) {
+    opacity:0 !important;
+    transform:scale(0) !important;
+  }
+  .svm-header.active .svm-menu-toggle span:nth-child(3) {
+    transform:rotate(-45deg) translateY(-9px) !important;
+  }
+
   .svm-header.active .svm-nav .svm-menu .sub-menu {
     position:static;
     opacity:1;
@@ -337,16 +498,33 @@ body.admin-bar .svm-header{
     box-shadow:none;
     background:rgba(255,255,255,0.05);
     margin:4px 0 8px 12px;
-    border-left:2px solid var(--color-accent);
+    border-left:2px solid #3d3158;
   }
-  
+
+  /* Light submenu for light mobile menu */
+  .svm-header.light-bg.active .svm-nav .svm-menu .sub-menu {
+    background:rgba(0,0,0,0.03);
+  }
+
   .svm-nav .svm-menu .sub-menu li a {
-    color:var(--color-text-light);
+    color:rgba(255,255,255,0.95);
     padding:10px 16px;
   }
-  
+
+  /* Dark text for light submenu */
+  .svm-header.light-bg.active .svm-nav .svm-menu .sub-menu li a {
+    color:rgba(0,0,0,0.8);
+  }
+
   .svm-nav .svm-menu .sub-menu li a:hover {
-    color:var(--color-accent);
+    color:#ffffff;
+    background-color:rgba(255,255,255,0.08);
+  }
+
+  /* Dark hover for light submenu */
+  .svm-header.light-bg.active .svm-nav .svm-menu .sub-menu li a:hover {
+    color:rgba(0,0,0,0.95);
+    background-color:rgba(0,0,0,0.08);
   }
 }
 
