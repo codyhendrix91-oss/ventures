@@ -294,14 +294,14 @@ html body .svm-header .svm-nav .svm-menu > li.current-menu-ancestor {
 
     /* X icon when menu is active - fixed transforms */
     .svm-header.active .svm-menu-toggle span:nth-child(1) {
-        transform:rotate(45deg) translate(8px, 8px) !important;
+        transform:rotate(45deg) translateY(9px) !important;
     }
     .svm-header.active .svm-menu-toggle span:nth-child(2) {
         opacity:0 !important;
         transform:scale(0) !important;
     }
     .svm-header.active .svm-menu-toggle span:nth-child(3) {
-        transform:rotate(-45deg) translate(8px, -8px) !important;
+        transform:rotate(-45deg) translateY(-9px) !important;
     }
 
     /* MOBILE FIX: Remove grey split/curved background on homepage hero */
