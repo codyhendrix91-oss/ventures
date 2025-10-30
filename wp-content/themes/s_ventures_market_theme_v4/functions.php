@@ -419,22 +419,89 @@ JS;
     wp_add_inline_script('svm-global', $js);
 });
 
-// Header scroll effect
+// Header scroll effect with adaptive background detection
 add_action('wp_enqueue_scripts', function() {
     $scroll_js = <<<JS
 (function(){
 document.addEventListener('DOMContentLoaded', function() {
   var header = document.querySelector('.svm-header');
   if (!header) return;
-  
-  window.addEventListener('scroll', function() {
+
+  // Function to determine if a color is light or dark
+  function isLightColor(rgb) {
+    // Parse RGB values
+    var match = rgb.match(/^rgba?\\s*\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)/i);
+    if (!match) return false;
+
+    var r = parseInt(match[1]);
+    var g = parseInt(match[2]);
+    var b = parseInt(match[3]);
+
+    // Calculate perceived brightness using luminance formula
+    var brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+    // Return true if color is light (brightness > 128)
+    return brightness > 128;
+  }
+
+  // Function to get the background color at a specific point
+  function getBackgroundColorAtPoint(x, y) {
+    var elements = document.elementsFromPoint(x, y);
+
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+
+      // Skip the header itself and its children
+      if (element === header || header.contains(element)) {
+        continue;
+      }
+
+      var bgColor = window.getComputedStyle(element).backgroundColor;
+
+      // Check if background color is not transparent
+      if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+        return bgColor;
+      }
+    }
+
+    // Default to white if nothing found
+    return 'rgb(255, 255, 255)';
+  }
+
+  function updateHeaderStyle() {
     var currentScroll = window.pageYOffset;
+
+    // Add/remove scrolled class
     if (currentScroll > 50) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
     }
-  }, { passive: true });
+
+    // Sample background color at center point below header
+    var headerHeight = header.offsetHeight;
+    var sampleY = headerHeight + 100; // Sample 100px below header
+    var sampleX = window.innerWidth / 2; // Center of screen
+
+    var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
+    var isLight = isLightColor(bgColor);
+
+    // Add/remove light-bg class based on background
+    if (isLight) {
+      header.classList.add('light-bg');
+    } else {
+      header.classList.remove('light-bg');
+    }
+  }
+
+  // Initial check
+  updateHeaderStyle();
+
+  // Update on scroll
+  window.addEventListener('scroll', updateHeaderStyle, { passive: true });
+
+  // Update on resize (in case layout changes)
+  window.addEventListener('resize', updateHeaderStyle, { passive: true });
 });
 })();
 JS;
