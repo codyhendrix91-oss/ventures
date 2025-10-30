@@ -440,8 +440,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calculate perceived brightness using luminance formula
     var brightness = (r * 299 + g * 587 + b * 114) / 1000;
 
-    // Return true if color is light (brightness > 128)
-    return brightness > 128;
+    // Return true if color is light (brightness > 180)
+    return brightness > 180;
   }
 
   // Function to get the background color at a specific point
