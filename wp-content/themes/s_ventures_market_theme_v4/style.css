@@ -125,8 +125,6 @@ a:hover{opacity:.85}
   background-color:rgba(0, 0, 0, 0.3);
   color:rgba(0, 0, 0, 0.87);
   font-family:Poppins, Avenir, Helvetica, Arial, sans-serif;
-  backdrop-filter:saturate(1.8) blur(20px);
-  -webkit-backdrop-filter:saturate(1.8) blur(20px);
   border-bottom:3px solid transparent;
   transition:background-color 0.3s cubic-bezier(.37,.01,0,.98),
              border-color 0.3s cubic-bezier(.37,.01,0,.98),
@@ -147,6 +145,8 @@ a:hover{opacity:.85}
 /* Adaptive light header when over light backgrounds */
 .svm-header.light-bg {
   background-color:rgba(255, 255, 255, 0.3);
+  backdrop-filter:saturate(1.8) blur(20px);
+  -webkit-backdrop-filter:saturate(1.8) blur(20px);
   box-shadow:0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
