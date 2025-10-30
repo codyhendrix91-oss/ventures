@@ -824,10 +824,59 @@ body.single {
   padding: 0;
 }
 
-/* Ensure no gap appears at top of page */
+/* Force white header on light pages (home, single domains, blog posts) */
+body.home .svm-header,
+body.single-domains .svm-header,
 body.single-post .svm-header,
-body.single .svm-header {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+body.blog .svm-header,
+body.archive .svm-header {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: saturate(1.8) blur(20px) !important;
+  -webkit-backdrop-filter: saturate(1.8) blur(20px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* Light header scrolled state on light pages */
+body.home .svm-header.scrolled,
+body.single-domains .svm-header.scrolled,
+body.single-post .svm-header.scrolled,
+body.blog .svm-header.scrolled,
+body.archive .svm-header.scrolled {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Force dark logo and menu on light pages */
+body.home .svm-header .svm-logo svg,
+body.single-domains .svm-header .svm-logo svg,
+body.single-post .svm-header .svm-logo svg,
+body.blog .svm-header .svm-logo svg,
+body.archive .svm-header .svm-logo svg {
+  fill: rgba(0, 0, 0, 0.87);
+}
+
+body.home .svm-header .svm-logo svg path,
+body.single-domains .svm-header .svm-logo svg path,
+body.single-post .svm-header .svm-logo svg path,
+body.blog .svm-header .svm-logo svg path,
+body.archive .svm-header .svm-logo svg path {
+  fill: rgba(0, 0, 0, 0.87);
+}
+
+body.home .svm-header .svm-nav .svm-menu > li > a,
+body.single-domains .svm-header .svm-nav .svm-menu > li > a,
+body.single-post .svm-header .svm-nav .svm-menu > li > a,
+body.blog .svm-header .svm-nav .svm-menu > li > a,
+body.archive .svm-header .svm-nav .svm-menu > li > a {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+body.home .svm-header .svm-menu-toggle span,
+body.single-domains .svm-header .svm-menu-toggle span,
+body.single-post .svm-header .svm-menu-toggle span,
+body.blog .svm-header .svm-menu-toggle span,
+body.archive .svm-header .svm-menu-toggle span {
+  background: rgba(0, 0, 0, 0.87);
 }
 
 /* Blog single pages should start content right after header */

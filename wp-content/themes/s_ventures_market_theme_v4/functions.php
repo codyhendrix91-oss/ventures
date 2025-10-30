@@ -419,7 +419,7 @@ JS;
     wp_add_inline_script('svm-global', $js);
 });
 
-// Header scroll effect with adaptive background detection
+// Header scroll effect with page-specific behavior
 add_action('wp_enqueue_scripts', function() {
     $scroll_js = <<<JS
 (function(){
@@ -427,7 +427,31 @@ document.addEventListener('DOMContentLoaded', function() {
   var header = document.querySelector('.svm-header');
   if (!header) return;
 
-  // CRITICAL: Remove light-bg immediately to prevent white flash
+  // Detect if this is a light page (home, single domains, blog posts)
+  var body = document.body;
+  var isLightPage = body.classList.contains('home') ||
+                    body.classList.contains('single-domains') ||
+                    body.classList.contains('single-post') ||
+                    body.classList.contains('blog') ||
+                    body.classList.contains('archive');
+
+  // For light pages: always use white header, set immediately
+  if (isLightPage) {
+    header.classList.add('light-bg');
+
+    // Handle scroll for light pages (add scrolled class for shadow effect)
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }, { passive: true });
+
+    return; // Exit early, no need for background detection
+  }
+
+  // For dark pages: start with dark transparent header
   header.classList.remove('light-bg');
 
   // Throttle function to limit how often a function can fire
@@ -454,7 +478,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Function to determine if a color is light or dark
   function isLightColor(rgb) {
-    // Parse RGB values
     var match = rgb.match(/^rgba?\\s*\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)/i);
     if (!match) return false;
 
@@ -489,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    // Default to black/dark if nothing found (assumes dark hero)
+    // Default to black/dark if nothing found
     return 'rgb(0, 0, 0)';
   }
 
@@ -505,26 +528,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Sample background color at center point below header
     var headerHeight = header.offsetHeight;
-    var sampleY = currentScroll + headerHeight + 200; // Sample 200px below header for better detection
-    var sampleX = window.innerWidth / 2; // Center of screen
+    var sampleY = currentScroll + headerHeight + 100;
+    var sampleX = window.innerWidth / 2;
 
     var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
     var isLight = isLightColor(bgColor);
-    var luminance = 0;
 
-    // Calculate luminance for debug output
-    var match = bgColor.match(/^rgba?\\s*\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)/i);
-    if (match) {
-      var r = parseInt(match[1]);
-      var g = parseInt(match[2]);
-      var b = parseInt(match[3]);
-      luminance = (r * 299 + g * 587 + b * 114) / 1000;
-    }
-
-    // Debug logging
-    console.log('Header Mode:', luminance.toFixed(0), luminance > 180 ? 'Light' : 'Dark', 'at scroll:', currentScroll);
-
-    // Add/remove light-bg class based on background
+    // For dark pages: stay dark in hero (dark bg), turn white in body (light bg)
     if (isLight) {
       header.classList.add('light-bg');
     } else {
@@ -532,13 +542,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Initial check - wait for window.load + 500ms to ensure all backgrounds are fully painted
-  window.addEventListener('load', function() {
-    setTimeout(updateHeaderMode, 500);
-  });
+  // Run immediately on load
+  updateHeaderMode();
 
   // Throttled scroll and resize handlers
-  var throttledUpdate = throttle(updateHeaderMode, 150);
+  var throttledUpdate = throttle(updateHeaderMode, 100);
   window.addEventListener('scroll', throttledUpdate, { passive: true });
   window.addEventListener('resize', throttle(updateHeaderMode, 200), { passive: true });
 });
