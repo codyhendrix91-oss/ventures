@@ -122,7 +122,7 @@ a:hover{opacity:.85}
   left:0;
   right:0;
   z-index:9999;
-  background-color:rgba(0, 0, 0, 0.3);
+  background-color:transparent;
   color:rgba(0, 0, 0, 0.87);
   font-family:Poppins, Avenir, Helvetica, Arial, sans-serif;
   border-bottom:3px solid transparent;
@@ -134,9 +134,12 @@ a:hover{opacity:.85}
   -webkit-font-smoothing:antialiased;
   -webkit-text-size-adjust:100%;
   -webkit-tap-highlight-color:rgba(0,0,0,0);
+  /* Ensure no backdrop-filter on dark backgrounds */
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
 }
 
-/* Dark header on scroll - slightly more opaque */
+/* Dark header on scroll - add semi-transparent background */
 .svm-header.scrolled {
   background-color:rgba(0, 0, 0, 0.5);
   box-shadow:0 4px 24px rgba(0,0,0,0.15);
@@ -399,18 +402,21 @@ body.admin-bar .svm-header{
     right:0 !important;
     width:100% !important;
     background:rgba(0, 0, 0, 0.5) !important;
-    backdrop-filter:saturate(1.8) blur(20px) !important;
-    -webkit-backdrop-filter:saturate(1.8) blur(20px) !important;
     padding:20px !important;
     max-height:calc(100vh - var(--header-height)) !important;
     overflow-y:auto !important;
     box-shadow:0 8px 24px rgba(0,0,0,0.15) !important;
     z-index:9998 !important;
+    /* No backdrop-filter for dark mobile menu */
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
   }
 
-  /* Light mobile menu for light backgrounds */
+  /* Light mobile menu for light backgrounds - with frosted glass */
   .svm-header.light-bg.active .svm-nav {
     background:rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter:saturate(1.8) blur(20px) !important;
+    -webkit-backdrop-filter:saturate(1.8) blur(20px) !important;
     box-shadow:0 8px 24px rgba(0,0,0,0.08) !important;
   }
 
