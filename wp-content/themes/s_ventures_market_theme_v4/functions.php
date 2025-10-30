@@ -526,9 +526,9 @@ document.addEventListener('DOMContentLoaded', function() {
       header.classList.remove('scrolled');
     }
 
-    // Sample background color at center point below header
+    // Sample background color farther below header to avoid sampling hero gradients
     var headerHeight = header.offsetHeight;
-    var sampleY = currentScroll + headerHeight + 100;
+    var sampleY = currentScroll + headerHeight + 200; // Sample 200px below header (increased from 100px)
     var sampleX = window.innerWidth / 2;
 
     var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
