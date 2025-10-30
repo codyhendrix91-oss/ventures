@@ -427,6 +427,28 @@ document.addEventListener('DOMContentLoaded', function() {
   var header = document.querySelector('.svm-header');
   if (!header) return;
 
+  // Throttle function to limit how often a function can fire
+  function throttle(func, delay) {
+    var timeoutId;
+    var lastRan;
+    return function() {
+      var context = this;
+      var args = arguments;
+      if (!lastRan) {
+        func.apply(context, args);
+        lastRan = Date.now();
+      } else {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(function() {
+          if ((Date.now() - lastRan) >= delay) {
+            func.apply(context, args);
+            lastRan = Date.now();
+          }
+        }, delay - (Date.now() - lastRan));
+      }
+    };
+  }
+
   // Function to determine if a color is light or dark
   function isLightColor(rgb) {
     // Parse RGB values
@@ -478,34 +500,16 @@ document.addEventListener('DOMContentLoaded', function() {
       header.classList.remove('scrolled');
     }
 
-    // Check if there's a dark hero section at the top of the page
-    var hero = document.querySelector('.svm-hero, .elementor-section');
-    var atTopWithDarkHero = false;
-
-    if (currentScroll < 10 && hero) {
-      // Check if hero has dark background
-      var heroRect = hero.getBoundingClientRect();
-      if (heroRect.top <= header.offsetHeight && heroRect.bottom > header.offsetHeight) {
-        var heroBg = window.getComputedStyle(hero).backgroundColor;
-        if (heroBg && heroBg !== 'transparent' && heroBg !== 'rgba(0, 0, 0, 0)') {
-          atTopWithDarkHero = !isLightColor(heroBg);
-        }
-      }
-    }
-
-    // If at top with dark hero, keep header dark
-    if (atTopWithDarkHero) {
-      header.classList.remove('light-bg');
-      return;
-    }
-
     // Sample background color at center point below header
     var headerHeight = header.offsetHeight;
-    var sampleY = headerHeight + 100; // Sample 100px below header
+    var sampleY = currentScroll + headerHeight + 100; // Sample 100px below header
     var sampleX = window.innerWidth / 2; // Center of screen
 
     var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
     var isLight = isLightColor(bgColor);
+
+    // Debug logging (can be removed in production)
+    // console.log('Luminance detection:', { bgColor: bgColor, isLight: isLight });
 
     // Add/remove light-bg class based on background
     if (isLight) {
@@ -515,14 +519,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Initial check - delayed slightly to ensure all elements are rendered
-  setTimeout(updateHeaderStyle, 100);
+  // Initial check - delay until after first paint to ensure hero is fully rendered
+  window.addEventListener('load', function() {
+    setTimeout(updateHeaderStyle, 300);
+  });
 
-  // Update on scroll
-  window.addEventListener('scroll', updateHeaderStyle, { passive: true });
-
-  // Update on resize (in case layout changes)
-  window.addEventListener('resize', updateHeaderStyle, { passive: true });
+  // Throttled scroll and resize handlers
+  var throttledUpdate = throttle(updateHeaderStyle, 150);
+  window.addEventListener('scroll', throttledUpdate, { passive: true });
+  window.addEventListener('resize', throttle(updateHeaderStyle, 200), { passive: true });
 });
 })();
 JS;
