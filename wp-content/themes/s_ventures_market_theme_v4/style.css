@@ -114,9 +114,8 @@ a:hover{opacity:.85}
 }
 
 /* =====================================================
-   HEADER - Adaptive Navigation (Builder.io style)
+   HEADER - Adaptive Navigation (Exact builder.io frosted glass style)
    ===================================================== */
-/* Default transparent header - JavaScript will add appropriate classes */
 .svm-header {
   position:fixed;
   top:0;
@@ -135,34 +134,28 @@ a:hover{opacity:.85}
   -webkit-font-smoothing:antialiased;
   -webkit-text-size-adjust:100%;
   -webkit-tap-highlight-color:rgba(0,0,0,0);
+  /* Ensure no backdrop-filter on dark backgrounds */
   backdrop-filter:none;
   -webkit-backdrop-filter:none;
 }
 
-/* Dark header - for dark hero sections */
-.svm-header:not(.light-bg) {
-  background-color:rgba(0, 0, 0, 0.3);
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-}
-
-/* Dark header on scroll - maintain dark overlay */
-.svm-header:not(.light-bg).scrolled {
+/* Dark header on scroll - add semi-transparent background */
+.svm-header.scrolled {
   background-color:rgba(0, 0, 0, 0.5);
   box-shadow:0 4px 24px rgba(0,0,0,0.15);
 }
 
-/* Light background behavior - ALWAYS takes precedence */
+/* Adaptive light header when over light backgrounds */
 .svm-header.light-bg {
-  background-color:rgba(255, 255, 255, 0.3) !important;
-  backdrop-filter:saturate(1.8) blur(20px) !important;
-  -webkit-backdrop-filter:saturate(1.8) blur(20px) !important;
+  background-color:rgba(255, 255, 255, 0.3);
+  backdrop-filter:saturate(1.8) blur(20px);
+  -webkit-backdrop-filter:saturate(1.8) blur(20px);
   box-shadow:0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 /* Adaptive light header on scroll - slightly more opaque */
 .svm-header.light-bg.scrolled {
-  background-color:rgba(255, 255, 255, 0.5) !important;
+  background-color:rgba(255, 255, 255, 0.5);
   box-shadow:0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
@@ -401,40 +394,30 @@ body.admin-bar .svm-header{
   .svm-nav{display:none}
 
   /* FIXED: Mobile menu with proper spacing and full visibility */
-  .svm-header.active:not(.light-bg) .svm-nav {
+  .svm-header.active .svm-nav {
     display:block !important;
     position:fixed !important;
     top:var(--header-height) !important;
     left:0 !important;
     right:0 !important;
     width:100% !important;
-    background:rgba(0, 0, 0, 0.5);
+    background:rgba(0, 0, 0, 0.5) !important;
     padding:20px !important;
     max-height:calc(100vh - var(--header-height)) !important;
     overflow-y:auto !important;
-    box-shadow:0 8px 24px rgba(0,0,0,0.15);
+    box-shadow:0 8px 24px rgba(0,0,0,0.15) !important;
     z-index:9998 !important;
     /* No backdrop-filter for dark mobile menu */
-    backdrop-filter:none;
-    -webkit-backdrop-filter:none;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
   }
 
   /* Light mobile menu for light backgrounds - with frosted glass */
   .svm-header.light-bg.active .svm-nav {
-    display:block !important;
-    position:fixed !important;
-    top:var(--header-height) !important;
-    left:0 !important;
-    right:0 !important;
-    width:100% !important;
     background:rgba(255, 255, 255, 0.5) !important;
     backdrop-filter:saturate(1.8) blur(20px) !important;
     -webkit-backdrop-filter:saturate(1.8) blur(20px) !important;
     box-shadow:0 8px 24px rgba(0,0,0,0.08) !important;
-    padding:20px !important;
-    max-height:calc(100vh - var(--header-height)) !important;
-    overflow-y:auto !important;
-    z-index:9998 !important;
   }
 
   .svm-header.active .svm-nav .svm-menu {
@@ -822,6 +805,25 @@ body.admin-bar .svm-header{
 }
 
 /* =====================================================
+   ARCHIVE PAGES SPECIFIC STYLES (Blog & Domains)
+   ===================================================== */
+
+/* Force dark transparent header on domains and blog archive pages */
+body.post-type-archive-domains .svm-header:not(.light-bg),
+body.blog .svm-header:not(.light-bg),
+body.category .svm-header:not(.light-bg),
+body.tag .svm-header:not(.light-bg) {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+body.post-type-archive-domains .svm-header:not(.light-bg).scrolled,
+body.blog .svm-header:not(.light-bg).scrolled,
+body.category .svm-header:not(.light-bg).scrolled,
+body.tag .svm-header:not(.light-bg).scrolled {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
    BLOG POST SPECIFIC STYLES
    ===================================================== */
 
@@ -840,59 +842,10 @@ body.single {
   padding: 0;
 }
 
-/* Force white header on light pages (home, single domains, blog posts) */
-body.home .svm-header,
-body.single-domains .svm-header,
+/* Ensure no gap appears at top of page */
 body.single-post .svm-header,
-body.blog .svm-header,
-body.archive .svm-header {
-  background-color: rgba(255, 255, 255, 0.3) !important;
-  backdrop-filter: saturate(1.8) blur(20px) !important;
-  -webkit-backdrop-filter: saturate(1.8) blur(20px) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-}
-
-/* Light header scrolled state on light pages */
-body.home .svm-header.scrolled,
-body.single-domains .svm-header.scrolled,
-body.single-post .svm-header.scrolled,
-body.blog .svm-header.scrolled,
-body.archive .svm-header.scrolled {
-  background-color: rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-}
-
-/* Force dark logo and menu on light pages */
-body.home .svm-header .svm-logo svg,
-body.single-domains .svm-header .svm-logo svg,
-body.single-post .svm-header .svm-logo svg,
-body.blog .svm-header .svm-logo svg,
-body.archive .svm-header .svm-logo svg {
-  fill: rgba(0, 0, 0, 0.87);
-}
-
-body.home .svm-header .svm-logo svg path,
-body.single-domains .svm-header .svm-logo svg path,
-body.single-post .svm-header .svm-logo svg path,
-body.blog .svm-header .svm-logo svg path,
-body.archive .svm-header .svm-logo svg path {
-  fill: rgba(0, 0, 0, 0.87);
-}
-
-body.home .svm-header .svm-nav .svm-menu > li > a,
-body.single-domains .svm-header .svm-nav .svm-menu > li > a,
-body.single-post .svm-header .svm-nav .svm-menu > li > a,
-body.blog .svm-header .svm-nav .svm-menu > li > a,
-body.archive .svm-header .svm-nav .svm-menu > li > a {
-  color: rgba(0, 0, 0, 0.87);
-}
-
-body.home .svm-header .svm-menu-toggle span,
-body.single-domains .svm-header .svm-menu-toggle span,
-body.single-post .svm-header .svm-menu-toggle span,
-body.blog .svm-header .svm-menu-toggle span,
-body.archive .svm-header .svm-menu-toggle span {
-  background: rgba(0, 0, 0, 0.87);
+body.single .svm-header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* Blog single pages should start content right after header */

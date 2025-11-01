@@ -419,7 +419,7 @@ JS;
     wp_add_inline_script('svm-global', $js);
 });
 
-// Header scroll effect with page-specific behavior
+// Header scroll effect with adaptive background detection
 add_action('wp_enqueue_scripts', function() {
     $scroll_js = <<<JS
 (function(){
@@ -427,57 +427,9 @@ document.addEventListener('DOMContentLoaded', function() {
   var header = document.querySelector('.svm-header');
   if (!header) return;
 
-  // Detect if this is a light page (home, single domains, blog posts)
-  var body = document.body;
-  var isLightPage = body.classList.contains('home') ||
-                    body.classList.contains('single-domains') ||
-                    body.classList.contains('single-post') ||
-                    body.classList.contains('blog') ||
-                    body.classList.contains('archive');
-
-  // For light pages: always use white header, set immediately
-  if (isLightPage) {
-    header.classList.add('light-bg');
-
-    // Handle scroll for light pages (add scrolled class for shadow effect)
-    window.addEventListener('scroll', function() {
-      if (window.pageYOffset > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    }, { passive: true });
-
-    return; // Exit early, no need for background detection
-  }
-
-  // For dark pages: start with dark transparent header
-  header.classList.remove('light-bg');
-
-  // Throttle function to limit how often a function can fire
-  function throttle(func, delay) {
-    var timeoutId;
-    var lastRan;
-    return function() {
-      var context = this;
-      var args = arguments;
-      if (!lastRan) {
-        func.apply(context, args);
-        lastRan = Date.now();
-      } else {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(function() {
-          if ((Date.now() - lastRan) >= delay) {
-            func.apply(context, args);
-            lastRan = Date.now();
-          }
-        }, delay - (Date.now() - lastRan));
-      }
-    };
-  }
-
   // Function to determine if a color is light or dark
   function isLightColor(rgb) {
+    // Parse RGB values
     var match = rgb.match(/^rgba?\\s*\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)/i);
     if (!match) return false;
 
@@ -488,8 +440,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calculate perceived brightness using luminance formula
     var brightness = (r * 299 + g * 587 + b * 114) / 1000;
 
-    // Return true if color is light (brightness > 180)
-    return brightness > 180;
+    // Return true if color is light (brightness > 128)
+    return brightness > 128;
   }
 
   // Function to get the background color at a specific point
@@ -512,11 +464,11 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    // Default to black/dark if nothing found
+    // Default to black/dark if nothing found (assumes dark hero)
     return 'rgb(0, 0, 0)';
   }
 
-  function updateHeaderMode() {
+  function updateHeaderStyle() {
     var currentScroll = window.pageYOffset;
 
     // Add/remove scrolled class
@@ -526,38 +478,30 @@ document.addEventListener('DOMContentLoaded', function() {
       header.classList.remove('scrolled');
     }
 
-    // Determine sampling strategy based on scroll position
+    // Sample background color at center point below header
     var headerHeight = header.offsetHeight;
-    var sampleY, sampleX;
-
-    // If at or near the top, sample close to header to detect hero background
-    if (currentScroll < 100) {
-      sampleY = headerHeight + 50; // Sample just 50px below header when at top
-      sampleX = window.innerWidth / 2;
-    } else {
-      // When scrolled, sample farther down to detect body background
-      sampleY = currentScroll + headerHeight + 200;
-      sampleX = window.innerWidth / 2;
-    }
+    var sampleY = headerHeight + 100; // Sample 100px below header
+    var sampleX = window.innerWidth / 2; // Center of screen
 
     var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
     var isLight = isLightColor(bgColor);
 
-    // For dark pages: INVERTED - light header in hero, dark header in body
+    // Add/remove light-bg class based on background
     if (isLight) {
-      header.classList.remove('light-bg');
-    } else {
       header.classList.add('light-bg');
+    } else {
+      header.classList.remove('light-bg');
     }
   }
 
-  // Run immediately on load
-  updateHeaderMode();
+  // Initial check
+  updateHeaderStyle();
 
-  // Throttled scroll and resize handlers
-  var throttledUpdate = throttle(updateHeaderMode, 100);
-  window.addEventListener('scroll', throttledUpdate, { passive: true });
-  window.addEventListener('resize', throttle(updateHeaderMode, 200), { passive: true });
+  // Update on scroll
+  window.addEventListener('scroll', updateHeaderStyle, { passive: true });
+
+  // Update on resize (in case layout changes)
+  window.addEventListener('resize', updateHeaderStyle, { passive: true });
 });
 })();
 JS;
