@@ -419,8 +419,13 @@ JS;
     wp_add_inline_script('svm-global', $js);
 });
 
-// Header scroll effect with adaptive background detection
+// Header scroll effect with adaptive background detection (archive pages only)
 add_action('wp_enqueue_scripts', function() {
+    // Only apply adaptive header to archive pages (/blog, /domains)
+    if (!is_archive()) {
+        return;
+    }
+
     $scroll_js = <<<JS
 (function(){
 document.addEventListener('DOMContentLoaded', function() {
