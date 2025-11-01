@@ -42,7 +42,7 @@ get_header();
 
 .svm-newsletter-hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(70px + 120px) 24px 120px;
+  padding: calc(var(--header-height) + 120px) 24px 120px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -131,7 +131,7 @@ get_header();
 
 @media (max-width: 768px) {
   .svm-newsletter-hero {
-    padding: calc(70px + 80px) 20px 80px;
+    padding: calc(var(--header-height) + 80px) 20px 80px;
   }
 
   .svm-newsletter-form-container {

@@ -9,7 +9,7 @@ get_header();
 <style>
 .contact-hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(62px + 80px) 20px 70px;
+  padding: calc(var(--header-height) + 80px) 20px 70px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -339,7 +339,7 @@ get_header();
 }
 
 @media (max-width: 768px) {
-  .contact-hero { padding: calc(62px + 60px) 20px 50px; }
+  .contact-hero { padding: calc(var(--header-height) + 60px) 20px 50px; }
   .contact-section { padding: 50px 20px; }
   .contact-method { padding: 24px; }
   .tips-list { padding: 24px; }

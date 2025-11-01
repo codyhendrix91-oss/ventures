@@ -546,7 +546,7 @@ while (have_posts()): the_post();
 
 .svm-domain-hero-v6 {
   background:#fff;
-  padding:calc(70px + 20px) 20px 20px;
+  padding:calc(var(--header-height) + 20px) 20px 20px;
 }
 
 .svm-hero-container {
@@ -1386,7 +1386,7 @@ while (have_posts()): the_post();
 
 @media (max-width:900px) {
   .svm-domain-hero-v6 {
-    padding:calc(70px + 12px) 16px 0;
+    padding:calc(var(--header-height) + 12px) 16px 0;
   }
   
   .svm-hero-container {

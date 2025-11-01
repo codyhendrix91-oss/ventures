@@ -9,7 +9,7 @@ get_header();
 <style>
 .about-hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(62px + 80px) 20px 80px;
+  padding: calc(var(--header-height) + 80px) 20px 80px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -243,7 +243,7 @@ get_header();
 }
 
 @media (max-width: 768px) {
-  .about-hero { padding: calc(62px + 60px) 20px 60px; }
+  .about-hero { padding: calc(var(--header-height) + 60px) 20px 60px; }
   .about-section { padding: 60px 20px; }
   .two-column { grid-template-columns: 1fr; gap: 32px; }
   .highlight-box { padding: 24px; margin: 32px 0; }

@@ -15,7 +15,7 @@ get_header();
 
 .buying-process__hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(62px + 90px) 40px 90px;
+  padding: calc(var(--header-height) + 90px) 40px 90px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -291,7 +291,7 @@ get_header();
 /* Responsive */
 @media (max-width: 968px) {
   .buying-process__hero {
-    padding: calc(62px + 60px) 20px 60px;
+    padding: calc(var(--header-height) + 60px) 20px 60px;
   }
 
   .buying-process__content {

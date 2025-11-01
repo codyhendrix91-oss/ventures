@@ -15,7 +15,7 @@ get_header();
 
 .terms-of-service__hero {
   background: linear-gradient(135deg, #1a1d35 0%, #0a0e27 100%);
-  padding: calc(70px + 90px) 40px 90px;
+  padding: calc(var(--header-height) + 90px) 40px 90px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -200,7 +200,7 @@ get_header();
 /* Responsive */
 @media (max-width: 768px) {
   .terms-of-service__hero {
-    padding: calc(70px + 60px) 20px 60px;
+    padding: calc(var(--header-height) + 60px) 20px 60px;
   }
 
   .terms-of-service__content {

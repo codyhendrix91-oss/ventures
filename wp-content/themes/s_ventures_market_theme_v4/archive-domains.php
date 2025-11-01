@@ -183,7 +183,7 @@ $q = new WP_Query($args);
 /* Hero Section */
 .svm-archive-hero-v8 {
   background:linear-gradient(135deg,#1a1d35 0%,#0a0e27 100%);
-  padding:calc(70px + 90px) 24px 90px;
+  padding:calc(var(--header-height) + 90px) 24px 90px;
   text-align:center;
   position:relative;
   overflow:hidden;
@@ -506,7 +506,7 @@ $q = new WP_Query($args);
 /* Responsive */
 @media (max-width:768px) {
   .svm-archive-hero-v8 {
-    padding:calc(70px + 70px) 20px 70px;
+    padding:calc(var(--header-height) + 70px) 20px 70px;
   }
   
   .svm-archive-body-v8 {

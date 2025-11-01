@@ -10,7 +10,7 @@ get_header();
 /* REDESIGNED HERO - CLEAN WHITE WITH PURPLE ACCENTS */
 .home-hero-redesigned {
   background: #ffffff;
-  padding: calc(62px + 70px) 40px 80px;
+  padding: calc(var(--header-height) + 70px) 40px 80px;
   position: relative;
   overflow: hidden;
 }
@@ -397,7 +397,7 @@ get_header();
 
 @media (max-width: 768px) {
   .home-hero-redesigned {
-    padding: calc(62px + 50px) 20px 70px;
+    padding: calc(var(--header-height) + 50px) 20px 70px;
   }
   
   .home-hero__content-redesigned {

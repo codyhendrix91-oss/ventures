@@ -35,7 +35,7 @@ if (is_category()) {
 
 .blog-archive__hero {
   background: linear-gradient(135deg, #2B234A 0%, #3d3158 100%);
-  padding: calc(62px + 80px) 40px 80px;
+  padding: calc(var(--header-height) + 80px) 40px 80px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -255,7 +255,7 @@ if (is_category()) {
 
 @media (max-width: 768px) {
   .blog-archive__hero {
-    padding: calc(62px + 60px) 20px 60px;
+    padding: calc(var(--header-height) + 60px) 20px 60px;
   }
 
   .blog-archive__content {
