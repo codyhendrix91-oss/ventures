@@ -419,10 +419,10 @@ JS;
     wp_add_inline_script('svm-global', $js);
 });
 
-// Header scroll effect with adaptive background detection (archive pages only)
+// Header scroll effect with adaptive background detection (all dark pages)
 add_action('wp_enqueue_scripts', function() {
-    // Only apply adaptive header to archive pages (/blog, /domains)
-    if (!is_archive()) {
+    // Skip adaptive header on home page, single posts, and single domains
+    if (is_front_page() || is_singular('post') || is_singular('domains')) {
         return;
     }
 
@@ -491,11 +491,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
     var isLight = isLightColor(bgColor);
 
-    // Add/remove light-bg class based on background
+    // For dark pages: INVERTED - light header in hero, dark header in body
     if (isLight) {
-      header.classList.add('light-bg');
-    } else {
       header.classList.remove('light-bg');
+    } else {
+      header.classList.add('light-bg');
     }
   }
 
