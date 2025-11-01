@@ -491,11 +491,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var bgColor = getBackgroundColorAtPoint(sampleX, sampleY);
     var isLight = isLightColor(bgColor);
 
-    // For dark pages: INVERTED - light header in hero, dark header in body
+    // For dark pages: dark header on dark hero, light frosted glass header on light body
     if (isLight) {
-      header.classList.remove('light-bg');
-    } else {
       header.classList.add('light-bg');
+    } else {
+      header.classList.remove('light-bg');
     }
   }
 

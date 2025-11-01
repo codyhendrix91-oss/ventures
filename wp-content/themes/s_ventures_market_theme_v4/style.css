@@ -805,21 +805,24 @@ body.admin-bar .svm-header{
 }
 
 /* =====================================================
-   ARCHIVE PAGES SPECIFIC STYLES (Blog & Domains)
+   DARK PAGES HEADER STYLES (All pages except home, single post, single domain)
    ===================================================== */
 
-/* Force dark transparent header on domains and blog archive pages */
+/* Force dark transparent header on dark pages (archives and regular pages) */
 body.post-type-archive-domains .svm-header:not(.light-bg),
 body.blog .svm-header:not(.light-bg),
 body.category .svm-header:not(.light-bg),
-body.tag .svm-header:not(.light-bg) {
+body.tag .svm-header:not(.light-bg),
+body.page .svm-header:not(.light-bg) {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+/* Slightly more opaque when scrolled on dark background */
 body.post-type-archive-domains .svm-header:not(.light-bg).scrolled,
 body.blog .svm-header:not(.light-bg).scrolled,
 body.category .svm-header:not(.light-bg).scrolled,
-body.tag .svm-header:not(.light-bg).scrolled {
+body.tag .svm-header:not(.light-bg).scrolled,
+body.page .svm-header:not(.light-bg).scrolled {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
