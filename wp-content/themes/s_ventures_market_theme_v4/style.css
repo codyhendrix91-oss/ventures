@@ -122,7 +122,7 @@ a:hover{opacity:.85}
   left:0;
   right:0;
   z-index:9999;
-  background-color:transparent;
+  background-color:rgba(0, 0, 0, 0.3);
   color:rgba(0, 0, 0, 0.87);
   font-family:Poppins, Avenir, Helvetica, Arial, sans-serif;
   border-bottom:3px solid transparent;
@@ -134,18 +134,12 @@ a:hover{opacity:.85}
   -webkit-font-smoothing:antialiased;
   -webkit-text-size-adjust:100%;
   -webkit-tap-highlight-color:rgba(0,0,0,0);
-  /* Ensure no backdrop-filter on dark backgrounds */
   backdrop-filter:none;
   -webkit-backdrop-filter:none;
+  box-shadow:none;
 }
 
-/* Dark header on scroll - add semi-transparent background */
-.svm-header.scrolled {
-  background-color:rgba(0, 0, 0, 0.5);
-  box-shadow:0 4px 24px rgba(0,0,0,0.15);
-}
-
-/* Adaptive light header when over light backgrounds */
+/* Light background header (home, single posts, single domains) */
 .svm-header.light-bg {
   background-color:rgba(255, 255, 255, 0.3);
   backdrop-filter:saturate(1.8) blur(20px);
@@ -153,9 +147,12 @@ a:hover{opacity:.85}
   box-shadow:0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
-/* Adaptive light header on scroll - slightly more opaque */
+/* Scrolled state - white frosted glass (used on both dark and light pages when scrolled) */
+.svm-header.scrolled.light-bg,
 .svm-header.light-bg.scrolled {
   background-color:rgba(255, 255, 255, 0.5);
+  backdrop-filter:saturate(1.8) blur(20px);
+  -webkit-backdrop-filter:saturate(1.8) blur(20px);
   box-shadow:0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
@@ -804,27 +801,6 @@ body.admin-bar .svm-header{
   .svm-purple-about-inner p{font-size:12px;line-height:1.6;margin-bottom:12px}
 }
 
-/* =====================================================
-   DARK PAGES HEADER STYLES (All pages except home, single post, single domain)
-   ===================================================== */
-
-/* Force dark transparent header on dark pages (archives and regular pages) */
-body.post-type-archive-domains .svm-header:not(.light-bg),
-body.blog .svm-header:not(.light-bg),
-body.category .svm-header:not(.light-bg),
-body.tag .svm-header:not(.light-bg),
-body.page .svm-header:not(.light-bg) {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-/* Slightly more opaque when scrolled on dark background */
-body.post-type-archive-domains .svm-header:not(.light-bg).scrolled,
-body.blog .svm-header:not(.light-bg).scrolled,
-body.category .svm-header:not(.light-bg).scrolled,
-body.tag .svm-header:not(.light-bg).scrolled,
-body.page .svm-header:not(.light-bg).scrolled {
-  background-color: rgba(0, 0, 0, 0.5);
-}
 
 /* =====================================================
    BLOG POST SPECIFIC STYLES

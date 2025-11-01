@@ -7,7 +7,7 @@
 </head>
 <body <?php body_class(); ?>>
 
-<header class="svm-header">
+<header class="svm-header<?php echo (is_front_page() || is_singular('post') || is_singular('domains')) ? ' light-bg' : ''; ?>">
   <div class="svm-header__inner">
     <div class="svm-logo">
       <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="S.Ventures Home">
