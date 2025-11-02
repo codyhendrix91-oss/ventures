@@ -430,24 +430,41 @@ document.addEventListener('DOMContentLoaded', function() {
   // Check if this is a light background page (header already has light-bg class)
   var isLightPage = header.classList.contains('light-bg');
 
-  function updateHeaderStyle() {
-    var currentScroll = window.pageYOffset;
+  // Track the current section under the header
+  var currentSection = null;
 
-    if (currentScroll > 50) {
-      // When scrolled
-      header.classList.add('scrolled');
-      // For dark pages, also add light-bg class to show white frosted glass
-      if (!isLightPage) {
-        header.classList.add('light-bg');
+  function updateHeaderStyle() {
+    var headerHeight = header.offsetHeight;
+    var scrollY = window.pageYOffset;
+
+    // Get all main sections (hero, body content, footer, etc.)
+    var sections = document.querySelectorAll('.svm-hero, .svm-body, main, .elementor-section, section');
+
+    // Find which section is currently under the header
+    var sectionUnderHeader = null;
+    sections.forEach(function(section) {
+      var rect = section.getBoundingClientRect();
+      // Check if this section is intersecting with the header area
+      if (rect.top <= headerHeight && rect.bottom > 0) {
+        sectionUnderHeader = section;
       }
-    } else {
-      // When at top
+    });
+
+    // If we're still in the hero/top section
+    if (scrollY < 100 || (sectionUnderHeader && sectionUnderHeader.classList.contains('svm-hero'))) {
       header.classList.remove('scrolled');
-      // For dark pages, remove light-bg class to show dark transparent header
       if (!isLightPage) {
         header.classList.remove('light-bg');
       }
+    } else {
+      // We've scrolled into body content
+      header.classList.add('scrolled');
+      if (!isLightPage) {
+        header.classList.add('light-bg');
+      }
     }
+
+    currentSection = sectionUnderHeader;
   }
 
   // Initial check
@@ -455,6 +472,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Update on scroll
   window.addEventListener('scroll', updateHeaderStyle, { passive: true });
+
+  // Also update on resize in case layout changes
+  window.addEventListener('resize', updateHeaderStyle, { passive: true });
 });
 })();
 JS;
