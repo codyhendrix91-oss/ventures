@@ -17,6 +17,19 @@ add_filter('doing_it_wrong_trigger_error', function($trigger, $function, $messag
 }, 10, 3);
 
 /* -------------------------------------------------------
+ * Custom Email Sender Configuration
+ * -----------------------------------------------------*/
+// Change default WordPress sender email from wordpress@s.ventures to info@s.ventures
+add_filter('wp_mail_from', function($original_email_address) {
+    return 'info@s.ventures';
+});
+
+// Set sender name for emails
+add_filter('wp_mail_from_name', function($original_email_from) {
+    return 'S Ventures';
+});
+
+/* -------------------------------------------------------
  * SEO - Product Schema for Domains
  * -----------------------------------------------------*/
 add_action('wp_head', function() {
